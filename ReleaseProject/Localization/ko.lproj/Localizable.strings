@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  ReleaseProject
+
+  Created by Sehun Kang on 2021/11/21.
+  
+*/
+
+"add_cat_title" = "고양이 추가";
+"add_cat_message" = "고양이 이름을 적어주세요";
+"event_title" = "어떤 일이 있었나요?";
+"ok" = "확인";
+"cancel" = "취소";
+"adjust_count" = "수정";
+"reset_count" = "초기화";
+"delete_data" = "삭제";
+"confirm_deletion" = "정말로 삭제하시겠습니까?";
+"done" = "완료";
