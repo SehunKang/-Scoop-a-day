@@ -35,3 +35,9 @@ enum CountItem {
 	case poop
 	case urine
 }
+
+enum DateUnit {
+	case week
+	case month
+	case year
+}

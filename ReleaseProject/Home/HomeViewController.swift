@@ -28,8 +28,22 @@ class HomeViewController: UIViewController {
 		catData = realm.objects(CatData.self).sorted(byKeyPath: "createDate", ascending: true)
 		navigationBar.topItem?.title = catData.first?.catName
 		setNavBar()
-		print(catData.count)
+		
+//		test()
     }
+	
+	func test() {
+		
+		for i in 0...400 {
+			let data = DailyData()
+			data.urineCount = Int.random(in: 0...10)
+			data.poopCount = Int.random(in: 0...10)
+			data.date = Calendar.current.date(byAdding: .day, value: -i, to: Date().removeTime())!
+			try! RealmService.shared.realm.write {
+				catData.first?.dailyDataList.append(data)
+			}
+		}
+	}
 	
 	func registerXib() {
 		self.collectionView.register(UINib(nibName: CreateNewCatCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: CreateNewCatCollectionViewCell.identifier)
@@ -194,6 +208,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 			cell.poopButton.addTarget(self, action: #selector(poopButtonClicked(_:)), for: .touchUpInside)
 			cell.potatoButton.addTarget(self, action: #selector(potatoButtonClicked(_:)), for: .touchUpInside)
 			cell.eventButton.addTarget(self, action: #selector(eventButtoncClicked(_:)), for: .touchUpInside)
+			
 			return cell
 		}
 

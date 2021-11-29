@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E11B00D2753863500F23397 /* HomeViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E11B00C2753863500F23397 /* HomeViewControllerTest.swift */; };
 		2EDED26027476FD8006C38DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED25F27476FD8006C38DF /* AppDelegate.swift */; };
 		2EDED26227476FD8006C38DF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED26127476FD8006C38DF /* SceneDelegate.swift */; };
 		2EDED26727476FD8006C38DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EDED26527476FD8006C38DF /* Main.storyboard */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E11B00C2753863500F23397 /* HomeViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewControllerTest.swift; sourceTree = "<group>"; };
 		2EDED25C27476FD8006C38DF /* ReleaseProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReleaseProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EDED25F27476FD8006C38DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2EDED26127476FD8006C38DF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			children = (
 				2EDED29E274A58BC006C38DF /* Home.storyboard */,
 				2EDED27C2747858B006C38DF /* HomeViewController.swift */,
+				2E11B00C2753863500F23397 /* HomeViewControllerTest.swift */,
 				2EDED2AF274CCC3B006C38DF /* MainCollectionViewCell.swift */,
 				2EDED2B0274CCC3B006C38DF /* MainCollectionViewCell.xib */,
 				2EDED2AB274CCBB7006C38DF /* CreateNewCatCollectionViewCell.swift */,
@@ -248,6 +251,7 @@
 				2EDED2AA274BCAA9006C38DF /* Extension+Date.swift in Sources */,
 				2EDED2B4274CF5A7006C38DF /* Extension+String.swift in Sources */,
 				2EDED2B1274CCC3B006C38DF /* MainCollectionViewCell.swift in Sources */,
+				2E11B00D2753863500F23397 /* HomeViewControllerTest.swift in Sources */,
 				2EDED285274A5241006C38DF /* DataViewController.swift in Sources */,
 				2EDED27D2747858B006C38DF /* HomeViewController.swift in Sources */,
 			);

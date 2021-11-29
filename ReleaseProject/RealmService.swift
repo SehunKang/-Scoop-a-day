@@ -134,6 +134,7 @@ class RealmService{
 		}
 	}
 	
+	/// 특이사항(String)을 저장한다.
 	func addRecord(of catName: String, at date: Date, event: String) {
 		guard let object = realm.objects(CatData.self).filter("catName == %@", catName).first else {return}
 		do {
@@ -145,6 +146,63 @@ class RealmService{
 		}
 	}
 	
+	/// FromNow만큼 떨어진 주/월/연 의 데이터를 반환한다. 반환값은 순서대로 맛동산, 감자, 날짜이다. 날짜순 정렬되어있다.
+	func getDailyData(of catName: String, unit: DateUnit, fromNow by: Int = 0) -> ([Int], [Int], [Date]) {
+		guard let object = realm.objects(CatData.self).filter("catName == %@", catName).first else {return ([Int](), [Int](), [Date]())}
+		let dailyDatas: Results<DailyData>
+		switch unit {
+		case .week:
+			dailyDatas = object.dailyDataList.filter("date BETWEEN {%@, %@}", Date().startDayOfWeek(by: by), Date().endDayOfWeek(by: by)).sorted(byKeyPath: "date", ascending: true)
+		case .month:
+			dailyDatas = object.dailyDataList.filter("date BETWEEN {%@, %@}", Date().startDayOfMonth(by: by), Date().endDayOfMonth(by: by)).sorted(byKeyPath: "date", ascending: true)
+		case .year:
+			dailyDatas = object.dailyDataList.filter("date BETWEEN {%@, %@}", Date().startDayOfYear(by: by), Date().endDayOfYear(by: by)).sorted(byKeyPath: "date", ascending: true)
+		}
+		var poops: [Int] = [Int]()
+		var urine: [Int] = [Int]()
+		var dates: [Date] = [Date]()
+		for data in dailyDatas {
+			poops.append(data.poopCount)
+			urine.append(data.urineCount)
+			dates.append(data.date)
+		}
+		return (poops, urine, dates)
+	}
+	/// date에 해당하는 월의 데이터를 반환한다. 반환값은 순서대로 맛동산, 감자, 날짜이다. 날짜순 정렬되어있다.
+	func getMonthlyData(of catName: String, at date: Date) -> ([Int], [Int], [Date]) {
+		guard let object = realm.objects(CatData.self).filter("catName == %@", catName).first else { return ([Int](), [Int](), [Date]()) }
+		let dailyDatas: Results<DailyData> = object.dailyDataList.filter("date BETWEEN {%@, %@}", date.startDayOfMonth(), date.endDayOfMonth()).sorted(byKeyPath: "date", ascending: true)
+		var poops: [Int] = [Int]()
+		var urine: [Int] = [Int]()
+		var dates: [Date] = [Date]()
+		for data in dailyDatas {
+			poops.append(data.poopCount)
+			urine.append(data.urineCount)
+			dates.append(data.date)
+		}
+		return (poops, urine, dates)
+	}
+	
+	/// FromNow만큼 떨어진 주/월/연 의 데이터를 반환한다. 반환값은 정렬된 날짜이다.
+	func getDailyDates(of catName: String, unit: DateUnit, fromNow by: Int = 0) -> [Date] {
+		guard let object = realm.objects(CatData.self).filter("catName == %@", catName).first else { return [Date]() }
+		let dailyDatas: Results<DailyData>
+		switch unit {
+		case .week:
+			dailyDatas = object.dailyDataList.filter("date BETWEEN {%@, %@}", Date().startDayOfWeek(by: by), Date().endDayOfWeek(by: by)).sorted(byKeyPath: "date", ascending: true)
+		case .month:
+			dailyDatas = object.dailyDataList.filter("date BETWEEN {%@, %@}", Date().startDayOfMonth(by: by), Date().endDayOfMonth(by: by)).sorted(byKeyPath: "date", ascending: true)
+		case .year:
+			dailyDatas = object.dailyDataList.filter("date BETWEEN {%@, %@}", Date().startDayOfYear(by: by), Date().endDayOfYear(by: by)).sorted(byKeyPath: "date", ascending: true)
+		}
+		var dates: [Date] = [Date]()
+		for data in dailyDatas {
+			dates.append(data.date)
+		}
+		return (dates)
+	}
+
+
 	
 	/// 입력 된 CatData를 삭제한다.
 	func delete(_ catName: String) {
