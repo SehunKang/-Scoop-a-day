@@ -20,7 +20,6 @@ class DataViewController: UIViewController {
 	
 	var mainCat: String? {
 		didSet {
-			print("didSet")
 			setListOfYearAndMonth(from: mainCat!)
 			navigationBar.topItem?.title = mainCat!
 			selectPickerView()
@@ -80,11 +79,16 @@ class DataViewController: UIViewController {
 	func setListOfYearAndMonth(from catName: String) {
 		var list = [ListForMonthAndYear]()
 		guard let dataList = catData.filter("catName == %@", catName).first?.dailyDataList.sorted(byKeyPath: "date", ascending: true) else {return}
+		print("dataList: ", dataList)
 		let listOfYear = getYearBetween(from: dataList.first!.date, to: dataList.last!.date)
+		print("listofYear: ", listOfYear)
 		for i in 0..<listOfYear.count {
 			let months: [Date]
 			let datesInYear = RealmService.shared.getDailyDates(of: catName, unit: .year, fromNow: i - (listOfYear.count - 1))
+			print("datesInYear: ", datesInYear)
 			months = getMonthAndYearBetween(from: datesInYear.first!, to: datesInYear.last!)
+			
+			print("months: ", months)
 			list.append(ListForMonthAndYear(year: listOfYear[i], months: months))
 		}
 		listOfYearAndMonth = list
@@ -221,16 +225,21 @@ extension DataViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 		
 		chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: dateValues)
 		chartView.xAxis.granularity = 1
+		chartView.leftAxis.granularityEnabled = true
+		chartView.leftAxis.granularity = 1
 		
 		let poopLine = LineChartDataSet(entries: poopChartEntry, label: "poop".localized(withComment: ""))
 		poopLine.colors = [NSUIColor.systemBrown]
 		poopLine.drawCirclesEnabled = false
 		poopLine.mode = .cubicBezier
+		poopLine.lineWidth = 4.0
 		
 		let urineLine = LineChartDataSet(entries: urineChartEntry, label: "urine".localized(withComment: ""))
 		urineLine.colors = [NSUIColor.systemYellow]
 		urineLine.drawCirclesEnabled = false
 		urineLine.mode = .cubicBezier
+		urineLine.lineWidth = 4.0
+
 		
 		let data = LineChartData()
 		data.addDataSet(poopLine)
@@ -249,7 +258,7 @@ extension DataViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 		
 		for i in 0...month {
 			if let date = calendar.date(byAdding: .month, value: i, to: start) {
-				allDates.append(date.removeTime())
+				allDates.append(date)
 			}
 		}
 		return allDates
@@ -264,7 +273,7 @@ extension DataViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 		
 		for i in 0...year {
 			if let date = calendar.date(byAdding: .year, value: i, to: start) {
-				allDates.append(date.removeTime())
+				allDates.append(date)
 			}
 		}
 		return allDates

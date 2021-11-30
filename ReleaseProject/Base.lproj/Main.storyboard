@@ -17,16 +17,6 @@
             </objects>
             <point key="canvasLocation" x="2573.913043478261" y="-39.508928571428569"/>
         </scene>
-        <!--Calendar-->
-        <scene sceneID="tpx-v2-bm2">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Calendar" id="psN-kw-bZK" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="deW-RM-NPb"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="IM9-vv-z8A" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2576.0869565217395" y="84.375"/>
-        </scene>
         <!--Data-->
         <scene sceneID="8Ea-4R-DDW">
             <objects>
@@ -43,12 +33,12 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Ys4-9g-a9U" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="JEc-Bc-1xm">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
                         <segue destination="Xeu-to-rbw" kind="relationship" relationship="viewControllers" id="ftM-Ka-N6z"/>
-                        <segue destination="psN-kw-bZK" kind="relationship" relationship="viewControllers" id="b7d-1e-7EJ"/>
                         <segue destination="Bcs-qJ-sKM" kind="relationship" relationship="viewControllers" id="tvg-QD-Zrr"/>
                     </connections>
                 </tabBarController>

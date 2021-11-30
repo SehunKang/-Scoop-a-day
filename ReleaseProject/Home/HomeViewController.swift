@@ -115,7 +115,9 @@ class HomeViewController: UIViewController {
 		navigationBar.topItem?.rightBarButtonItem?.isEnabled = false
 		tabBarController?.tabBar.items![1].isEnabled = false
 		tabBarController?.tabBar.items![2].isEnabled = false
+		collectionView.isScrollEnabled = false
 		collectionView.reloadData()
+		
 	}
 	
 	@objc func doneButtonClicked(_ sender: UIButton) {
@@ -132,6 +134,7 @@ class HomeViewController: UIViewController {
 		navigationBar.topItem?.rightBarButtonItem?.isEnabled = true
 		tabBarController?.tabBar.items![1].isEnabled = true
 		tabBarController?.tabBar.items![2].isEnabled = true
+		collectionView.isScrollEnabled = true
 		collectionView.reloadData()
 	}
 	
@@ -139,6 +142,8 @@ class HomeViewController: UIViewController {
 		let cat = catData[sender.tag].catName
 		RealmService.shared.subtractCountValue(of: cat, at: Date().removeTime(), item: .poop)
 		let total = RealmService.shared.totalCountOfDay(of: cat, at: Date().removeTime(), item: .poop)
+		let cell = collectionView.cellForItem(at: IndexPath(item: sender.tag, section: 0)) as! MainCollectionViewCell
+		cell.poopCountLabel.text = "\(total)"
 		print("total poop of \(cat) = \(total)")
 	}
 	
@@ -146,6 +151,8 @@ class HomeViewController: UIViewController {
 		let cat = catData[sender.tag].catName
 		RealmService.shared.subtractCountValue(of: cat, at: Date().removeTime(), item: .urine)
 		let total = RealmService.shared.totalCountOfDay(of: cat, at: Date().removeTime(), item: .urine)
+		let cell = collectionView.cellForItem(at: IndexPath(item: sender.tag, section: 0)) as! MainCollectionViewCell
+		cell.potatoCountLabel.text = "\(total)"
 		print("total potato of \(cat) = \(total)")
 	}
 	
@@ -154,6 +161,7 @@ class HomeViewController: UIViewController {
 		if indexPath.item < catData.count {
 			RealmService.shared.changeCountValue(of: catData[indexPath.item].catName, at: Date().removeTime(), item: .poop, to: 0)
 			RealmService.shared.changeCountValue(of: catData[indexPath.item].catName, at: Date().removeTime(), item: .urine, to: 0)
+			collectionView.reloadItems(at: [IndexPath(item: indexPath.item, section: 0)])
 		} else {
 			return
 		}
@@ -180,7 +188,7 @@ class HomeViewController: UIViewController {
 //		}
 		RealmService.shared.delete(catData[indexPath.item].catName)
 		collectionView.reloadData()
-		pageController.numberOfPages = catData.count
+		pageController.numberOfPages -= 1
 		setNavBarTitleAsCatNameFromCollectionView()
 	}
 }
@@ -220,7 +228,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 			cell.potatoButton.addTarget(self, action: #selector(potatoButtonClicked(_:)), for: .touchUpInside)
 			cell.eventButton.addTarget(self, action: #selector(eventButtoncClicked(_:)), for: .touchUpInside)
 			cell.catButton.setImage(UIImage(named: "cat\(catData[indexPath.item].numForImage)"), for: .normal)
-
+			if !catData[indexPath.item].dailyDataList.filter("date == %@", Date().removeTime()).isEmpty {
+				cell.poopCountLabel.text = String(catData[indexPath.item].dailyDataList.filter("date == %@", Date().removeTime()).first!.poopCount)
+				cell.potatoCountLabel.text = String(catData[indexPath.item].dailyDataList.filter("date == %@", Date().removeTime()).first!.urineCount)
+			}
 			return cell
 		}
 	}
@@ -229,6 +240,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 		let cat = catData[sender.tag].catName
 		RealmService.shared.addCountValue(of: cat, at: Date().removeTime(), item: .poop)
 		let total = RealmService.shared.totalCountOfDay(of: cat, at: Date().removeTime(), item: .poop)
+		let cell = collectionView.cellForItem(at: IndexPath(item: sender.tag, section: 0)) as! MainCollectionViewCell
+		cell.poopCountLabel.text = "\(total)"
 		print("total poop of \(cat) = \(total)")
 	}
 	
@@ -236,6 +249,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 		let cat = catData[sender.tag].catName
 		RealmService.shared.addCountValue(of: cat, at: Date().removeTime(), item: .urine)
 		let total = RealmService.shared.totalCountOfDay(of: cat, at: Date().removeTime(), item: .urine)
+		let cell = collectionView.cellForItem(at: IndexPath(item: sender.tag, section: 0)) as! MainCollectionViewCell
+		cell.potatoCountLabel.text = "\(total)"
 		print("total potato of \(cat) = \(total)")
 	}
 	
@@ -269,6 +284,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 				self.collectionView.reloadData()
 				self.collectionView.scrollToItem(at: IndexPath(item: self.catData.count - 1, section: 0), at: .centeredHorizontally, animated: true)
 				self.navigationBar.topItem?.title = newCat
+				self.pageController.numberOfPages += 1
+
 			} else {
 				return
 			}
@@ -278,7 +295,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 		alert.addAction(cancel)
 		alert.addTextField()
 		self.present(alert, animated: true, completion: nil)
-		pageController.numberOfPages = catData.count
 
 	}
 	

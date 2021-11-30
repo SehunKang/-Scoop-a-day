@@ -23,6 +23,8 @@ class MainCollectionViewCell: UICollectionViewCell {
 	@IBOutlet weak var potatoPlusButton: UIButton!
 	@IBOutlet weak var doneButton: UIButton!
 	
+	@IBOutlet weak var poopCountLabel: UILabel!
+	@IBOutlet weak var potatoCountLabel: UILabel!
 	
 	override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,8 +32,12 @@ class MainCollectionViewCell: UICollectionViewCell {
 		///다음버전에서 대응 예정
 		eventButton.isHidden = true
 		
+		poopCountLabel.textColor = .label
+		potatoCountLabel.textColor = .label
+		
+		
 		catButton.setTitle("", for: .normal)
-		catButton.setImage(UIImage(named: "cat\(Int.random(in: 1...6))"), for: .normal)
+		
 		catButton.imageView?.contentMode = .scaleAspectFit
 		
 		let poopView = UIImageView(image: UIImage(named: "peanut"))
