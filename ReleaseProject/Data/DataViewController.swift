@@ -20,38 +20,41 @@ class DataViewController: UIViewController {
 	
 	var mainCat: String? {
 		didSet {
+			print("didSet")
 			setListOfYearAndMonth(from: mainCat!)
 			navigationBar.topItem?.title = mainCat!
 			selectPickerView()
+			setNavBar()
 		}
 	}
 	
 	var catData: Results<CatData>!
 	
 	override func viewDidLoad() {
-		print(#function)
         super.viewDidLoad()
 		let realm = RealmService.shared.realm
 		catData = realm.objects(CatData.self).sorted(byKeyPath: "createDate", ascending: true)
 		monthPickerView.delegate = self
 		monthPickerView.dataSource = self
-		if catData.count > 0 {
-			mainCat = catData.first?.catName
-			setNavBar()
-		}
+		NotificationCenter.default.addObserver(self, selector: #selector(notificationMethod(notification:)), name: Notification.Name("NotificationIdentifier"), object: nil)
 		setChartConfigure()
     }
+	
+	@objc func notificationMethod(notification: Notification) {
+		if notification.object != nil {
+			let newCat = notification.object as! String
+			mainCat = newCat
+		}
+	}
 	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		if catData.count > 0 {
 			if chartView.data == nil {
 				monthPickerView.isHidden = false
-				navigationBar.isHidden = false
 				setNavBar()
 			}
-			mainCat = catData.first?.catName
-			selectPickerView()
+			navigationBar.isHidden = false
 		} else {
 			chartView.data = nil
 			monthPickerView.isHidden = true
@@ -84,7 +87,6 @@ class DataViewController: UIViewController {
 			months = getMonthAndYearBetween(from: datesInYear.first!, to: datesInYear.last!)
 			list.append(ListForMonthAndYear(year: listOfYear[i], months: months))
 		}
-		
 		listOfYearAndMonth = list
 		monthPickerView.reloadAllComponents()
 	}
@@ -192,7 +194,6 @@ extension DataViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 	}
 	
 	func getDailyDataValue(of catName: String, at date: Date) {
-		print(#function)
 		let dailyData = RealmService.shared.getMonthlyData(of: catName, at: date)
 		let poopCounts = dailyData.0
 		let urineCounts = dailyData.1
@@ -201,7 +202,6 @@ extension DataViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 	}
 
 	func setChart(poopCounts: [Int], urineCounts: [Int], dates: [Date] ) {
-		print(#function)
 
 		var poopChartEntry: [ChartDataEntry] = []
 		var urineChartEntry: [ChartDataEntry] = []

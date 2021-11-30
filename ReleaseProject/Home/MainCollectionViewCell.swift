@@ -11,6 +11,8 @@ class MainCollectionViewCell: UICollectionViewCell {
 	
 	static let identifier = "MainCollectionViewCell"
 
+	@IBOutlet weak var catButton: UIButton!
+	
 	@IBOutlet weak var poopButton: UIButton!
 	@IBOutlet weak var potatoButton: UIButton!
 	@IBOutlet weak var eventButton: UIButton!
@@ -24,6 +26,23 @@ class MainCollectionViewCell: UICollectionViewCell {
 	
 	override func awakeFromNib() {
         super.awakeFromNib()
+		
+		///다음버전에서 대응 예정
+		eventButton.isHidden = true
+		
+		catButton.setTitle("", for: .normal)
+		catButton.setImage(UIImage(named: "cat\(Int.random(in: 1...6))"), for: .normal)
+		catButton.imageView?.contentMode = .scaleAspectFit
+		
+		let poopView = UIImageView(image: UIImage(named: "peanut"))
+		poopView.frame = CGRect(x: 5, y: 0, width: poopButton.frame.width, height: poopButton.frame.height)
+		poopButton.setTitle("", for: .normal)
+		poopButton.addSubview(poopView)
+		
+		let potatoView = UIImageView(image: UIImage(named: "potato"))
+		potatoView.frame = CGRect(x: 5, y: 0, width: potatoButton.frame.width, height: potatoButton.frame.height)
+		potatoButton.setTitle("", for: .normal)
+		potatoButton.addSubview(potatoView)
 		
 		poopMinusButton.setTitle("", for: .normal)
 		poopPlusButton.setTitle("", for: .normal)

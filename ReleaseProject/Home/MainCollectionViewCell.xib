@@ -23,33 +23,31 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ox8-1q-goe">
                                 <rect key="frame" x="131" y="100" width="112" height="112"/>
-                                <color key="backgroundColor" systemColor="systemPinkColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="ox8-1q-goe" secondAttribute="height" multiplier="1:1" id="OBL-uZ-uhg"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fcm-bf-ihQ">
                                 <rect key="frame" x="233" y="301" width="75" height="75"/>
-                                <color key="backgroundColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="감자"/>
+                                <buttonConfiguration key="configuration" style="plain"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5DE-XF-S9B">
-                                <rect key="frame" x="251.5" y="50" width="72.5" height="31"/>
-                                <color key="backgroundColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <rect key="frame" x="288" y="50" width="36" height="49.5"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="특이사항"/>
+                                <buttonConfiguration key="configuration" style="plain" image="exclamationmark" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30"/>
+                                </buttonConfiguration>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QjJ-iY-CWA">
                                 <rect key="frame" x="66" y="301" width="75" height="75"/>
-                                <color key="backgroundColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="QjJ-iY-CWA" secondAttribute="height" multiplier="1:1" id="cRb-oK-FHL"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="맛동산"/>
+                                <buttonConfiguration key="configuration" style="plain"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOP-3G-Sno">
                                 <rect key="frame" x="16" y="319.5" width="50" height="38"/>
@@ -129,6 +127,7 @@
             </constraints>
             <size key="customSize" width="374" height="512"/>
             <connections>
+                <outlet property="catButton" destination="ox8-1q-goe" id="Pll-z0-mbf"/>
                 <outlet property="doneButton" destination="SxG-1B-cd5" id="djd-Eo-kFa"/>
                 <outlet property="eventButton" destination="5DE-XF-S9B" id="AuK-EA-r0i"/>
                 <outlet property="poopButton" destination="QjJ-iY-CWA" id="Vft-7I-csH"/>
@@ -142,13 +141,11 @@
         </collectionViewCell>
     </objects>
     <resources>
+        <image name="exclamationmark" catalog="system" width="46" height="128"/>
         <image name="minus" catalog="system" width="128" height="24"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemPinkColor">
-            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -13,6 +13,7 @@ class CatData: Object {
 	@Persisted var catName: String
 	@Persisted var createDate = Date().removeTime()
 	@Persisted var dailyDataList: List<DailyData>
+	@Persisted var numForImage = Int.random(in: 1...6)
 	
 	@Persisted(primaryKey: true) var _id: ObjectId
 	

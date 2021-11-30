@@ -14,7 +14,7 @@
         <!--Home View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController id="Y6W-OH-hqX" customClass="HomeViewController" customModule="ReleaseProject" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeViewController" id="Y6W-OH-hqX" customClass="HomeViewController" customModule="ReleaseProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -25,9 +25,9 @@
                                     <navigationItem title="Title" id="67N-B0-BFX"/>
                                 </items>
                             </navigationBar>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" bouncesZoom="NO" dataMode="prototypes" prefetchingEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4I-x9-RNk">
-                                <rect key="frame" x="0.0" y="168" width="414" height="545"/>
-                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" prefetchingEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4I-x9-RNk">
+                                <rect key="frame" x="0.0" y="168" width="414" height="537.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Xm0-WN-iQD">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -45,16 +45,21 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="i7A-hV-aHd">
+                                <rect key="frame" x="129" y="705.5" width="156" height="26"/>
+                            </pageControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="zQe-uq-Xgs" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="83w-R6-bUz"/>
                             <constraint firstItem="G4I-x9-RNk" firstAttribute="top" secondItem="zQe-uq-Xgs" secondAttribute="bottom" constant="80" id="BIp-4Y-U6T"/>
+                            <constraint firstItem="i7A-hV-aHd" firstAttribute="top" secondItem="G4I-x9-RNk" secondAttribute="bottom" id="SEr-yY-Bqc"/>
+                            <constraint firstItem="G4I-x9-RNk" firstAttribute="height" secondItem="5EZ-qb-Rvc" secondAttribute="height" multiplier="0.6" id="UhD-EQ-3sQ"/>
                             <constraint firstItem="zQe-uq-Xgs" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="VCp-2x-e04"/>
+                            <constraint firstItem="i7A-hV-aHd" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="b11-2f-PuG"/>
                             <constraint firstItem="G4I-x9-RNk" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="bUO-hO-Uqe"/>
                             <constraint firstItem="zQe-uq-Xgs" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="bbZ-uC-IJf"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="G4I-x9-RNk" secondAttribute="bottom" constant="100" id="dTw-IQ-viW"/>
                             <constraint firstItem="G4I-x9-RNk" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="iJ6-g6-ynT"/>
                         </constraints>
                     </view>
@@ -65,6 +70,7 @@
                     <connections>
                         <outlet property="collectionView" destination="G4I-x9-RNk" id="QtB-xz-RFC"/>
                         <outlet property="navigationBar" destination="zQe-uq-Xgs" id="GSZ-Jq-EfS"/>
+                        <outlet property="pageController" destination="i7A-hV-aHd" id="X4V-Dk-z3T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -76,9 +82,6 @@
         <image name="house" catalog="system" width="128" height="106"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

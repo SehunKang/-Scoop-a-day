@@ -15,6 +15,7 @@ class HomeViewController: UIViewController {
 	@IBOutlet weak var collectionView: UICollectionView!
 	
 	@IBOutlet weak var navigationBar: UINavigationBar!
+	@IBOutlet weak var pageController: UIPageControl!
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,15 +23,24 @@ class HomeViewController: UIViewController {
 		collectionView.dataSource = self
 		collectionView.delegate = self
 		registerXib()
-	
 
 		let realm = RealmService.shared.realm
 		catData = realm.objects(CatData.self).sorted(byKeyPath: "createDate", ascending: true)
+		
+		pageController.hidesForSinglePage = true
+		pageController.pageIndicatorTintColor = .systemGray4
+		pageController.currentPageIndicatorTintColor = .systemGray
+		pageController.numberOfPages = catData.count
 		navigationBar.topItem?.title = catData.first?.catName
 		setNavBar()
-		
 //		test()
     }
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		if !catData.isEmpty {
+			NotificationCenter.default.post(name: Notification.Name("NotificationIdentifier"), object: catData[getCurrentIndexPathOfCollectionView().item].catName)
+		}
+	}
 	
 	func test() {
 		
@@ -170,6 +180,7 @@ class HomeViewController: UIViewController {
 //		}
 		RealmService.shared.delete(catData[indexPath.item].catName)
 		collectionView.reloadData()
+		pageController.numberOfPages = catData.count
 		setNavBarTitleAsCatNameFromCollectionView()
 	}
 }
@@ -208,10 +219,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 			cell.poopButton.addTarget(self, action: #selector(poopButtonClicked(_:)), for: .touchUpInside)
 			cell.potatoButton.addTarget(self, action: #selector(potatoButtonClicked(_:)), for: .touchUpInside)
 			cell.eventButton.addTarget(self, action: #selector(eventButtoncClicked(_:)), for: .touchUpInside)
-			
+			cell.catButton.setImage(UIImage(named: "cat\(catData[indexPath.item].numForImage)"), for: .normal)
+
 			return cell
 		}
-
 	}
 		
 	@objc func poopButtonClicked(_ sender: UIButton) {
@@ -267,12 +278,22 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 		alert.addAction(cancel)
 		alert.addTextField()
 		self.present(alert, animated: true, completion: nil)
+		pageController.numberOfPages = catData.count
 
 	}
 	
 	//visibleCells를 사용하면 두개 이상의 인덱스를 보여주거나 1인데 0을 보여주는 경우도 있지만 이렇게 큰 화면의 컬렉션뷰를 이용하는 경우 특정포인트를 이용하면 깔끔하게 해결된다.
 	func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
 		setNavBarTitleAsCatNameFromCollectionView()
+	}
+	
+	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		let offSet = scrollView.contentOffset.x
+		let width = scrollView.frame.width
+		let horizontalCenter = width / 2
+
+		pageController.currentPage = Int(offSet + horizontalCenter) / Int(width)
+
 	}
 	
 	func setNavBarTitleAsCatNameFromCollectionView() {

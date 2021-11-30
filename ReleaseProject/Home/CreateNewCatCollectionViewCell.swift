@@ -15,6 +15,8 @@ class CreateNewCatCollectionViewCell: UICollectionViewCell {
 	
 	override func awakeFromNib() {
         super.awakeFromNib()
+		
+		addCatButton.setTitle("", for: .normal)
         // Initialization code
     }
 
