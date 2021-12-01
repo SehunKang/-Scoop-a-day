@@ -19,7 +19,8 @@ class HomeViewController: UIViewController {
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-	
+		print(Realm.Configuration.defaultConfiguration.fileURL!)
+
 		collectionView.dataSource = self
 		collectionView.delegate = self
 		registerXib()
@@ -48,7 +49,7 @@ class HomeViewController: UIViewController {
 			let data = DailyData()
 			data.urineCount = Int.random(in: 0...10)
 			data.poopCount = Int.random(in: 0...10)
-			data.date = Calendar.current.date(byAdding: .day, value: -i, to: Date().removeTime())!
+			data.date = Calendar.current.date(byAdding: .day, value: -(i), to: Date().removeTime())!
 			try! RealmService.shared.realm.write {
 				catData.first?.dailyDataList.append(data)
 			}
@@ -114,7 +115,6 @@ class HomeViewController: UIViewController {
 		cell.doneButton.addTarget(self, action: #selector(doneButtonClicked(_:)), for: .touchUpInside)
 		navigationBar.topItem?.rightBarButtonItem?.isEnabled = false
 		tabBarController?.tabBar.items![1].isEnabled = false
-		tabBarController?.tabBar.items![2].isEnabled = false
 		collectionView.isScrollEnabled = false
 		collectionView.reloadData()
 		
@@ -133,7 +133,6 @@ class HomeViewController: UIViewController {
 		cell.eventButton.isEnabled = true
 		navigationBar.topItem?.rightBarButtonItem?.isEnabled = true
 		tabBarController?.tabBar.items![1].isEnabled = true
-		tabBarController?.tabBar.items![2].isEnabled = true
 		collectionView.isScrollEnabled = true
 		collectionView.reloadData()
 	}

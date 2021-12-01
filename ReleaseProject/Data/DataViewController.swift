@@ -179,8 +179,18 @@ extension DataViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 			pickerView.reloadComponent(1)
 		case 1:
 			let selectedYear = pickerView.selectedRow(inComponent: 0)
-			let year = listOfYearAndMonth[selectedYear].year
-			let month = listOfYearAndMonth[selectedYear].months[row]
+			let year: Date
+			let month: Date
+			if listOfYearAndMonth.indices.contains(selectedYear) {
+				year = listOfYearAndMonth[selectedYear].year
+				if listOfYearAndMonth[selectedYear].months.indices.contains(row) {
+					month = listOfYearAndMonth[selectedYear].months[row]
+				} else {
+					return
+				}
+			} else {
+				return
+			}
 			let formatYear = DateFormatter()
 			let formatMonth = DateFormatter()
 			formatYear.dateFormat = "yyyy"
@@ -254,7 +264,8 @@ extension DataViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 		guard start <= end else { return allDates }
 		
 		let calendar = Calendar.current
-		let month = calendar.dateComponents([.month], from: start, to: end).month ?? 1
+		let month = calendar.dateComponents([.month], from: start.startDayOfMonth(), to: end.endDayOfMonth()).month ?? 1
+		print("month in gMAYB: ", month)
 		
 		for i in 0...month {
 			if let date = calendar.date(byAdding: .month, value: i, to: start) {

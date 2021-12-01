@@ -5,3 +5,17 @@
   Created by Sehun Kang on 2021/11/21.
   
 */
+
+"add_cat_title" = "Add new cat";
+"add_cat_message" = "What's your cat's name?";
+"event_title" = "what happend today?";
+"ok" = "OK";
+"cancel" = "Cancel";
+"adjust_count" = "Modify";
+"reset_count" = "Reset";
+"delete_data" = "Delete";
+"confirm_deletion" = "Do you really want to delete it?";
+"done" = "Done!";
+"no_data_for_chart" = "No data";
+"poop" = "Poop";
+"urine" = "Pee";

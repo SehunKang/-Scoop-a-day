@@ -5,3 +5,17 @@
   Created by Sehun Kang on 2021/11/21.
   
 */
+
+"add_cat_title" = "添加猫咪";
+"add_cat_message" = "请写下主子的名字";
+"event_title" = "有什么异常症状吗？";
+"ok" = "确认";
+"cancel" = "取消";
+"adjust_count" = "修改";
+"reset_count" = "重置";
+"delete_data" = "删除";
+"confirm_deletion" = "确认删除？";
+"done" = "完成";
+"no_data_for_chart" = "没有内容";
+"poop" = "大便";
+"urine" = "小便";
