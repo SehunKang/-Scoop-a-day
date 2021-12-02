@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E353AD227589F2700F4F8A2 /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E353AD427589F2700F4F8A2 /* infoPlist.strings */; };
 		2EDED26027476FD8006C38DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED25F27476FD8006C38DF /* AppDelegate.swift */; };
 		2EDED26227476FD8006C38DF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED26127476FD8006C38DF /* SceneDelegate.swift */; };
 		2EDED26727476FD8006C38DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EDED26527476FD8006C38DF /* Main.storyboard */; };
@@ -33,6 +34,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E353ACD27589EAF00F4F8A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		2E353ACE27589EB200F4F8A2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		2E353ACF27589EB400F4F8A2 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
+		2E353AD327589F2700F4F8A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/infoPlist.strings; sourceTree = "<group>"; };
+		2E353AD527589F2900F4F8A2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/infoPlist.strings"; sourceTree = "<group>"; };
+		2E353AD627589F2900F4F8A2 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/infoPlist.strings; sourceTree = "<group>"; };
 		2EDED25C27476FD8006C38DF /* ReleaseProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReleaseProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EDED25F27476FD8006C38DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2EDED26127476FD8006C38DF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,6 +115,7 @@
 				2EDED26827476FDA006C38DF /* Assets.xcassets */,
 				2EDED26A27476FDA006C38DF /* LaunchScreen.storyboard */,
 				2EDED26D27476FDA006C38DF /* Info.plist */,
+				2E353AD427589F2700F4F8A2 /* infoPlist.strings */,
 			);
 			path = ReleaseProject;
 			sourceTree = "<group>";
@@ -229,6 +237,7 @@
 				2EDED26727476FD8006C38DF /* Main.storyboard in Resources */,
 				2EDED29F274A58BC006C38DF /* Home.storyboard in Resources */,
 				2EDED2792747855F006C38DF /* Calendar.storyboard in Resources */,
+				2E353AD227589F2700F4F8A2 /* infoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,10 +265,23 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		2E353AD427589F2700F4F8A2 /* infoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2E353AD327589F2700F4F8A2 /* en */,
+				2E353AD527589F2900F4F8A2 /* zh-Hans */,
+				2E353AD627589F2900F4F8A2 /* ko */,
+			);
+			name = infoPlist.strings;
+			sourceTree = "<group>";
+		};
 		2EDED26527476FD8006C38DF /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				2EDED26627476FD8006C38DF /* Base */,
+				2E353ACD27589EAF00F4F8A2 /* en */,
+				2E353ACE27589EB200F4F8A2 /* zh-Hans */,
+				2E353ACF27589EB400F4F8A2 /* ko */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -410,12 +432,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = WXLXA9H28U;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ReleaseProject/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Scoop!";
+				INFOPLIST_KEY_CFBundleDisplayName = Scoop;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -428,7 +451,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sehun.ReleaseProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sehun.Scoop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -441,12 +464,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = WXLXA9H28U;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ReleaseProject/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Scoop!";
+				INFOPLIST_KEY_CFBundleDisplayName = Scoop;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -459,7 +483,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sehun.ReleaseProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sehun.Scoop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
