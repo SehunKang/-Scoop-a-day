@@ -28,20 +28,6 @@
                                     <navigationItem title="Title" id="hdR-ZR-a1y"/>
                                 </items>
                             </navigationBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="eLQ-b0-2S0">
-                                <rect key="frame" x="20" y="586.5" width="374" height="206.5"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="137" id="dVt-G9-dX4">
-                                        <rect key="frame" x="0.0" y="44.5" width="374" height="137"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dVt-G9-dX4" id="MeI-Ps-7Yo">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="137"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mg1-UR-Fn0">
                                 <rect key="frame" x="57" y="476.5" width="300" height="100"/>
                                 <constraints>
@@ -54,18 +40,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="Mg1-UR-Fn0" firstAttribute="top" secondItem="sgw-z8-dSv" secondAttribute="bottom" constant="10" id="E8q-Zp-pCc"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="eLQ-b0-2S0" secondAttribute="bottom" constant="20" id="FMY-nT-R42"/>
                             <constraint firstItem="sgw-z8-dSv" firstAttribute="top" secondItem="jzL-w3-hdo" secondAttribute="bottom" constant="20" id="Fj4-rK-Nzl"/>
                             <constraint firstItem="jzL-w3-hdo" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="NeR-Op-N51"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="sgw-z8-dSv" secondAttribute="trailing" constant="10" id="Peq-Ef-AaP"/>
                             <constraint firstItem="Mg1-UR-Fn0" firstAttribute="centerX" secondItem="sgw-z8-dSv" secondAttribute="centerX" id="QhI-av-fac"/>
                             <constraint firstItem="jzL-w3-hdo" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="das-RZ-LGY"/>
                             <constraint firstItem="sgw-z8-dSv" firstAttribute="height" secondItem="5EZ-qb-Rvc" secondAttribute="height" multiplier="0.4" id="dgv-nI-q4g"/>
-                            <constraint firstItem="eLQ-b0-2S0" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="lsh-X0-Pid"/>
                             <constraint firstItem="sgw-z8-dSv" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="qBn-eR-Jjy"/>
                             <constraint firstItem="jzL-w3-hdo" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="qQQ-tW-k0l"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="eLQ-b0-2S0" secondAttribute="trailing" constant="20" id="uGd-NP-mRw"/>
-                            <constraint firstItem="eLQ-b0-2S0" firstAttribute="top" secondItem="Mg1-UR-Fn0" secondAttribute="bottom" constant="10" id="vB2-D4-xUl"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" id="J13-V2-02J">

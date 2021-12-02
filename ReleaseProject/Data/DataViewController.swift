@@ -79,16 +79,12 @@ class DataViewController: UIViewController {
 	func setListOfYearAndMonth(from catName: String) {
 		var list = [ListForMonthAndYear]()
 		guard let dataList = catData.filter("catName == %@", catName).first?.dailyDataList.sorted(byKeyPath: "date", ascending: true) else {return}
-		print("dataList: ", dataList)
 		let listOfYear = getYearBetween(from: dataList.first!.date, to: dataList.last!.date)
-		print("listofYear: ", listOfYear)
 		for i in 0..<listOfYear.count {
 			let months: [Date]
 			let datesInYear = RealmService.shared.getDailyDates(of: catName, unit: .year, fromNow: i - (listOfYear.count - 1))
-			print("datesInYear: ", datesInYear)
 			months = getMonthAndYearBetween(from: datesInYear.first!, to: datesInYear.last!)
 			
-			print("months: ", months)
 			list.append(ListForMonthAndYear(year: listOfYear[i], months: months))
 		}
 		listOfYearAndMonth = list
@@ -223,7 +219,7 @@ extension DataViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 		let format = DateFormatter()
 		format.dateFormat = "MM-dd"
 		var dateValues = [String]()
-		
+				
 		for i in 0..<dates.count {
 			let poopValue = ChartDataEntry(x: Double(i), y: Double(poopCounts[i]))
 			let urineValue = ChartDataEntry(x: Double(i), y: Double(urineCounts[i]))
@@ -240,13 +236,19 @@ extension DataViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 		
 		let poopLine = LineChartDataSet(entries: poopChartEntry, label: "poop".localized(withComment: ""))
 		poopLine.colors = [NSUIColor.systemBrown]
-		poopLine.drawCirclesEnabled = false
+		poopLine.drawCirclesEnabled = true
+		poopLine.circleHoleRadius = 4.0
+		poopLine.circleRadius = 4.0
+		poopLine.circleColors = [NSUIColor.systemBrown]
 		poopLine.mode = .cubicBezier
 		poopLine.lineWidth = 4.0
 		
 		let urineLine = LineChartDataSet(entries: urineChartEntry, label: "urine".localized(withComment: ""))
 		urineLine.colors = [NSUIColor.systemYellow]
-		urineLine.drawCirclesEnabled = false
+		urineLine.drawCirclesEnabled = true
+		urineLine.circleHoleRadius = 4.0
+		urineLine.circleRadius = 4.0
+		urineLine.circleColors = [NSUIColor.systemYellow]
 		urineLine.mode = .cubicBezier
 		urineLine.lineWidth = 4.0
 
@@ -256,6 +258,11 @@ extension DataViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 		data.addDataSet(urineLine)
 				
 		chartView.data = data
+		
+		let numFormat = NumberFormatter()
+		numFormat.minimumFractionDigits = 0
+		data.setValueFormatter(DefaultValueFormatter(formatter: numFormat))
+		data.setValueFont(.boldSystemFont(ofSize: 10))
 	}
 	
 	
@@ -265,7 +272,6 @@ extension DataViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 		
 		let calendar = Calendar.current
 		let month = calendar.dateComponents([.month], from: start.startDayOfMonth(), to: end.endDayOfMonth()).month ?? 1
-		print("month in gMAYB: ", month)
 		
 		for i in 0...month {
 			if let date = calendar.date(byAdding: .month, value: i, to: start) {
@@ -280,7 +286,7 @@ extension DataViewController: UIPickerViewDelegate, UIPickerViewDataSource {
 		guard start <= end else { return allDates }
 		
 		let calendar = Calendar.current
-		let year = calendar.dateComponents([.year], from: start, to: end).year ?? 1
+		let year = calendar.dateComponents([.year], from: start.startDayOfYear(), to: end.endDayOfYear()).year ?? 1
 		
 		for i in 0...year {
 			if let date = calendar.date(byAdding: .year, value: i, to: start) {

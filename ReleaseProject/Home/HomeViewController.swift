@@ -19,7 +19,6 @@ class HomeViewController: UIViewController {
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-		print(Realm.Configuration.defaultConfiguration.fileURL!)
 
 		collectionView.dataSource = self
 		collectionView.delegate = self
@@ -34,8 +33,19 @@ class HomeViewController: UIViewController {
 		pageController.numberOfPages = catData.count
 		navigationBar.topItem?.title = catData.first?.catName
 		setNavBar()
-//		test()
     }
+
+
+//	func isAppAlreadyLaunchedOnce()->Bool{
+//			let defaults = UserDefaults.standard
+//
+//			if defaults.bool(forKey: "isAppAlreadyLaunchedOnce"){
+//				return true
+//			} else {
+//				defaults.set(true, forKey: "isAppAlreadyLaunchedOnce")
+//				return false
+//			}
+//		}
 	
 	override func viewWillDisappear(_ animated: Bool) {
 		if !catData.isEmpty {
@@ -45,11 +55,11 @@ class HomeViewController: UIViewController {
 	
 	func test() {
 		
-		for i in 0...400 {
+		for i in 0...700 {
 			let data = DailyData()
-			data.urineCount = Int.random(in: 0...10)
-			data.poopCount = Int.random(in: 0...10)
-			data.date = Calendar.current.date(byAdding: .day, value: -(i), to: Date().removeTime())!
+			data.urineCount = Int.random(in: 3...6)
+			data.poopCount = Int.random(in: 1...3)
+			data.date = Calendar.current.date(byAdding: .day, value: -(i + 1), to: Date().removeTime())!
 			try! RealmService.shared.realm.write {
 				catData.first?.dailyDataList.append(data)
 			}
@@ -93,7 +103,6 @@ class HomeViewController: UIViewController {
 	
 	
 	func adjustCount() {
-		print("adjustCount")
 		let index = getCurrentIndexPathOfCollectionView()
 		let cell = collectionView.cellForItem(at: index) as! MainCollectionViewCell
 		cell.poopMinusButton.isHidden = false
@@ -143,7 +152,6 @@ class HomeViewController: UIViewController {
 		let total = RealmService.shared.totalCountOfDay(of: cat, at: Date().removeTime(), item: .poop)
 		let cell = collectionView.cellForItem(at: IndexPath(item: sender.tag, section: 0)) as! MainCollectionViewCell
 		cell.poopCountLabel.text = "\(total)"
-		print("total poop of \(cat) = \(total)")
 	}
 	
 	@objc func potatoMinusButtonClicked(_ sender: UIButton) {
@@ -152,7 +160,6 @@ class HomeViewController: UIViewController {
 		let total = RealmService.shared.totalCountOfDay(of: cat, at: Date().removeTime(), item: .urine)
 		let cell = collectionView.cellForItem(at: IndexPath(item: sender.tag, section: 0)) as! MainCollectionViewCell
 		cell.potatoCountLabel.text = "\(total)"
-		print("total potato of \(cat) = \(total)")
 	}
 	
 	func resetCount() {
@@ -180,11 +187,6 @@ class HomeViewController: UIViewController {
 	
 	func deleteData() {
 		let indexPath = getCurrentIndexPathOfCollectionView()
-//		if indexPath.item == catData.count - 1 {
-//			self.collectionView.scrollToItem(at: IndexPath(item: indexPath.item - 1, section: 0), at: .centeredHorizontally, animated: true)
-//		} else {
-//			self.collectionView.scrollToItem(at: IndexPath(item: indexPath.item + 1, section: 0), at: .centeredHorizontally, animated: true)
-//		}
 		RealmService.shared.delete(catData[indexPath.item].catName)
 		collectionView.reloadData()
 		pageController.numberOfPages -= 1
@@ -241,7 +243,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 		let total = RealmService.shared.totalCountOfDay(of: cat, at: Date().removeTime(), item: .poop)
 		let cell = collectionView.cellForItem(at: IndexPath(item: sender.tag, section: 0)) as! MainCollectionViewCell
 		cell.poopCountLabel.text = "\(total)"
-		print("total poop of \(cat) = \(total)")
 	}
 	
 	@objc func potatoButtonClicked(_ sender: UIButton) {
@@ -250,7 +251,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 		let total = RealmService.shared.totalCountOfDay(of: cat, at: Date().removeTime(), item: .urine)
 		let cell = collectionView.cellForItem(at: IndexPath(item: sender.tag, section: 0)) as! MainCollectionViewCell
 		cell.potatoCountLabel.text = "\(total)"
-		print("total potato of \(cat) = \(total)")
 	}
 	
 	@objc func eventButtoncClicked(_ sender: UIButton) {
@@ -272,11 +272,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 		
 	@objc func addCatButtonClicked(_ sender: UIButton) {
 		addCatAlert()
-	}
+	} 
 	
 	func addCatAlert() {
 		let alert = UIAlertController(title: "add_cat_title".localized(withComment: "alert title in func_addCatButtonClicked"), message: "add_cat_message".localized(withComment: "alert message in func_addCatButtonClicked"), preferredStyle: .alert)
-		let ok = UIAlertAction(title: "ok".localized(withComment: "ok button in alert"), style: .default) { action in
+		let ok = UIAlertAction(title: "ok".localized(withComment: "ok button in alert"), style: .default) { [self] action in
 			if alert.textFields?.first?.text != ""  {
 				let newCat = alert.textFields!.first!.text!
 				RealmService.shared.createNewCat(newCat)
@@ -284,7 +284,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 				self.collectionView.scrollToItem(at: IndexPath(item: self.catData.count - 1, section: 0), at: .centeredHorizontally, animated: true)
 				self.navigationBar.topItem?.title = newCat
 				self.pageController.numberOfPages += 1
-
+//				self.test()
 			} else {
 				return
 			}
