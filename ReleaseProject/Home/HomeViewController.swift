@@ -33,8 +33,16 @@ class HomeViewController: UIViewController {
 		pageController.numberOfPages = catData.count
 		navigationBar.topItem?.title = catData.first?.catName
 		setNavBar()
+//		realmtest()
     }
 
+//	func realmtest() {
+//
+//		let queryTest = catData.where {
+//			$0.catName == "sehun"
+//		}
+//		print(queryTest.isEmpty)
+//	}
 
 //	func isAppAlreadyLaunchedOnce()->Bool{
 //			let defaults = UserDefaults.standard
@@ -279,7 +287,15 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 	func addCatAlert() {
 		let alert = UIAlertController(title: "add_cat_title".localized(withComment: "alert title in func_addCatButtonClicked"), message: "add_cat_message".localized(withComment: "alert message in func_addCatButtonClicked"), preferredStyle: .alert)
 		let ok = UIAlertAction(title: "ok".localized(withComment: "ok button in alert"), style: .default) { [self] action in
-			if alert.textFields?.first?.text != ""  {
+			let catNameChecker = catData.where {$0.catName == alert.textFields?.first?.text ?? ""}
+			if !catNameChecker.isEmpty {
+				let alert = UIAlertController(title: "cat_already_exist".localized(withComment: ""), message: nil, preferredStyle: .alert)
+				let ok = UIAlertAction(title: "ok".localized(withComment: ""), style: .default) { _ in
+					self.addCatAlert()
+				}
+				alert.addAction(ok)
+				self.present(alert, animated: true, completion: nil)
+			} else if alert.textFields?.first?.text != ""  {
 				let newCat = alert.textFields!.first!.text!
 				RealmService.shared.createNewCat(newCat)
 				self.collectionView.reloadData()
