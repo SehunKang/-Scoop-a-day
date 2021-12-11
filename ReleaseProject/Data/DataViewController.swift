@@ -117,7 +117,6 @@ class DataViewController: UIViewController {
 		self.present(alert, animated: true, completion: nil)
 	}
 	
-	
 }
 
 extension DataViewController: UIPickerViewDelegate, UIPickerViewDataSource {

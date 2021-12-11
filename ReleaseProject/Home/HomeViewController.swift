@@ -61,7 +61,7 @@ class HomeViewController: UIViewController {
 			data.poopCount = Int.random(in: 1...3)
 			data.date = Calendar.current.date(byAdding: .day, value: -(i + 1), to: Date().removeTime())!
 			try! RealmService.shared.realm.write {
-				catData.first?.dailyDataList.append(data)
+				catData.last?.dailyDataList.append(data)
 			}
 		}
 	}
@@ -208,7 +208,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return catData.count == 0 ? 1 : catData.count
 	}
-	
+
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		
 		if catData.count == 0 {
