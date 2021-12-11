@@ -51,7 +51,7 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="" id="J13-V2-02J">
-                        <imageReference key="image" image="chart.xyaxis.line" catalog="system" symbolScale="large"/>
+                        <imageReference key="image" image="chart.bar.xaxis" catalog="system" symbolScale="large"/>
                     </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -66,7 +66,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="chart.xyaxis.line" catalog="system" width="128" height="101"/>
+        <image name="chart.bar.xaxis" catalog="system" width="128" height="98"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -228,7 +228,9 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 			cell.poopButton.addTarget(self, action: #selector(poopButtonClicked(_:)), for: .touchUpInside)
 			cell.potatoButton.addTarget(self, action: #selector(potatoButtonClicked(_:)), for: .touchUpInside)
 			cell.eventButton.addTarget(self, action: #selector(eventButtoncClicked(_:)), for: .touchUpInside)
-			cell.catButton.setImage(UIImage(named: "cat\(catData[indexPath.item].numForImage)"), for: .normal)
+			
+			cell.catImage.image = UIImage(named: "cat\(catData[indexPath.item].numForImage)")
+			
 			if !catData[indexPath.item].dailyDataList.filter("date == %@", Date().removeTime()).isEmpty {
 				cell.poopCountLabel.text = String(catData[indexPath.item].dailyDataList.filter("date == %@", Date().removeTime()).first!.poopCount)
 				cell.potatoCountLabel.text = String(catData[indexPath.item].dailyDataList.filter("date == %@", Date().removeTime()).first!.urineCount)
@@ -284,7 +286,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 				self.collectionView.scrollToItem(at: IndexPath(item: self.catData.count - 1, section: 0), at: .centeredHorizontally, animated: true)
 				self.navigationBar.topItem?.title = newCat
 				self.pageController.numberOfPages += 1
-//				self.test()
+				self.test()
 			} else {
 				return
 			}

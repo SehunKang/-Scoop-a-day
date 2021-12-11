@@ -26,6 +26,8 @@ class MainCollectionViewCell: UICollectionViewCell {
 	@IBOutlet weak var poopCountLabel: UILabel!
 	@IBOutlet weak var potatoCountLabel: UILabel!
 	
+	let catImage = UIImageView()
+	
 	override func awakeFromNib() {
         super.awakeFromNib()
 		
@@ -35,10 +37,10 @@ class MainCollectionViewCell: UICollectionViewCell {
 		poopCountLabel.textColor = .label
 		potatoCountLabel.textColor = .label
 		
-		
 		catButton.setTitle("", for: .normal)
-		
-		catButton.imageView?.contentMode = .scaleAspectFit
+		catImage.frame = CGRect(x: 0, y: 0, width: catButton.frame.width, height: catButton.frame.height)
+		catImage.contentMode = .scaleAspectFit
+		catButton.addSubview(catImage)
 		
 		let poopView = UIImageView(image: UIImage(named: "peanut"))
 		poopView.frame = CGRect(x: 5, y: 0, width: poopButton.frame.width, height: poopButton.frame.height)
