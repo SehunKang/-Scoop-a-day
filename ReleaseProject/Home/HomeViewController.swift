@@ -300,7 +300,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 				self.collectionView.scrollToItem(at: IndexPath(item: self.catData.count - 1, section: 0), at: .centeredHorizontally, animated: true)
 				self.navigationBar.topItem?.title = newCat
 				self.pageController.numberOfPages += 1
-				self.test()
+//				self.test()
 			} else {
 				return
 			}
