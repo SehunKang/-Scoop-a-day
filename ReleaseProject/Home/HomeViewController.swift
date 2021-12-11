@@ -290,9 +290,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 			let catNameChecker = catData.where {$0.catName == alert.textFields?.first?.text ?? ""}
 			if !catNameChecker.isEmpty {
 				let alert = UIAlertController(title: "cat_already_exist".localized(withComment: ""), message: nil, preferredStyle: .alert)
-				let ok = UIAlertAction(title: "ok".localized(withComment: ""), style: .default) { _ in
-					self.addCatAlert()
-				}
+				let ok = UIAlertAction(title: "ok".localized(withComment: ""), style: .default) { _ in self.addCatAlert()}
 				alert.addAction(ok)
 				self.present(alert, animated: true, completion: nil)
 			} else if alert.textFields?.first?.text != ""  {

@@ -43,14 +43,19 @@ class MainCollectionViewCell: UICollectionViewCell {
 		catButton.addSubview(catImage)
 		
 		let poopView = UIImageView(image: UIImage(named: "peanut"))
-		poopView.frame = CGRect(x: 5, y: 0, width: poopButton.frame.width, height: poopButton.frame.height)
+		poopView.frame = CGRect(x: 0, y: 0, width: poopButton.frame.width, height: poopButton.frame.height)
+		poopView.contentMode = .scaleAspectFit
+		poopView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		poopButton.setTitle("", for: .normal)
 		poopButton.addSubview(poopView)
 		
 		let potatoView = UIImageView(image: UIImage(named: "potato"))
-		potatoView.frame = CGRect(x: 5, y: 0, width: potatoButton.frame.width, height: potatoButton.frame.height)
+		potatoView.frame = CGRect(x: 0, y: 0, width: potatoButton.frame.width, height: potatoButton.frame.height)
+		potatoView.contentMode = .scaleAspectFit
+		potatoView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		potatoButton.setTitle("", for: .normal)
 		potatoButton.addSubview(potatoView)
+		
 		
 		poopMinusButton.setTitle("", for: .normal)
 		poopPlusButton.setTitle("", for: .normal)
