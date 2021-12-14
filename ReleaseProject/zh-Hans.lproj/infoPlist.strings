@@ -6,3 +6,4 @@
   
 */
 "CFBundleDisplayName" = "铲屎日记";
+"NSUserTrackingUsageDescription" = "用于本应用软件的优化.";

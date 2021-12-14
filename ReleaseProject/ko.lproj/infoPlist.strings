@@ -6,3 +6,4 @@
   
 */
 "CFBundleDisplayName" = "감자밭";
+"NSUserTrackingUsageDescription" = "앱의 개선을 위해 사용됩니다.";

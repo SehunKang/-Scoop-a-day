@@ -33,9 +33,24 @@ class HomeViewController: UIViewController {
 		pageController.numberOfPages = catData.count
 		navigationBar.topItem?.title = catData.first?.catName
 		setNavBar()
+//		crashTest()
 //		realmtest()
     }
 
+	func crashTest() {
+		let button = UIButton(type: .roundedRect)
+		button.frame = CGRect(x: 20, y: 50, width: 100, height: 30)
+		button.setTitle("Test Crash", for: [])
+		button.addTarget(self, action: #selector(self.crashButtonTapped(_:)), for: .touchUpInside)
+		view.addSubview(button)
+	}
+	
+	@IBAction func crashButtonTapped(_ sender: AnyObject) {
+		let numbers = [0]
+		let _ = numbers[1]
+	}
+	
+	
 //	func realmtest() {
 //
 //		let queryTest = catData.where {
@@ -239,7 +254,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 			
 			cell.catImage.image = UIImage(named: "cat\(catData[indexPath.item].numForImage)")
 			
-			if !catData[indexPath.item].dailyDataList.filter("date == %@", Date().removeTime()).isEmpty {
+			if catData[indexPath.item].dailyDataList.filter("date == %@", Date().removeTime()).isEmpty {
+				cell.poopCountLabel.text = "0"
+				cell.potatoCountLabel.text = "0"
+			} else {
 				cell.poopCountLabel.text = String(catData[indexPath.item].dailyDataList.filter("date == %@", Date().removeTime()).first!.poopCount)
 				cell.potatoCountLabel.text = String(catData[indexPath.item].dailyDataList.filter("date == %@", Date().removeTime()).first!.urineCount)
 			}

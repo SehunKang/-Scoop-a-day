@@ -19,3 +19,4 @@
 "no_data_for_chart" = "No data";
 "poop" = "Poop";
 "urine" = "Pee";
+"cat_already_exist" = "There's already a cat with the same name.";

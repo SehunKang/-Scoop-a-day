@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import AppTrackingTransparency
+import Firebase
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -29,6 +31,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	func sceneDidBecomeActive(_ scene: UIScene) {
 		// Called when the scene has moved from an inactive state to an active state.
 		// Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+		
+		DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+			
+			//ATT Framework
+			ATTrackingManager.requestTrackingAuthorization { status in
+				switch status {
+				case .notDetermined:
+					print("notDetermined")
+					Analytics.setAnalyticsCollectionEnabled(false)
+				case .restricted:
+					print("restricted")
+					Analytics.setAnalyticsCollectionEnabled(false)
+				case .denied:
+					print("denied")
+					Analytics.setAnalyticsCollectionEnabled(false)
+				case .authorized:
+					print("authorized") // 애널리틱스 수집 가능
+					Analytics.setAnalyticsCollectionEnabled(true)
+				@unknown default:
+					print("unknown")
+					Analytics.setAnalyticsCollectionEnabled(false)
+				}
+			}
+		}
+		
 	}
 
 	func sceneWillResignActive(_ scene: UIScene) {
