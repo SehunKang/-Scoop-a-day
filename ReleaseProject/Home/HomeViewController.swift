@@ -14,7 +14,7 @@ class HomeViewController: UIViewController {
 	
 	@IBOutlet weak var collectionView: UICollectionView!
 	
-	@IBOutlet weak var navigationBar: UINavigationBar!
+//	@IBOutlet weak var navigationBar: UINavigationBar!
 	@IBOutlet weak var pageController: UIPageControl!
 	
 	override func viewDidLoad() {
@@ -31,25 +31,12 @@ class HomeViewController: UIViewController {
 		pageController.pageIndicatorTintColor = .systemGray4
 		pageController.currentPageIndicatorTintColor = .systemGray
 		pageController.numberOfPages = catData.count
-		navigationBar.topItem?.title = catData.first?.catName
-		setNavBar()
-//		crashTest()
-//		realmtest()
-    }
+        
+        setNavBarTitleAsCatNameFromCollectionView()
+        NotificationCenter.default.addObserver(self, selector: #selector(notificationMethod(notification:)), name: Notification.Name("CurrentIndex"), object: nil)
 
-	func crashTest() {
-		let button = UIButton(type: .roundedRect)
-		button.frame = CGRect(x: 20, y: 50, width: 100, height: 30)
-		button.setTitle("Test Crash", for: [])
-		button.addTarget(self, action: #selector(self.crashButtonTapped(_:)), for: .touchUpInside)
-		view.addSubview(button)
-	}
-	
-	@IBAction func crashButtonTapped(_ sender: AnyObject) {
-		let numbers = [0]
-		let _ = numbers[1]
-	}
-	
+        //		realmtest()
+    }
 	
 //	func realmtest() {
 //
@@ -69,13 +56,27 @@ class HomeViewController: UIViewController {
 //				return false
 //			}
 //		}
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setNavBar()
+    }
 	
 	override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
 		if !catData.isEmpty {
-			NotificationCenter.default.post(name: Notification.Name("NotificationIdentifier"), object: catData[getCurrentIndexPathOfCollectionView().item].catName)
+			NotificationCenter.default.post(name: Notification.Name("CurrentCatName"), object: catData[getCurrentIndexPathOfCollectionView().item].catName)
 		}
 	}
-	
+    
+    @objc private func notificationMethod(notification: Notification) {
+        if notification.object != nil {
+            let index = notification.object as! Int
+            self.collectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .centeredHorizontally, animated: true)
+        }
+    }
+
 	func test() {
 		
 		for i in 0...700 {
@@ -94,11 +95,13 @@ class HomeViewController: UIViewController {
 		
 		self.collectionView.register(UINib(nibName: MainCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: MainCollectionViewCell.identifier)
 	}
-	
+    
 	func setNavBar() {
 		if catData.count > 0 {
-			navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .plain, target: self, action: #selector(showActionSheet(_:)))
-		}
+            tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .plain, target: self, action: #selector(showActionSheet(_:)))
+        } else {
+            tabBarController?.navigationItem.rightBarButtonItem = nil
+        }
 	}
 	
 	@objc func showActionSheet(_ sender: UIBarButtonItem) {
@@ -145,7 +148,7 @@ class HomeViewController: UIViewController {
 		cell.potatoPlusButton.addTarget(self, action: #selector(potatoButtonClicked(_:)), for: .touchUpInside)
 		cell.potatoMinusButton.addTarget(self, action: #selector(potatoMinusButtonClicked(_:)), for: .touchUpInside)
 		cell.doneButton.addTarget(self, action: #selector(doneButtonClicked(_:)), for: .touchUpInside)
-		navigationBar.topItem?.rightBarButtonItem?.isEnabled = false
+        tabBarController?.navigationItem.rightBarButtonItem?.isEnabled = false
 		tabBarController?.tabBar.items![1].isEnabled = false
 		collectionView.isScrollEnabled = false
 		collectionView.reloadData()
@@ -163,7 +166,7 @@ class HomeViewController: UIViewController {
 		cell.poopButton.isEnabled = true
 		cell.potatoButton.isEnabled = true
 		cell.eventButton.isEnabled = true
-		navigationBar.topItem?.rightBarButtonItem?.isEnabled = true
+        tabBarController?.navigationItem.rightBarButtonItem?.isEnabled = true
 		tabBarController?.tabBar.items![1].isEnabled = true
 		collectionView.isScrollEnabled = true
 		collectionView.reloadData()
@@ -233,7 +236,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		
+		setNavBar()
 		if catData.count == 0 {
 			guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CreateNewCatCollectionViewCell.identifier, for: indexPath) as? CreateNewCatCollectionViewCell else { return UICollectionViewCell() }
 			
@@ -241,9 +244,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 			
 			return cell
 		} else {
-			if navigationBar.topItem?.rightBarButtonItem == nil {
-				setNavBar()
-			}
 			guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as? MainCollectionViewCell else { return UICollectionViewCell() }
 			cell.potatoButton.tag = indexPath.item
 			cell.poopButton.tag = indexPath.item
@@ -316,7 +316,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 				RealmService.shared.createNewCat(newCat)
 				self.collectionView.reloadData()
 				self.collectionView.scrollToItem(at: IndexPath(item: self.catData.count - 1, section: 0), at: .centeredHorizontally, animated: true)
-				self.navigationBar.topItem?.title = newCat
+                self.tabBarController?.navigationItem.title = newCat
 				self.pageController.numberOfPages += 1
 //				self.test()
 			} else {
@@ -348,10 +348,9 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 	func setNavBarTitleAsCatNameFromCollectionView() {
 		let visibleIndexPath = getCurrentIndexPathOfCollectionView()
 		if catData.count == 0 {
-			navigationBar.topItem?.title = "add_cat_title".localized(withComment: "")
-			navigationBar.topItem?.rightBarButtonItem = nil
+            tabBarController?.navigationItem.title = "add_cat_title".localized(withComment: "")
 		} else {
-			navigationBar.topItem?.title = catData[visibleIndexPath.item].catName
+            tabBarController?.navigationItem.title = catData[visibleIndexPath.item].catName
 		}
 	}
 	

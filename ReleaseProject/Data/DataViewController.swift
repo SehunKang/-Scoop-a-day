@@ -14,14 +14,14 @@ class DataViewController: UIViewController {
 	@IBOutlet weak var chartView: BarChartView!
 	
 	@IBOutlet weak var monthPickerView: UIPickerView!
-	@IBOutlet weak var navigationBar: UINavigationBar!
+//	@IBOutlet weak var navigationBar: UINavigationBar!
 	
 	var listOfYearAndMonth = [ListForMonthAndYear]()
 	
 	var mainCat: String? {
 		didSet {
 			setListOfYearAndMonth(from: mainCat!)
-			navigationBar.topItem?.title = mainCat!
+            tabBarController?.navigationItem.title = mainCat!
 			selectPickerView()
 			setNavBar()
 		}
@@ -35,11 +35,11 @@ class DataViewController: UIViewController {
 		catData = realm.objects(CatData.self).sorted(byKeyPath: "createDate", ascending: true)
 		monthPickerView.delegate = self
 		monthPickerView.dataSource = self
-		NotificationCenter.default.addObserver(self, selector: #selector(notificationMethod(notification:)), name: Notification.Name("NotificationIdentifier"), object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(notificationMethod(notification:)), name: Notification.Name("CurrentCatName"), object: nil)
 		setChartConfigure()
     }
 	
-	@objc func notificationMethod(notification: Notification) {
+	@objc private func notificationMethod(notification: Notification) {
 		if notification.object != nil {
 			let newCat = notification.object as! String
 			mainCat = newCat
@@ -53,13 +53,19 @@ class DataViewController: UIViewController {
 				monthPickerView.isHidden = false
 				setNavBar()
 			}
-			navigationBar.isHidden = false
+            navigationController?.navigationBar.isHidden = false
 		} else {
 			chartView.data = nil
 			monthPickerView.isHidden = true
-			navigationBar.isHidden = true
-		}
+        }
 	}
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if !catData.isEmpty {
+            NotificationCenter.default.post(name: Notification.Name("CurrentIndex"), object: catData.index(of: catData.filter("catName == %@", mainCat!).first!))
+        }
+    }
 	
 	func selectPickerView() {
 		if monthPickerView.numberOfComponents > 0 && monthPickerView.numberOfRows(inComponent: 0) > 0 {
@@ -72,7 +78,7 @@ class DataViewController: UIViewController {
 	}
 	
 	func setNavBar() {
-		navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .plain, target: self, action: #selector(showAlertForData))
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .plain, target: self, action: #selector(showAlertForData))
 
 	}
 		
