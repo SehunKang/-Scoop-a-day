@@ -79,7 +79,7 @@ class DataViewController: UIViewController {
 	
 	func setNavBar() {
         self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "list.dash"), style: .plain, target: self, action: #selector(showAlertForData))
-
+        self.tabBarController?.navigationItem.leftBarButtonItem = nil
 	}
 		
 	func setListOfYearAndMonth(from catName: String) {

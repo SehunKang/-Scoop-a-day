@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2E353AD227589F2700F4F8A2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E353AD427589F2700F4F8A2 /* InfoPlist.strings */; };
+		2E36F860276F2B10002C986B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2E36F85F276F2B10002C986B /* SnapKit */; };
+		2E36F864276F496F002C986B /* InfoTableVIewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E36F863276F496F002C986B /* InfoTableVIewController.swift */; };
 		2E94FE0D2768D1D300A6BAA1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E94FE0C2768D1D300A6BAA1 /* GoogleService-Info.plist */; };
 		2EDED26027476FD8006C38DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED25F27476FD8006C38DF /* AppDelegate.swift */; };
 		2EDED26227476FD8006C38DF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED26127476FD8006C38DF /* SceneDelegate.swift */; };
@@ -43,6 +45,7 @@
 		2E353AD327589F2700F4F8A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2E353AD527589F2900F4F8A2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		2E353AD627589F2900F4F8A2 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2E36F863276F496F002C986B /* InfoTableVIewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableVIewController.swift; sourceTree = "<group>"; };
 		2E94FE0C2768D1D300A6BAA1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2EDED25C27476FD8006C38DF /* ReleaseProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReleaseProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EDED25F27476FD8006C38DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +83,7 @@
 				2EDED2A6274A7F46006C38DF /* RealmSwift in Frameworks */,
 				2EDED2B7274FB1B0006C38DF /* Charts in Frameworks */,
 				2EDED2A4274A7F46006C38DF /* Realm in Frameworks */,
+				2E36F860276F2B10002C986B /* SnapKit in Frameworks */,
 				FA3B1FFDB55D9D4D79085581 /* Pods_ReleaseProject.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -134,6 +138,7 @@
 				2EDED29E274A58BC006C38DF /* Home.storyboard */,
 				2EDED27C2747858B006C38DF /* HomeViewController.swift */,
 				2EDED2AF274CCC3B006C38DF /* MainCollectionViewCell.swift */,
+				2E36F863276F496F002C986B /* InfoTableVIewController.swift */,
 				2EDED2B0274CCC3B006C38DF /* MainCollectionViewCell.xib */,
 				2EDED2AB274CCBB7006C38DF /* CreateNewCatCollectionViewCell.swift */,
 				2EDED2AC274CCBB7006C38DF /* CreateNewCatCollectionViewCell.xib */,
@@ -207,6 +212,7 @@
 				2EDED2A3274A7F46006C38DF /* Realm */,
 				2EDED2A5274A7F46006C38DF /* RealmSwift */,
 				2EDED2B6274FB1B0006C38DF /* Charts */,
+				2E36F85F276F2B10002C986B /* SnapKit */,
 			);
 			productName = ReleaseProject;
 			productReference = 2EDED25C27476FD8006C38DF /* ReleaseProject.app */;
@@ -241,6 +247,7 @@
 			packageReferences = (
 				2EDED2A2274A7F45006C38DF /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 				2EDED2B5274FB1AF006C38DF /* XCRemoteSwiftPackageReference "Charts" */,
+				2E36F85E276F2B10002C986B /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 2EDED25D27476FD8006C38DF /* Products */;
 			projectDirPath = "";
@@ -341,6 +348,7 @@
 				2EDED281274A51F8006C38DF /* CalendarViewController.swift in Sources */,
 				2EDED2A1274A7EB0006C38DF /* RealmModel.swift in Sources */,
 				2EDED2AD274CCBB7006C38DF /* CreateNewCatCollectionViewCell.swift in Sources */,
+				2E36F864276F496F002C986B /* InfoTableVIewController.swift in Sources */,
 				2EDED2A8274B6E3A006C38DF /* RealmService.swift in Sources */,
 				2EDED26027476FD8006C38DF /* AppDelegate.swift in Sources */,
 				2EDED26227476FD8006C38DF /* SceneDelegate.swift in Sources */,
@@ -605,6 +613,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2E36F85E276F2B10002C986B /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		2EDED2A2274A7F45006C38DF /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-cocoa.git";
@@ -624,6 +640,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2E36F85F276F2B10002C986B /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2E36F85E276F2B10002C986B /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
 		2EDED2A3274A7F46006C38DF /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2EDED2A2274A7F45006C38DF /* XCRemoteSwiftPackageReference "realm-cocoa" */;

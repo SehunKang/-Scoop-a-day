@@ -13,8 +13,6 @@ class HomeViewController: UIViewController {
 	var catData: Results<CatData>!
 	
 	@IBOutlet weak var collectionView: UICollectionView!
-	
-//	@IBOutlet weak var navigationBar: UINavigationBar!
 	@IBOutlet weak var pageController: UIPageControl!
 	
 	override func viewDidLoad() {
@@ -102,7 +100,9 @@ class HomeViewController: UIViewController {
         } else {
             tabBarController?.navigationItem.rightBarButtonItem = nil
         }
-	}
+        tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "info.circle"), style: .plain, target: self, action: #selector(showSideMenu(_:)))
+        tabBarController?.navigationItem.backButtonTitle = "Back"
+    }
 	
 	@objc func showActionSheet(_ sender: UIBarButtonItem) {
 		let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -126,6 +126,14 @@ class HomeViewController: UIViewController {
 		alert.addAction(cancel)
 		self.present(alert, animated: true, completion: nil)
 	}
+    
+    @objc func showSideMenu(_ sender: UIBarButtonItem) {
+        let vc = InfoTableVIewController()
+        let backItem = UIBarButtonItem()
+        backItem.title = "Back"
+        navigationItem.backBarButtonItem = backItem
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 	
 	
 	func adjustCount() {
@@ -149,6 +157,7 @@ class HomeViewController: UIViewController {
 		cell.potatoMinusButton.addTarget(self, action: #selector(potatoMinusButtonClicked(_:)), for: .touchUpInside)
 		cell.doneButton.addTarget(self, action: #selector(doneButtonClicked(_:)), for: .touchUpInside)
         tabBarController?.navigationItem.rightBarButtonItem?.isEnabled = false
+        tabBarController?.navigationItem.leftBarButtonItem?.isEnabled = false
 		tabBarController?.tabBar.items![1].isEnabled = false
 		collectionView.isScrollEnabled = false
 		collectionView.reloadData()
@@ -167,6 +176,7 @@ class HomeViewController: UIViewController {
 		cell.potatoButton.isEnabled = true
 		cell.eventButton.isEnabled = true
         tabBarController?.navigationItem.rightBarButtonItem?.isEnabled = true
+        tabBarController?.navigationItem.leftBarButtonItem?.isEnabled = true
 		tabBarController?.tabBar.items![1].isEnabled = true
 		collectionView.isScrollEnabled = true
 		collectionView.reloadData()
