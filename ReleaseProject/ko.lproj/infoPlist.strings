@@ -6,4 +6,4 @@
   
 */
 "CFBundleDisplayName" = "감자밭";
-"NSUserTrackingUsageDescription" = "앱의 개선을 위해 사용됩니다.";
+"NSUserTrackingUsageDescription" = "애플리케이션의 충돌 데이터와 인앱 활동이 활용되며 이는 애플리케이션의 기능과 사용자 경험의 개선을 위해 사용됩니다.";

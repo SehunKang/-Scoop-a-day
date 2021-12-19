@@ -6,4 +6,4 @@
   
 */
 "CFBundleDisplayName" = "Scoop a Day";
-"NSUserTrackingUsageDescription" = "It will be used to improve the app.";
+"NSUserTrackingUsageDescription" = "Crash data and in-app activity data will be used to improve the functionalities of this app and user experience.";
