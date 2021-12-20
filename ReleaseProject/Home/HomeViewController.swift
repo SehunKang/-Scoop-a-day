@@ -156,8 +156,8 @@ class HomeViewController: UIViewController {
 		cell.potatoPlusButton.addTarget(self, action: #selector(potatoButtonClicked(_:)), for: .touchUpInside)
 		cell.potatoMinusButton.addTarget(self, action: #selector(potatoMinusButtonClicked(_:)), for: .touchUpInside)
 		cell.doneButton.addTarget(self, action: #selector(doneButtonClicked(_:)), for: .touchUpInside)
-        tabBarController?.navigationItem.rightBarButtonItem?.isEnabled = false
-        tabBarController?.navigationItem.leftBarButtonItem?.isEnabled = false
+        //isenabled가 안됨. 바버튼아이템의 흐려지는 기능을 수동으로 추가해야하나?
+        tabBarController?.navigationController?.navigationBar.isUserInteractionEnabled = false
 		tabBarController?.tabBar.items![1].isEnabled = false
 		collectionView.isScrollEnabled = false
 		collectionView.reloadData()
@@ -175,9 +175,8 @@ class HomeViewController: UIViewController {
 		cell.poopButton.isEnabled = true
 		cell.potatoButton.isEnabled = true
 		cell.eventButton.isEnabled = true
-        tabBarController?.navigationItem.rightBarButtonItem?.isEnabled = true
-        tabBarController?.navigationItem.leftBarButtonItem?.isEnabled = true
-		tabBarController?.tabBar.items![1].isEnabled = true
+        tabBarController?.navigationController?.navigationBar.isUserInteractionEnabled = true
+        tabBarController?.tabBar.items![1].isEnabled = true
 		collectionView.isScrollEnabled = true
 		collectionView.reloadData()
 	}
