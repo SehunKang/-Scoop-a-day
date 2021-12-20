@@ -22,3 +22,4 @@
 "cat_already_exist" = "같은 이름의 고양이가 있습니다.";
 "opensource_license" = "오픈소스 라이센스";
 "version" = "버전";
+"infoView_title" = "앱 정보";

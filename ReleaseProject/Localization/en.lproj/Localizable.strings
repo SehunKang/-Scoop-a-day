@@ -22,3 +22,4 @@
 "cat_already_exist" = "There's already a cat with the same name.";
 "opensource_license" = "Opensource license";
 "version" = "Version";
+"infoView_title" = "Info";

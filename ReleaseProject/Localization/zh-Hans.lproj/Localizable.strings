@@ -20,5 +20,6 @@
 "poop" = "大便";
 "urine" = "小便";
 "cat_already_exist" = "已经有同名的猫咪";
-"opensource_license" = "Open-source license";
-"version" = "Version";
+"opensource_license" = "开源许可证";
+"version" = "版本";
+"infoView_title" = "信息";
