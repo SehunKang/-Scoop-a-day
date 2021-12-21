@@ -29,9 +29,12 @@ class HomeViewController: UIViewController {
 		pageController.pageIndicatorTintColor = .systemGray4
 		pageController.currentPageIndicatorTintColor = .systemGray
 		pageController.numberOfPages = catData.count
+        collectionView.backgroundColor = .green
         
         setNavBarTitleAsCatNameFromCollectionView()
         NotificationCenter.default.addObserver(self, selector: #selector(notificationMethod(notification:)), name: Notification.Name("CurrentIndex"), object: nil)
+        //이걸 안해주면 셀 크기가 조금 작아지는데 왜인지 모르겠다.
+        collectionView.reloadData()
 
         //		realmtest()
     }
@@ -231,9 +234,8 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 	
-	
 	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
+        return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
 	}
 	
 	func numberOfSections(in collectionView: UICollectionView) -> Int {

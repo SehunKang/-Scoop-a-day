@@ -6,25 +6,35 @@
 //
 
 import UIKit
+import SnapKit
 
 class MainCollectionViewCell: UICollectionViewCell {
 	
 	static let identifier = "MainCollectionViewCell"
 
 	@IBOutlet weak var catButton: UIButton!
-	
+    
 	@IBOutlet weak var poopButton: UIButton!
 	@IBOutlet weak var potatoButton: UIButton!
 	@IBOutlet weak var eventButton: UIButton!
-	
 	@IBOutlet weak var poopMinusButton: UIButton!
 	@IBOutlet weak var poopPlusButton: UIButton!
 	@IBOutlet weak var potatoMinusButton: UIButton!
 	@IBOutlet weak var potatoPlusButton: UIButton!
 	@IBOutlet weak var doneButton: UIButton!
-	
 	@IBOutlet weak var poopCountLabel: UILabel!
 	@IBOutlet weak var potatoCountLabel: UILabel!
+//    let poopButton = UIButton()
+//    let potatoButton = UIButton()
+//    let eventButton = UIButton()
+//    let poopMinusButton = UIButton()
+//    let poopPlusButton = UIButton()
+//    let potatoMinusButton = UIButton()
+//    let potatoPlusButton = UIButton()
+//    let doneButton = UIButton()
+//    let poopCountLabel = UILabel()
+//    let potatoCountLabel = UILabel()
+
 	
 	let catImage = UIImageView()
 	
@@ -33,6 +43,8 @@ class MainCollectionViewCell: UICollectionViewCell {
 		
 		///다음버전에서 대응 예정
 		eventButton.isHidden = true
+//        [poopButton, potatoButton, eventButton, eventButton, poopMinusButton, poopPlusButton, potatoMinusButton, potatoPlusButton, doneButton, poopCountLabel, potatoCountLabel]
+        
 		
 		poopCountLabel.textColor = .label
 		potatoCountLabel.textColor = .label
@@ -40,6 +52,7 @@ class MainCollectionViewCell: UICollectionViewCell {
 		catButton.setTitle("", for: .normal)
 		catImage.frame = CGRect(x: 0, y: 0, width: catButton.frame.width, height: catButton.frame.height)
 		catImage.contentMode = .scaleAspectFit
+        catImage.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		catButton.addSubview(catImage)
 		
 		let poopView = UIImageView(image: UIImage(named: "peanut"))
@@ -58,9 +71,13 @@ class MainCollectionViewCell: UICollectionViewCell {
 		
 		
 		poopMinusButton.setTitle("", for: .normal)
+        poopMinusButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		poopPlusButton.setTitle("", for: .normal)
+        poopPlusButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		potatoMinusButton.setTitle("", for: .normal)
+        potatoMinusButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		potatoPlusButton.setTitle("", for: .normal)
+        potatoPlusButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		doneButton.setTitle("done".localized(withComment: "done button"), for: .normal)
 		
 		poopPlusButton.isHidden = true

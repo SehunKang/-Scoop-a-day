@@ -140,9 +140,9 @@
 				2EDED29E274A58BC006C38DF /* Home.storyboard */,
 				2EDED27C2747858B006C38DF /* HomeViewController.swift */,
 				2EDED2AF274CCC3B006C38DF /* MainCollectionViewCell.swift */,
+				2EDED2B0274CCC3B006C38DF /* MainCollectionViewCell.xib */,
 				2E36F863276F496F002C986B /* InfoTableVIewController.swift */,
 				2E36F86A27704B97002C986B /* OpensourceList.swift */,
-				2EDED2B0274CCC3B006C38DF /* MainCollectionViewCell.xib */,
 				2EDED2AB274CCBB7006C38DF /* CreateNewCatCollectionViewCell.swift */,
 				2EDED2AC274CCBB7006C38DF /* CreateNewCatCollectionViewCell.xib */,
 			);

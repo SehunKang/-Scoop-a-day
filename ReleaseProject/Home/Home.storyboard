@@ -19,6 +19,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="i7A-hV-aHd">
+                                <rect key="frame" x="149.5" y="739" width="115.5" height="26"/>
+                            </pageControl>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" prefetchingEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4I-x9-RNk">
                                 <rect key="frame" x="0.0" y="157" width="414" height="582"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -39,15 +42,12 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="i7A-hV-aHd">
-                                <rect key="frame" x="149.5" y="739" width="115.5" height="26"/>
-                            </pageControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="i7A-hV-aHd" firstAttribute="top" secondItem="G4I-x9-RNk" secondAttribute="bottom" id="3f5-5D-TJi"/>
                             <constraint firstItem="G4I-x9-RNk" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="611-Ec-sqS"/>
-                            <constraint firstItem="i7A-hV-aHd" firstAttribute="top" secondItem="G4I-x9-RNk" secondAttribute="bottom" id="SEr-yY-Bqc"/>
                             <constraint firstItem="G4I-x9-RNk" firstAttribute="height" secondItem="5EZ-qb-Rvc" secondAttribute="height" multiplier="0.65" id="UhD-EQ-3sQ"/>
                             <constraint firstItem="i7A-hV-aHd" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="b11-2f-PuG"/>
                             <constraint firstItem="G4I-x9-RNk" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="bUO-hO-Uqe"/>
