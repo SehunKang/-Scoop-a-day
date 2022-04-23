@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import Differentiator
 
 class CatData: Object {
 	
@@ -16,12 +17,19 @@ class CatData: Object {
 	@Persisted var numForImage = Int.random(in: 2...6)
 	
 	@Persisted(primaryKey: true) var _id: ObjectId
-	
+    
+    	
 	convenience init(catName: String) {
 		self.init()
 		
 		self.catName = catName
 	}
+}
+
+extension CatData: IdentifiableType {
+    var identity: ObjectId {
+        return self._id
+    }
 }
 
 class DailyData: Object {

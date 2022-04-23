@@ -1,4 +1,3 @@
-source 'https://github.com/CocoaPods/Specs.git'
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
@@ -7,8 +6,25 @@ target 'ReleaseProject' do
   use_frameworks!
 
   # Pods for ReleaseProject
-  pod 'Firebase/Analytics'
-  pod 'Firebase/Crashlytics'
-  pod 'Firebase/Messaging'
+	pod 'Realm'
+	pod 'RealmSwift'
+	pod 'RxSwift'
+	pod 'RxCocoa'
+	pod 'RxRealm'
+	pod 'RxRelay'
+	pod 'RxDataSources'
+	pod 'Firebase/Analytics'
+	pod 'Firebase/Crashlytics'
+	pod 'Action'
+	pod 'Charts'
+	pod 'SnapKit'
+
+  target 'ReleaseProjectTests' do
+    inherit! :search_paths
+    # Pods for testing
+	
+	pod 'RxTest'
+	pod 'RxBlocking'
+  end
 
 end
