@@ -11,7 +11,8 @@
 		2E36F864276F496F002C986B /* InfoTableVIewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E36F863276F496F002C986B /* InfoTableVIewController.swift */; };
 		2E36F86B27704B97002C986B /* OpensourceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E36F86A27704B97002C986B /* OpensourceList.swift */; };
 		2E39C440280ACE7500905D20 /* ReleaseProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E39C43F280ACE7500905D20 /* ReleaseProjectTests.swift */; };
-		2E42A64427FC634E00C78137 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E42A64327FC634E00C78137 /* MainViewModel.swift */; };
+		2E42A64427FC634E00C78137 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E42A64327FC634E00C78137 /* HomeViewModel.swift */; };
+		2E616D4C2816BD2B001F86F3 /* LocalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E616D4B2816BD2B001F86F3 /* LocalizationService.swift */; };
 		2E94FE0D2768D1D300A6BAA1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E94FE0C2768D1D300A6BAA1 /* GoogleService-Info.plist */; };
 		2EB5F9E62812892400C880E6 /* MainViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5F9E52812892400C880E6 /* MainViewModelTest.swift */; };
 		2EB5F9E82812892C00C880E6 /* RealmServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5F9E72812892C00C880E6 /* RealmServiceTest.swift */; };
@@ -26,7 +27,6 @@
 		2EDED283274A5238006C38DF /* Data.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EDED282274A5238006C38DF /* Data.storyboard */; };
 		2EDED285274A5241006C38DF /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED284274A5241006C38DF /* DataViewController.swift */; };
 		2EDED28D274A52AF006C38DF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2EDED28F274A52AF006C38DF /* Localizable.strings */; };
-		2EDED29F274A58BC006C38DF /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EDED29E274A58BC006C38DF /* Home.storyboard */; };
 		2EDED2A1274A7EB0006C38DF /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED2A0274A7EAF006C38DF /* RealmModel.swift */; };
 		2EDED2A8274B6E3A006C38DF /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED2A7274B6E3A006C38DF /* RealmService.swift */; };
 		2EDED2AA274BCAA9006C38DF /* Extension+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED2A9274BCAA9006C38DF /* Extension+Date.swift */; };
@@ -60,7 +60,8 @@
 		2E36F86A27704B97002C986B /* OpensourceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpensourceList.swift; sourceTree = "<group>"; };
 		2E39C43D280ACE7500905D20 /* ReleaseProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReleaseProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E39C43F280ACE7500905D20 /* ReleaseProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseProjectTests.swift; sourceTree = "<group>"; };
-		2E42A64327FC634E00C78137 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		2E42A64327FC634E00C78137 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		2E616D4B2816BD2B001F86F3 /* LocalizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationService.swift; sourceTree = "<group>"; };
 		2E94FE0C2768D1D300A6BAA1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2EB5F9E52812892400C880E6 /* MainViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelTest.swift; sourceTree = "<group>"; };
 		2EB5F9E72812892C00C880E6 /* RealmServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmServiceTest.swift; sourceTree = "<group>"; };
@@ -79,7 +80,6 @@
 		2EDED28E274A52AF006C38DF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2EDED290274A52B3006C38DF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		2EDED291274A52B6006C38DF /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
-		2EDED29E274A58BC006C38DF /* Home.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		2EDED2A0274A7EAF006C38DF /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
 		2EDED2A7274B6E3A006C38DF /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		2EDED2A9274BCAA9006C38DF /* Extension+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Date.swift"; sourceTree = "<group>"; };
@@ -129,7 +129,7 @@
 		2E42A64227FC1EB100C78137 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				2E42A64327FC634E00C78137 /* MainViewModel.swift */,
+				2E42A64327FC634E00C78137 /* HomeViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -160,7 +160,6 @@
 				2E42A64227FC1EB100C78137 /* ViewModels */,
 				2EDED25F27476FD8006C38DF /* AppDelegate.swift */,
 				2EDED26127476FD8006C38DF /* SceneDelegate.swift */,
-				2EDED26527476FD8006C38DF /* Main.storyboard */,
 				2EDED2A0274A7EAF006C38DF /* RealmModel.swift */,
 				2EDED2A7274B6E3A006C38DF /* RealmService.swift */,
 				2EDED2A9274BCAA9006C38DF /* Extension+Date.swift */,
@@ -170,6 +169,7 @@
 				2EDED27427478048006C38DF /* Calendar */,
 				2EDED27527478054006C38DF /* Data */,
 				2EDED26827476FDA006C38DF /* Assets.xcassets */,
+				2EDED26527476FD8006C38DF /* Main.storyboard */,
 				2EDED26A27476FDA006C38DF /* LaunchScreen.storyboard */,
 				2EDED26D27476FDA006C38DF /* Info.plist */,
 				2E94FE0C2768D1D300A6BAA1 /* GoogleService-Info.plist */,
@@ -181,7 +181,6 @@
 		2EDED27327478032006C38DF /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				2EDED29E274A58BC006C38DF /* Home.storyboard */,
 				2EDED27C2747858B006C38DF /* HomeViewController.swift */,
 				2EDED2AF274CCC3B006C38DF /* MainCollectionViewCell.swift */,
 				2EDED2B0274CCC3B006C38DF /* MainCollectionViewCell.xib */,
@@ -215,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				2EDED28F274A52AF006C38DF /* Localizable.strings */,
+				2E616D4B2816BD2B001F86F3 /* LocalizationService.swift */,
 			);
 			path = Localization;
 			sourceTree = "<group>";
@@ -341,7 +341,6 @@
 				2EDED26927476FDA006C38DF /* Assets.xcassets in Resources */,
 				2EDED28D274A52AF006C38DF /* Localizable.strings in Resources */,
 				2EDED26727476FD8006C38DF /* Main.storyboard in Resources */,
-				2EDED29F274A58BC006C38DF /* Home.storyboard in Resources */,
 				2E94FE0D2768D1D300A6BAA1 /* GoogleService-Info.plist in Resources */,
 				2EDED2792747855F006C38DF /* Calendar.storyboard in Resources */,
 				2E353AD227589F2700F4F8A2 /* InfoPlist.strings in Resources */,
@@ -474,8 +473,9 @@
 				2EDED26027476FD8006C38DF /* AppDelegate.swift in Sources */,
 				2EDED26227476FD8006C38DF /* SceneDelegate.swift in Sources */,
 				2EDED2AA274BCAA9006C38DF /* Extension+Date.swift in Sources */,
-				2E42A64427FC634E00C78137 /* MainViewModel.swift in Sources */,
+				2E42A64427FC634E00C78137 /* HomeViewModel.swift in Sources */,
 				2EDED2B4274CF5A7006C38DF /* Extension+String.swift in Sources */,
+				2E616D4C2816BD2B001F86F3 /* LocalizationService.swift in Sources */,
 				2EDED2B1274CCC3B006C38DF /* MainCollectionViewCell.swift in Sources */,
 				2EDED285274A5241006C38DF /* DataViewController.swift in Sources */,
 				2EDED27D2747858B006C38DF /* HomeViewController.swift in Sources */,

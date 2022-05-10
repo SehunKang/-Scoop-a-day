@@ -21,59 +21,55 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DZj-BC-dmp">
                         <rect key="frame" x="0.0" y="0.0" width="374" height="512"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ox8-1q-goe">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ox8-1q-goe">
                                 <rect key="frame" x="93.5" y="30" width="187" height="307"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="cat1"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fcm-bf-ihQ">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fcm-bf-ihQ">
                                 <rect key="frame" x="233" y="365" width="75" height="75"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="potato"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5DE-XF-S9B">
-                                <rect key="frame" x="285" y="50" width="39" height="49.5"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="exclamationmark" catalog="system">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30"/>
-                                </buttonConfiguration>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QjJ-iY-CWA">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QjJ-iY-CWA">
                                 <rect key="frame" x="66" y="365" width="75" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="QjJ-iY-CWA" secondAttribute="height" multiplier="1:1" id="cRb-oK-FHL"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="peanut"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOP-3G-Sno">
-                                <rect key="frame" x="15" y="383.5" width="51" height="38"/>
+                                <rect key="frame" x="11" y="383.5" width="55" height="38"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="minus" catalog="system">
+                                <buttonConfiguration key="configuration" style="plain" image="minus" catalog="system" title=" ">
                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20"/>
                                 </buttonConfiguration>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0U9-3J-uja">
-                                <rect key="frame" x="141" y="383.5" width="51" height="38"/>
+                                <rect key="frame" x="141" y="383.5" width="55" height="38"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Button" image="plus" catalog="system">
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20"/>
                                 </state>
-                                <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system">
+                                <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" title=" ">
                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20"/>
                                 </buttonConfiguration>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3bU-dR-k5A">
-                                <rect key="frame" x="308" y="383.5" width="51" height="38"/>
+                                <rect key="frame" x="308" y="383.5" width="55" height="38"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system">
+                                <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" title=" ">
                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20"/>
                                 </buttonConfiguration>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FXF-IS-NV6">
-                                <rect key="frame" x="182" y="383.5" width="51" height="38"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="minus" catalog="system">
+                                <rect key="frame" x="178" y="383.5" width="55" height="38"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="minus" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="20"/>
+                                </state>
+                                <buttonConfiguration key="configuration" style="plain" image="minus" catalog="system" title=" ">
                                     <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="20"/>
                                 </buttonConfiguration>
                             </button>
@@ -86,7 +82,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Button"/>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lCt-Zg-XJX">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lCt-Zg-XJX">
                                 <rect key="frame" x="84.5" y="342" width="37.5" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="naH-TW-ugq"/>
@@ -95,7 +91,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fc8-ri-wlp">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fc8-ri-wlp">
                                 <rect key="frame" x="252" y="342" width="37.5" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="k42-Jq-2Yj"/>
@@ -112,12 +108,10 @@
                             <constraint firstItem="fcm-bf-ihQ" firstAttribute="top" secondItem="fc8-ri-wlp" secondAttribute="bottom" constant="3" id="5EF-VE-3cO"/>
                             <constraint firstItem="QjJ-iY-CWA" firstAttribute="width" secondItem="DZj-BC-dmp" secondAttribute="width" multiplier="0.2" id="5jU-ew-qsB"/>
                             <constraint firstItem="lCt-Zg-XJX" firstAttribute="width" secondItem="QjJ-iY-CWA" secondAttribute="width" multiplier="0.5" id="5yG-lv-QZ7"/>
-                            <constraint firstAttribute="trailing" secondItem="5DE-XF-S9B" secondAttribute="trailing" constant="50" id="6pz-BK-Ayw"/>
                             <constraint firstItem="QjJ-iY-CWA" firstAttribute="top" secondItem="lCt-Zg-XJX" secondAttribute="bottom" constant="3" id="Al2-vK-qBV"/>
                             <constraint firstAttribute="trailing" secondItem="fcm-bf-ihQ" secondAttribute="trailing" constant="66" id="AsI-Kb-dMZ"/>
                             <constraint firstItem="fc8-ri-wlp" firstAttribute="width" secondItem="fcm-bf-ihQ" secondAttribute="width" multiplier="0.5" id="Ex8-Up-ScH"/>
                             <constraint firstItem="ox8-1q-goe" firstAttribute="height" secondItem="DZj-BC-dmp" secondAttribute="height" multiplier="0.6" id="FNb-ib-5Id"/>
-                            <constraint firstItem="5DE-XF-S9B" firstAttribute="top" secondItem="DZj-BC-dmp" secondAttribute="top" constant="50" id="FoU-9V-6CD"/>
                             <constraint firstItem="0U9-3J-uja" firstAttribute="leading" secondItem="QjJ-iY-CWA" secondAttribute="trailing" id="FwN-ra-pbZ"/>
                             <constraint firstItem="QjJ-iY-CWA" firstAttribute="leading" secondItem="FOP-3G-Sno" secondAttribute="trailing" id="Grq-nZ-W8v"/>
                             <constraint firstItem="fc8-ri-wlp" firstAttribute="centerX" secondItem="fcm-bf-ihQ" secondAttribute="centerX" id="Of7-Yb-J1B"/>
@@ -151,7 +145,6 @@
             <connections>
                 <outlet property="catButton" destination="ox8-1q-goe" id="Pll-z0-mbf"/>
                 <outlet property="doneButton" destination="SxG-1B-cd5" id="djd-Eo-kFa"/>
-                <outlet property="eventButton" destination="5DE-XF-S9B" id="AuK-EA-r0i"/>
                 <outlet property="poopButton" destination="QjJ-iY-CWA" id="Vft-7I-csH"/>
                 <outlet property="poopCountLabel" destination="lCt-Zg-XJX" id="dqZ-bi-DOk"/>
                 <outlet property="poopMinusButton" destination="FOP-3G-Sno" id="sYS-J6-WQ8"/>
@@ -165,9 +158,11 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="exclamationmark" catalog="system" width="46" height="128"/>
+        <image name="cat1" width="136.5" height="309"/>
         <image name="minus" catalog="system" width="128" height="24"/>
+        <image name="peanut" width="257" height="287.5"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="potato" width="249" height="235"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -17,7 +17,6 @@ class CatData: Object {
 	@Persisted var numForImage = Int.random(in: 2...6)
 	
 	@Persisted(primaryKey: true) var _id: ObjectId
-    
     	
 	convenience init(catName: String) {
 		self.init()
@@ -27,8 +26,8 @@ class CatData: Object {
 }
 
 extension CatData: IdentifiableType {
-    var identity: ObjectId {
-        return self._id
+    var identity: String {
+        return self.isInvalidated ? "deleted-object" : _id.stringValue
     }
 }
 

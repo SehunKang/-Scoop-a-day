@@ -7,63 +7,157 @@
 
 import UIKit
 
+import RealmSwift
+
 import RxSwift
 import RxCocoa
 import Action
 import RxDataSources
+
+
+//새 데이터가 생성될 때 자동으로 스크롤 할 수 있게 하기 위해 만든 클래스.
+final class CustomRxCollectionViewSectionedAnimatedDataSource<S: AnimatableSectionModelType>: RxCollectionViewSectionedAnimatedDataSource<S> {
+    private let itemCount = PublishSubject<Int>()
+    private let bag = DisposeBag()
+    
+    override func collectionView(_ collectionView: UICollectionView, observedEvent: Event<RxCollectionViewSectionedAnimatedDataSource<S>.Element>) {
+        super.collectionView(collectionView, observedEvent: observedEvent)
+        
+        itemCount.on(.next(collectionView.numberOfItems(inSection: 0)))
+        
+        
+        Observable.zip(itemCount, itemCount.skip(1)) { prev, new -> Int? in
+            print("prev = \(prev), new = \(new)")
+            if new > prev {
+                return new
+            } else {
+                return nil
+            }
+        }
+        .subscribe { count in
+            guard let result = count.element else {return}
+            guard let count = result else {return}
+            collectionView.scrollToItem(at: IndexPath(item: count - 1, section: 0), at: .centeredHorizontally, animated: true)
+        }
+        .disposed(by: bag)
+        
+    }
+    
+}
 
 class HomeViewController: UIViewController {
 
 	@IBOutlet weak var collectionView: UICollectionView!
 	@IBOutlet weak var pageController: UIPageControl!
     
-//    let viewModel = MainViewModel(realmService: RealmService)
-//
-//    var dataSource: RxCollectionViewSectionedAnimatedDataSource<AnimatableSectionModel<String, CatData>>!
+    @IBOutlet weak var modifyingTestButton: UIButton!
+    @IBOutlet weak var newCatButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
+    
+    @IBOutlet weak var testLabel: UILabel!
+    //이게 맞는 방법일까?
+    let viewModel = HomeViewModel(realmService: RealmService())
+    
+    let bag = DisposeBag()
+
+    var dataSource: CustomRxCollectionViewSectionedAnimatedDataSource<TaskSection>!
+    
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
 
-//		collectionView.dataSource = self
-//		collectionView.delegate = self
-//		registerXib()
-//
-//		let realm = RealmService.shared.realm
-//		catData = realm.objects(CatData.self).sorted(byKeyPath: "createDate", ascending: true)
-//
-//		pageController.hidesForSinglePage = true
-//		pageController.pageIndicatorTintColor = .systemGray4
-//		pageController.currentPageIndicatorTintColor = .systemGray
-//		pageController.numberOfPages = catData.count
-//        collectionView.backgroundColor = .green
-//
+		registerXib()
+        configureDataSource()
+
+        bindViewModel()
 //        setNavBarTitleAsCatNameFromCollectionView()
-//        NotificationCenter.default.addObserver(self, selector: #selector(notificationMethod(notification:)), name: Notification.Name("CurrentIndex"), object: nil)
-//        //이걸 안해주면 셀 크기가 조금 작아지는데 왜인지 모르겠다.
-//        collectionView.reloadData()
+        
     }
-//
-//    private func configureDataSource() {
-//        dataSource = RxCollectionViewSectionedAnimatedDataSource<AnimatableSectionModel<String, CatData>>(configureCell: { dataSource, collectionView, indexPath, item in
-//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as! MainCollectionViewCell
-//
-//        })
-//    }
-//
-//
-//
-//    @objc private func notificationMethod(notification: Notification) {
-//        if notification.object != nil {
-//            let index = notification.object as! Int
-//            self.collectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .centeredHorizontally, animated: true)
-//        }
-//    }
-//
-//	func registerXib() {
+    
+    
+    func registerXib() {
 //		self.collectionView.register(UINib(nibName: CreateNewCatCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: CreateNewCatCollectionViewCell.identifier)
-//
-//		self.collectionView.register(UINib(nibName: MainCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: MainCollectionViewCell.identifier)
-//	}
+
+        collectionView.register(UINib(nibName: MainCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: MainCollectionViewCell.identifier)
+        
+        collectionView.rx.setDelegate(self)
+            .disposed(by: bag)
+        
+        
+    }
+    
+    func bindViewModel() {
+        //MARK: bind for collectionView
+        let items = viewModel.sectionItems
+        
+        items.bind(to: collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: bag)
+        
+        //MARK: bind for Action
+        let newCatAction = viewModel.createCat()
+        
+        newCatButton.rx.bind(to: newCatAction, input: "test")
+        
+        newCatAction.elements.subscribe { _ in}
+            .disposed(by: bag)
+
+        let catCount = viewModel.numberOfCats
+        
+        //MARK: bind for UI
+        catCount
+            .bind(to: pageController.rx.numberOfPages)
+            .disposed(by: bag)
+        
+        let currentIndexOfCat = BehaviorSubject<Int>(value: 0)
+        
+        collectionView.rx.didScroll
+            .map {[weak self] Void -> Int in
+                guard let self = self else {return 0}
+                let offSet = self.collectionView.contentOffset.x
+                let width = self.collectionView.frame.width
+                let horizontalCenter = width / 2
+                let count = Int(offSet + horizontalCenter) / Int(width)
+                return count
+            }
+            .bind(to: currentIndexOfCat)
+            .disposed(by: bag)
+        
+        
+        currentIndexOfCat.bind(to: pageController.rx.currentPage)
+            .disposed(by: bag)
+        
+        deleteButton.rx.action = viewModel.deleteCat(indexOfCat: 0)
+        
+        
+                
+            
+    }
+    
+    func configureDataSource() {
+        
+        dataSource = CustomRxCollectionViewSectionedAnimatedDataSource<TaskSection>(
+            configureCell: { [weak self] dataSource, collectionView, indexPath, item in
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as! MainCollectionViewCell
+            
+            if let self = self {
+                if item.dailyDataList.filter("date == %@", Date().removeTime()).first == nil {
+                    self.viewModel.newDailyData(of: item)
+                }
+                let dailyData = item.dailyDataList.filter("date == %@", Date().removeTime()).first!
+                
+                cell.configure(with: dailyData, buttonAction: self.viewModel.buttonClicked(cat: item), modifyingEvent: self.modifyingTestButton.rx.tap)
+                
+                cell.isModifying()
+                    .bind { self.testLabel.text = "\(!$0)"}
+                    .disposed(by: cell.bag)
+            }
+            
+            return cell
+            })
+        
+        
+    }
 //
 //	func setNavBar() {
 //		if catData.count > 0 {
@@ -198,6 +292,17 @@ class HomeViewController: UIViewController {
 //		pageController.numberOfPages -= 1
 //		setNavBarTitleAsCatNameFromCollectionView()
 //	}
+}
+
+extension HomeViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
+    }
+    
+    
+
 }
 
 //extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {

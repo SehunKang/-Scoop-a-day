@@ -10,9 +10,9 @@ import Foundation
 import Action
 import RxSwift
 import RxDataSources
+
 import RealmSwift
 
-typealias TaskSection = AnimatableSectionModel<String, CatData>
 
 enum ButtonType {
     case poop
@@ -40,41 +40,69 @@ enum ButtonType {
     }
 }
 
-class MainViewModel {
+typealias TaskSection = AnimatableSectionModel<String, CatData>
+
+class HomeViewModel {
     
-    let realmService: RealmServiceType
+    private let realmService: RealmServiceType
     
     init(realmService: RealmServiceType) {
         self.realmService = realmService
     }
     
     //RxDataSource에 CatData Object를 전달한다.
-    var sectionItems: Observable<TaskSection> {
+    var sectionItems: Observable<[TaskSection]> {
         return self.realmService.taskOn()
             .map { results in
                 let catTasks = results
                     .sorted(byKeyPath: "createDate", ascending: true)
                 
-                return TaskSection(model: "catData", items: catTasks.toArray())
+                return [TaskSection(model: "catData", items: catTasks.toArray())]
             }
     }
     
-    func createCat(name: String) -> CocoaAction {
-        return CocoaAction {
-            return self.realmService.createNewCat(catName: name).map { _ in }
+    //현재 관리하는 고양이는 몇마리인지
+    var numberOfCats: Observable<Int> {
+        return self.realmService.taskOn()
+            .map { results in
+                return results.count
+            }
+    }
+    
+    //고양이 생성
+    func createCat() -> Action<String, Int> {
+        return Action<String, Int> { name in
+            return self.realmService.createNewCat(catName: name)
         }
     }
     
+    //dailyData를 추가
+    func newDailyData(of cat: CatData) {
+        self.realmService.appendNewDailyData(of: cat)
+    }
+    
+    //고양이 삭제
     func deleteCat(cat: CatData) -> CocoaAction {
         return CocoaAction {
             return self.realmService.delete(cat: cat)
         }
     }
-    
-    func buttonClicked(cat: CatData, buttonType: ButtonType) -> CocoaAction {
+    //고양이 삭제, 인덱스로 처리
+    func deleteCat(indexOfCat: Int) -> CocoaAction {
         return CocoaAction {
+            return self.realmService.deleteIndex(index: indexOfCat)
+        }
+    }
+    
+    //컬렉션뷰 셀 안의 감자, 맛동산, 혹은 수정 버튼들에 대한 액션
+    func buttonClicked(cat: CatData) -> Action<ButtonType, Void> {
+        return Action<ButtonType, Void> { buttonType in
             let at = Date().removeTime()
             var count: Int?
+            
+            if cat.dailyDataList.filter("date == %@", at).isEmpty {
+                self.realmService.appendNewDailyData(of: cat)
+            }
             
             switch buttonType.pooOrPee {
             case .pee:
@@ -82,10 +110,13 @@ class MainViewModel {
             case .poo:
                 count = cat.dailyDataList.filter("date == %@", at).first?.poopCount
             }
+            
             guard var count = count else {
+                print("nil count value")
                 return .empty()
             }
 
+            //value가 0 미만, 99 초과일때는 RealmService에서 막아준다.
             switch buttonType {
             case .poop:
                 count += 1
@@ -94,21 +125,16 @@ class MainViewModel {
             case .poopPlus:
                 count += 1
             case .poopMinus:
-                count += 1
+                count -= 1
             case .urinePlus:
-                if count > 0 {
-                    count -= 1
-                }
+                count += 1
             case .urineMinus:
-                if count > 0 {
-                    count -= 1
-                }
+                count -= 1
             }
+    
             return self.realmService.changeCount(cat: cat, date: at, type: buttonType.pooOrPee, value: count).map {_ in}
         }
     }
     
-    
-    
-    
 }
+

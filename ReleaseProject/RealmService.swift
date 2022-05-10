@@ -20,15 +20,17 @@ enum PooOrPee {
 enum RealmServiceError: Error {
     case creationFailed
     case updateFailed(CatData)
-    case deletionFailed(CatData)
+    case deletionFailed
 }
 
 protocol RealmServiceType {
     
-    func createNewCat(catName: String) -> Observable<CatData>
+    func createNewCat(catName: String) -> Observable<Int>
+    func appendNewDailyData(of cat: CatData)
     func changeCount(cat: CatData, date: Date, type: PooOrPee, value: Int) -> Observable<CatData>
     func changeName(cat: CatData, newName: String) -> Observable<CatData>
     func delete(cat: CatData) -> Observable<Void>
+    func deleteIndex(index: Int) -> Observable<Void>
     func taskOn() -> Observable<Results<CatData>>
     
 }
@@ -45,20 +47,33 @@ struct RealmService: RealmServiceType {
         }
     }
     
-    func createNewCat(catName: String) -> Observable<CatData> {
-        let result = withRealm(#function) { realm -> Observable<CatData> in
+    func createNewCat(catName: String) -> Observable<Int> {
+        let result = withRealm(#function) { realm -> Observable<Int> in
             let catData = CatData(catName: catName)
             catData.dailyDataList.append(DailyData())
             try realm.write {
                 realm.add(catData)
             }
-            return .just(catData)
+            let resultOfTask = realm.objects(CatData.self).count
+            
+            return .just(resultOfTask)
         }
         return result ?? .error(RealmServiceError.creationFailed)
     }
     
-    //value가 음수로 오는 경우는 이곳에서 막지 않는다.
+    func appendNewDailyData(of cat: CatData) {
+        withRealm(#function) { realm in
+            try realm.write {
+                cat.dailyDataList.append(DailyData())
+            }
+        }
+    }
+    
+    //value가 음수, 99이상으로 오는 경우 이곳에서 막아준다.
     func changeCount(cat: CatData, date: Date, type: PooOrPee, value: Int) -> Observable<CatData> {
+        var value = value
+        value = value < 0 ? 0 : value
+        value = value > 99 ? 99 : value
         let result = withRealm(#function) { realm -> Observable<CatData> in
             try realm.write {
                 switch type {
@@ -90,8 +105,22 @@ struct RealmService: RealmServiceType {
             }
             return .empty()
         }
-        return result ?? .error(RealmServiceError.deletionFailed(cat))
+        return result ?? .error(RealmServiceError.deletionFailed)
     }
+    
+    func deleteIndex(index: Int) -> Observable<Void> {
+        let result = withRealm(#function) { realm -> Observable<Void> in
+            let task = realm.objects(CatData.self)
+            let cat = task.toArray()
+            if cat.count <= index { return .empty()}
+            try realm.write {
+                realm.delete(cat[index])
+            }
+            return .empty()
+        }
+        return result ?? .error(RealmServiceError.deletionFailed)
+    }
+    
     
     func taskOn() -> Observable<Results<CatData>> {
         let result = withRealm(#function) { realm -> Observable<Results<CatData>> in

@@ -6,17 +6,22 @@
 //
 
 import UIKit
+
 import SnapKit
+import RxSwift
+import RxCocoa
+import Action
 
 class MainCollectionViewCell: UICollectionViewCell {
 	
 	static let identifier = "MainCollectionViewCell"
+    
+    var bag = DisposeBag()
 
 	@IBOutlet weak var catButton: UIButton!
     
 	@IBOutlet weak var poopButton: UIButton!
 	@IBOutlet weak var potatoButton: UIButton!
-	@IBOutlet weak var eventButton: UIButton!
 	@IBOutlet weak var poopMinusButton: UIButton!
 	@IBOutlet weak var poopPlusButton: UIButton!
 	@IBOutlet weak var potatoMinusButton: UIButton!
@@ -24,68 +29,75 @@ class MainCollectionViewCell: UICollectionViewCell {
 	@IBOutlet weak var doneButton: UIButton!
 	@IBOutlet weak var poopCountLabel: UILabel!
 	@IBOutlet weak var potatoCountLabel: UILabel!
-//    let poopButton = UIButton()
-//    let potatoButton = UIButton()
-//    let eventButton = UIButton()
-//    let poopMinusButton = UIButton()
-//    let poopPlusButton = UIButton()
-//    let potatoMinusButton = UIButton()
-//    let potatoPlusButton = UIButton()
-//    let doneButton = UIButton()
-//    let poopCountLabel = UILabel()
-//    let potatoCountLabel = UILabel()
 
-	
-	let catImage = UIImageView()
-	
+    private var shouldHideModifyingButton = BehaviorSubject<Bool>(value: true)
+
 	override func awakeFromNib() {
         super.awakeFromNib()
-		
-		///다음버전에서 대응 예정
-		eventButton.isHidden = true
-//        [poopButton, potatoButton, eventButton, eventButton, poopMinusButton, poopPlusButton, potatoMinusButton, potatoPlusButton, doneButton, poopCountLabel, potatoCountLabel]
         
-		
-		poopCountLabel.textColor = .label
-		potatoCountLabel.textColor = .label
-		
-		catButton.setTitle("", for: .normal)
-		catImage.frame = CGRect(x: 0, y: 0, width: catButton.frame.width, height: catButton.frame.height)
-		catImage.contentMode = .scaleAspectFit
-        catImage.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-		catButton.addSubview(catImage)
-		
-		let poopView = UIImageView(image: UIImage(named: "peanut"))
-		poopView.frame = CGRect(x: 0, y: 0, width: poopButton.frame.width, height: poopButton.frame.height)
-		poopView.contentMode = .scaleAspectFit
-		poopView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-		poopButton.setTitle("", for: .normal)
-		poopButton.addSubview(poopView)
-		
-		let potatoView = UIImageView(image: UIImage(named: "potato"))
-		potatoView.frame = CGRect(x: 0, y: 0, width: potatoButton.frame.width, height: potatoButton.frame.height)
-		potatoView.contentMode = .scaleAspectFit
-		potatoView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-		potatoButton.setTitle("", for: .normal)
-		potatoButton.addSubview(potatoView)
-		
-		
-		poopMinusButton.setTitle("", for: .normal)
-        poopMinusButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-		poopPlusButton.setTitle("", for: .normal)
-        poopPlusButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-		potatoMinusButton.setTitle("", for: .normal)
-        potatoMinusButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-		potatoPlusButton.setTitle("", for: .normal)
-        potatoPlusButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-		doneButton.setTitle("done".localized(withComment: "done button"), for: .normal)
-		
-		poopPlusButton.isHidden = true
-		poopMinusButton.isHidden = true
-		potatoMinusButton.isHidden = true
-		potatoPlusButton.isHidden = true
-		doneButton.isHidden = true
-		
+        
+        doneButton.setTitle(Strings.done, for: .normal)
+        
+    }
+    
+    func configure(with item: DailyData, buttonAction: Action<ButtonType, Void>, modifyingEvent: ControlEvent<Void>) {
+        
+        shouldHideModifyingButton
+            .subscribe(onNext: { [weak self] bool in
+                self?.poopPlusButton.isHidden = bool
+                self?.poopMinusButton.isHidden = bool
+                self?.potatoMinusButton.isHidden = bool
+                self?.potatoPlusButton.isHidden = bool
+                self?.doneButton.isHidden = bool
+            })
+            .disposed(by: bag)
+        
+        
+        poopButton.rx.bind(to: buttonAction, input: .poop)
+        poopPlusButton.rx.bind(to: buttonAction, input: .poopPlus)
+        poopMinusButton.rx.bind(to: buttonAction, input: .poopMinus)
+        potatoButton.rx.bind(to: buttonAction, input: .urine)
+        potatoPlusButton.rx.bind(to: buttonAction, input: .urinePlus)
+        potatoMinusButton.rx.bind(to: buttonAction, input: .urineMinus)
+        
+        //추가해야 위의 버튼들이 작동
+        buttonAction.elements.subscribe { _ in}.disposed(by: bag)
+
+        item.rx.observe(Int.self, "poopCount")
+            .subscribe { [weak self] count in
+                let count = (count.element ?? 0) ?? 0
+                self?.poopCountLabel.text = "\(count)"
+            }
+            .disposed(by: bag)
+        
+        item.rx.observe(Int.self, "urineCount")
+            .subscribe { [weak self] count in
+                let count = (count.element ?? 0) ?? 0
+                self?.potatoCountLabel.text = "\(count)"
+            }
+            .disposed(by: bag)
+        
+        modifyingEvent
+            .scan(true) { last, new in
+                !last
+            }.bind(to: shouldHideModifyingButton)
+            .disposed(by: bag)
+        }
+    
+    func isModifying() -> Observable<Bool> {
+        return shouldHideModifyingButton.share().asObservable()
+    }
+        
+    
+    override func prepareForReuse() {
+        bag = DisposeBag()
+        super.prepareForReuse()
     }
 	
+}
+
+extension MainCollectionViewCell: Localized {
+    struct Strings {
+        static let done = Localization.HomeView.done
+    }
 }
