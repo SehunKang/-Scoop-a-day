@@ -70,8 +70,8 @@ class HomeViewModel {
     }
     
     //고양이 생성
-    func createCat() -> Action<String, Int> {
-        return Action<String, Int> { name in
+    func createCat(name: String) -> CocoaAction {
+        return CocoaAction {
             return self.realmService.createNewCat(catName: name)
         }
     }

@@ -59,26 +59,20 @@ class HomeViewController: UIViewController {
     
     func bindViewModel() {
         //MARK: bind for collectionView
-        let items = viewModel.sectionItems
-        
-        items.bind(to: collectionView.rx.items(dataSource: dataSource))
+        viewModel.sectionItems.bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         
         //MARK: bind for Action
-        let newCatAction = viewModel.createCat()
+        //임시
+        newCatButton.rx.action = viewModel.createCat(name: "test")
         
-        newCatButton.rx.bind(to: newCatAction, input: "test")
-        
-        newCatAction.elements.subscribe { _ in}
-            .disposed(by: bag)
-
-        let catCount = viewModel.numberOfCats
         
         //MARK: bind for UI
-        catCount
+        viewModel.numberOfCats
             .bind(to: pageController.rx.numberOfPages)
             .disposed(by: bag)
         
+        //임시
         let currentIndexOfCat = BehaviorSubject<Int>(value: 0)
         
         collectionView.rx.didScroll
