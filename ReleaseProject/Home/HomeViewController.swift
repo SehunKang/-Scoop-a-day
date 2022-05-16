@@ -90,7 +90,6 @@ class HomeViewController: UIViewController {
             .bind(to: pageController.rx.numberOfPages)
             .disposed(by: bag)
         
-        
         collectionView.rx.didScroll
             .map {[weak self] Void -> Int in
                 guard let self = self else {return 0}
@@ -107,7 +106,6 @@ class HomeViewController: UIViewController {
         
         index.bind(to: pageController.rx.currentPage)
             .disposed(by: bag)
-        
         
         _ = Observable.combineLatest(viewModel.catDataList, index, resultSelector: { (catData, index) -> String? in
             if catData.isEmpty {return nil}

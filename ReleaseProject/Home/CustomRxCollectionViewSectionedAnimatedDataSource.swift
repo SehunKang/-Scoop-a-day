@@ -13,7 +13,8 @@ import RxCocoa
 
 //새 데이터가 생성될 때 자동으로 스크롤 할 수 있게 하기 위해 만든 클래스.
 final class CustomRxCollectionViewSectionedAnimatedDataSource<S: AnimatableSectionModelType>: RxCollectionViewSectionedAnimatedDataSource<S> {
-    private let itemCount = PublishSubject<Int>()
+    
+    private let itemCount = BehaviorSubject<Int>(value: 0)
     private let bag = DisposeBag()
     
     override func collectionView(_ collectionView: UICollectionView, observedEvent: Event<RxCollectionViewSectionedAnimatedDataSource<S>.Element>) {
