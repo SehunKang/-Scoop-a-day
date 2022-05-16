@@ -89,7 +89,14 @@
                             <constraint firstItem="6cy-LU-DfM" firstAttribute="centerY" secondItem="bMx-wX-oqb" secondAttribute="centerY" id="uFa-pd-ptF"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="KWJ-Xa-YiE"/>
+                    <navigationItem key="navigationItem" id="KWJ-Xa-YiE">
+                        <barButtonItem key="rightBarButtonItem" id="4RT-cz-DCx">
+                            <imageReference key="image" image="list.dash" catalog="system" symbolScale="large"/>
+                            <connections>
+                                <action selector="rightBarItemAction:" destination="Rhv-tM-dqc" id="8hm-Sb-I9K"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="6cy-LU-DfM" id="FQi-Yi-Hq8"/>
@@ -211,6 +218,7 @@
     <resources>
         <image name="chart.bar.xaxis" catalog="system" width="128" height="98"/>
         <image name="house" catalog="system" width="128" height="106"/>
+        <image name="list.dash" catalog="system" width="128" height="85"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -23,7 +23,6 @@ final class CustomRxCollectionViewSectionedAnimatedDataSource<S: AnimatableSecti
         
         
         Observable.zip(itemCount, itemCount.skip(1)) { prev, new -> Int? in
-            print("prev = \(prev), new = \(new)")
             if new > prev {
                 return new
             } else {

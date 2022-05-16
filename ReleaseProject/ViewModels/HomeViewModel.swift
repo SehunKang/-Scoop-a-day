@@ -61,12 +61,21 @@ class HomeViewModel {
             }
     }
     
+    var catDataList: Observable<[CatData]> {
+        return self.realmService.taskOn()
+            .map { results in
+                results.toArray()
+            }
+            .distinctUntilChanged()
+    }
+    
     //현재 관리하는 고양이는 몇마리인지
     var numberOfCats: Observable<Int> {
         return self.realmService.taskOn()
             .map { results in
                 return results.count
             }
+            .distinctUntilChanged()
     }
     
     //고양이 생성
@@ -81,17 +90,9 @@ class HomeViewModel {
         self.realmService.appendNewDailyData(of: cat)
     }
     
-    //고양이 삭제
-    func deleteCat(cat: CatData) -> CocoaAction {
-        return CocoaAction {
-            return self.realmService.delete(cat: cat)
-        }
-    }
     //고양이 삭제, 인덱스로 처리
-    func deleteCat(indexOfCat: Int) -> CocoaAction {
-        return CocoaAction {
-            return self.realmService.deleteIndex(index: indexOfCat)
-        }
+    func deleteCat(indexOfCat: Int) {
+        self.realmService.deleteIndex(index: indexOfCat)
     }
     
     //컬렉션뷰 셀 안의 감자, 맛동산, 혹은 수정 버튼들에 대한 액션

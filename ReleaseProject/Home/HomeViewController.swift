@@ -32,10 +32,11 @@ class HomeViewController: UIViewController {
     let bag = DisposeBag()
 
     var dataSource: CustomRxCollectionViewSectionedAnimatedDataSource<TaskSection>!
-    
+    let currentIndexOfCat = BehaviorRelay<Int>(value: 0)
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
+        print(Realm.Configuration.defaultConfiguration.fileURL!)
 
 		registerXib()
         configureDataSource()
@@ -59,21 +60,36 @@ class HomeViewController: UIViewController {
     
     func bindViewModel() {
         //MARK: bind for collectionView
+        
         viewModel.sectionItems.bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         
         //MARK: bind for Action
-        //임시
-        newCatButton.rx.action = viewModel.createCat(name: "test")
         
+        deleteButton.rx.tap
+            .subscribe {[weak self] _ in
+                guard let self = self else {return}
+                let index = self.currentIndexOfCat.value
+                self.viewModel.deleteCat(indexOfCat: index)
+                if self.collectionView.numberOfItems(inSection: 0) - 1 == index && index != 0 {
+                    self.currentIndexOfCat.accept(index - 1)
+                } else {
+                    self.currentIndexOfCat.accept(index)
+                }
+            }
+            .disposed(by: bag)
+        
+        newCatButton.rx.tap
+            .subscribe { _ in
+                print("index = \(self.currentIndexOfCat.value)")
+            }
+            .disposed(by: bag)
         
         //MARK: bind for UI
         viewModel.numberOfCats
             .bind(to: pageController.rx.numberOfPages)
             .disposed(by: bag)
         
-        //임시
-        let currentIndexOfCat = BehaviorSubject<Int>(value: 0)
         
         collectionView.rx.didScroll
             .map {[weak self] Void -> Int in
@@ -87,13 +103,19 @@ class HomeViewController: UIViewController {
             .bind(to: currentIndexOfCat)
             .disposed(by: bag)
         
+        let index = currentIndexOfCat.distinctUntilChanged()
         
-        currentIndexOfCat.bind(to: pageController.rx.currentPage)
+        index.bind(to: pageController.rx.currentPage)
             .disposed(by: bag)
         
-        deleteButton.rx.action = viewModel.deleteCat(indexOfCat: 0)
         
-        
+        _ = Observable.combineLatest(viewModel.catDataList, index, resultSelector: { (catData, index) -> String? in
+            if catData.isEmpty {return nil}
+            if index < catData.startIndex || index >= catData.endIndex {return nil}
+            return catData[index].catName
+        })
+        .ifEmpty(default: "")
+        .bind(to: self.navigationItem.rx.title)
                 
             
     }
@@ -121,8 +143,38 @@ class HomeViewController: UIViewController {
             return cell
             })
         
+            
+        
         
     }
+    
+    @IBAction func rightBarItemAction(_ sender: Any) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let addAction = UIAlertAction(title: "추가", style: .default) { _ in
+            let alert = UIAlertController(title: "추가", message: "추가하시겠습니까?", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "ok", style: .default) { _ in
+                guard let name = alert.textFields?.first?.text else {return}
+                self.viewModel.createCat(name: name).execute()
+            }
+            alert.addAction(ok)
+            alert.addTextField()
+            
+            self.present(alert, animated: true)
+        }
+        let adjustAction = UIAlertAction(title: "수정", style: .default) { _ in
+            print("adjust")
+        }
+        let delete = UIAlertAction(title: "삭제", style: .default) { _ in
+            print("delete")
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        [addAction, adjustAction, delete ,cancel].forEach {
+            alert.addAction($0)
+        }
+        self.present(alert, animated: true)
+    }
+    
 //
 //	func setNavBar() {
 //		if catData.count > 0 {

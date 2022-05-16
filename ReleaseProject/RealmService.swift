@@ -30,7 +30,7 @@ protocol RealmServiceType {
     func changeCount(cat: CatData, date: Date, type: PooOrPee, value: Int) -> Observable<CatData>
     func changeName(cat: CatData, newName: String) -> Observable<CatData>
     func delete(cat: CatData) -> Observable<Void>
-    func deleteIndex(index: Int) -> Observable<Void>
+    func deleteIndex(index: Int)
     func taskOn() -> Observable<Results<CatData>>
     
 }
@@ -107,17 +107,16 @@ struct RealmService: RealmServiceType {
         return result ?? .error(RealmServiceError.deletionFailed)
     }
     
-    func deleteIndex(index: Int) -> Observable<Void> {
-        let result = withRealm(#function) { realm -> Observable<Void> in
+    func deleteIndex(index: Int) {
+        withRealm(#function) { realm in
             let task = realm.objects(CatData.self)
             let cat = task.toArray()
-            if cat.count <= index { return .empty()}
+            print(cat.count)
+            if cat.count <= index || cat.count == 0 { return }
             try realm.write {
                 realm.delete(cat[index])
             }
-            return .empty()
         }
-        return result ?? .error(RealmServiceError.deletionFailed)
     }
     
     
