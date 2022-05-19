@@ -33,6 +33,7 @@ class HomeViewController: UIViewController {
 
     var dataSource: CustomRxCollectionViewSectionedAnimatedDataSource<TaskSection>!
     let currentIndexOfCat = BehaviorRelay<Int>(value: 0)
+    let isModifying = BehaviorRelay<Bool>(value: false)
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +55,6 @@ class HomeViewController: UIViewController {
         
         collectionView.rx.setDelegate(self)
             .disposed(by: bag)
-        
         
     }
     
@@ -107,15 +107,27 @@ class HomeViewController: UIViewController {
         index.bind(to: pageController.rx.currentPage)
             .disposed(by: bag)
         
-        _ = Observable.combineLatest(viewModel.catDataList, index, resultSelector: { (catData, index) -> String? in
-            if catData.isEmpty {return nil}
-            if index < catData.startIndex || index >= catData.endIndex {return nil}
-            return catData[index].catName
-        })
-        .ifEmpty(default: "")
-        .bind(to: self.navigationItem.rx.title)
-                
-            
+        //title에 현재 index의 고양이 이름을 보여줌
+        _ = Observable
+            .combineLatest(viewModel.catDataList, index) { (catData, index) -> String? in
+                if catData.isEmpty {return nil}
+                if index < catData.startIndex || index >= catData.endIndex {return nil}
+                return catData[index].catName
+            }
+            .ifEmpty(default: "")
+            .bind(to: self.navigationItem.rx.title)
+            .disposed(by: bag)
+        
+        isModifying
+            .map {!$0}
+            .bind(to: collectionView.rx.isScrollEnabled,
+                  tabBarController!.tabBar.rx.isUserInteractionEnabled,
+                  navigationController!.navigationBar.rx.isUserInteractionEnabled)
+            .disposed(by: bag)
+        
+        
+
+        
     }
     
     func configureDataSource() {
@@ -131,19 +143,18 @@ class HomeViewController: UIViewController {
                 }
                 let dailyData = item.dailyDataList.filter("date == %@", Date().removeTime()).first!
                 
-                cell.configure(with: dailyData, buttonAction: self.viewModel.buttonClicked(cat: item), modifyingEvent: self.modifyingTestButton.rx.tap)
+                cell.configure(with: dailyData, buttonAction: self.viewModel.buttonClicked(cat: item), modifyingEvent: self.isModifying)
                 
-                cell.isModifying()
-                    .bind { self.testLabel.text = "\(!$0)"}
+                cell.doneButton.rx.tap
+                    .subscribe {[weak self] _ in
+                        self?.isModifying.accept(false)
+                    }
                     .disposed(by: cell.bag)
+                    
             }
             
             return cell
             })
-        
-            
-        
-        
     }
     
     @IBAction func rightBarItemAction(_ sender: Any) {
@@ -155,13 +166,15 @@ class HomeViewController: UIViewController {
                 guard let name = alert.textFields?.first?.text else {return}
                 self.viewModel.createCat(name: name).execute()
             }
+            let cancel = UIAlertAction(title: "취소", style: .cancel)
             alert.addAction(ok)
+            alert.addAction(cancel)
             alert.addTextField()
             
             self.present(alert, animated: true)
         }
         let adjustAction = UIAlertAction(title: "수정", style: .default) { _ in
-            print("adjust")
+            self.isModifying.accept(!self.isModifying.value)
         }
         let delete = UIAlertAction(title: "삭제", style: .default) { _ in
             print("delete")
@@ -318,6 +331,11 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     
     
 
+}
+
+//MARK: code for Alert
+extension HomeViewController {
+    
 }
 
 //extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {

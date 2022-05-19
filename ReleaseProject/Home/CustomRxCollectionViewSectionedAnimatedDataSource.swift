@@ -22,13 +22,8 @@ final class CustomRxCollectionViewSectionedAnimatedDataSource<S: AnimatableSecti
         
         itemCount.on(.next(collectionView.numberOfItems(inSection: 0)))
         
-        
         Observable.zip(itemCount, itemCount.skip(1)) { prev, new -> Int? in
-            if new > prev {
-                return new
-            } else {
-                return nil
-            }
+            return new > prev ? new : nil
         }
         .subscribe { count in
             guard let result = count.element else {return}

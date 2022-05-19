@@ -29,9 +29,7 @@ class MainCollectionViewCell: UICollectionViewCell {
 	@IBOutlet weak var doneButton: UIButton!
 	@IBOutlet weak var poopCountLabel: UILabel!
 	@IBOutlet weak var potatoCountLabel: UILabel!
-
-    private var shouldHideModifyingButton = BehaviorSubject<Bool>(value: true)
-
+    
 	override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -40,18 +38,20 @@ class MainCollectionViewCell: UICollectionViewCell {
         
     }
     
-    func configure(with item: DailyData, buttonAction: Action<ButtonType, Void>, modifyingEvent: ControlEvent<Void>) {
+    func configure(with item: DailyData, buttonAction: Action<ButtonType, Void>, modifyingEvent: BehaviorRelay<Bool>) {
         
-        shouldHideModifyingButton
-            .subscribe(onNext: { [weak self] bool in
+        modifyingEvent
+            .asDriver()
+            .drive { [weak self] bool in
+                let bool = !bool
                 self?.poopPlusButton.isHidden = bool
                 self?.poopMinusButton.isHidden = bool
                 self?.potatoMinusButton.isHidden = bool
                 self?.potatoPlusButton.isHidden = bool
                 self?.doneButton.isHidden = bool
-            })
+            }
             .disposed(by: bag)
-        
+                
         
         poopButton.rx.bind(to: buttonAction, input: .poop)
         poopPlusButton.rx.bind(to: buttonAction, input: .poopPlus)
@@ -77,18 +77,9 @@ class MainCollectionViewCell: UICollectionViewCell {
             }
             .disposed(by: bag)
         
-        modifyingEvent
-            .scan(true) { last, new in
-                !last
-            }.bind(to: shouldHideModifyingButton)
-            .disposed(by: bag)
-        }
-    
-    func isModifying() -> Observable<Bool> {
-        return shouldHideModifyingButton.share().asObservable()
     }
-        
     
+        
     override func prepareForReuse() {
         bag = DisposeBag()
         super.prepareForReuse()
