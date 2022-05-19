@@ -21,11 +21,6 @@ class HomeViewController: UIViewController {
 	@IBOutlet weak var collectionView: UICollectionView!
 	@IBOutlet weak var pageController: UIPageControl!
     
-    @IBOutlet weak var modifyingTestButton: UIButton!
-    @IBOutlet weak var newCatButton: UIButton!
-    @IBOutlet weak var deleteButton: UIButton!
-    
-    @IBOutlet weak var testLabel: UILabel!
     //이게 맞는 방법일까?
     let viewModel = HomeViewModel(realmService: RealmService())
     
@@ -62,27 +57,6 @@ class HomeViewController: UIViewController {
         //MARK: bind for collectionView
         
         viewModel.sectionItems.bind(to: collectionView.rx.items(dataSource: dataSource))
-            .disposed(by: bag)
-        
-        //MARK: bind for Action
-        
-        deleteButton.rx.tap
-            .subscribe {[weak self] _ in
-                guard let self = self else {return}
-                let index = self.currentIndexOfCat.value
-                self.viewModel.deleteCat(indexOfCat: index)
-                if self.collectionView.numberOfItems(inSection: 0) - 1 == index && index != 0 {
-                    self.currentIndexOfCat.accept(index - 1)
-                } else {
-                    self.currentIndexOfCat.accept(index)
-                }
-            }
-            .disposed(by: bag)
-        
-        newCatButton.rx.tap
-            .subscribe { _ in
-                print("index = \(self.currentIndexOfCat.value)")
-            }
             .disposed(by: bag)
         
         //MARK: bind for UI
@@ -160,24 +134,39 @@ class HomeViewController: UIViewController {
     @IBAction func rightBarItemAction(_ sender: Any) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let addAction = UIAlertAction(title: "추가", style: .default) { _ in
+        let addAction = UIAlertAction(title: "추가", style: .default) { [weak self] _ in
             let alert = UIAlertController(title: "추가", message: "추가하시겠습니까?", preferredStyle: .alert)
             let ok = UIAlertAction(title: "ok", style: .default) { _ in
                 guard let name = alert.textFields?.first?.text else {return}
-                self.viewModel.createCat(name: name).execute()
+                self?.viewModel.createCat(name: name).execute()
             }
             let cancel = UIAlertAction(title: "취소", style: .cancel)
             alert.addAction(ok)
             alert.addAction(cancel)
             alert.addTextField()
             
-            self.present(alert, animated: true)
+            self?.present(alert, animated: true)
         }
         let adjustAction = UIAlertAction(title: "수정", style: .default) { _ in
             self.isModifying.accept(!self.isModifying.value)
         }
-        let delete = UIAlertAction(title: "삭제", style: .default) { _ in
-            print("delete")
+        let delete = UIAlertAction(title: "삭제", style: .default) {[weak self] _ in
+            let alert = UIAlertController(title: "정말 삭제하시겠습니까?", message: nil, preferredStyle: .alert)
+            let ok = UIAlertAction(title: "네", style: .default) { _ in
+                guard let self = self else {return}
+                let index = self.currentIndexOfCat.value
+                self.viewModel.deleteCat(indexOfCat: index)
+                if self.collectionView.numberOfItems(inSection: 0) - 1 == index && index != 0 {
+                    self.currentIndexOfCat.accept(index - 1)
+                } else {
+                    self.currentIndexOfCat.accept(index)
+                }
+            }
+            let no = UIAlertAction(title: "아니오", style: .cancel, handler: nil)
+            
+            alert.addAction(no)
+            alert.addAction(ok)
+            self?.present(alert, animated: true)
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
         [addAction, adjustAction, delete ,cancel].forEach {

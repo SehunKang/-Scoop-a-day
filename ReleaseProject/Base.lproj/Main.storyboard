@@ -45,47 +45,16 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W8J-rC-aFF">
-                                <rect key="frame" x="41" y="738.5" width="51" height="31"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="new"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9DG-6d-8Oy">
-                                <rect key="frame" x="313" y="734" width="67" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HHF-HU-C7F">
-                                <rect key="frame" x="100" y="739" width="50" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="hsh-zx-V9a"/>
-                                    <constraint firstAttribute="width" constant="50" id="rN0-GU-xfC"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ym-hQ-0AL">
-                                <rect key="frame" x="186" y="773" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="EqD-8F-gip"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="6cy-LU-DfM" firstAttribute="centerX" secondItem="bMx-wX-oqb" secondAttribute="centerX" id="H7t-0Q-IUs"/>
-                            <constraint firstItem="HHF-HU-C7F" firstAttribute="leading" secondItem="bMx-wX-oqb" secondAttribute="leading" constant="100" id="Ohv-PC-NnT"/>
                             <constraint firstItem="a4q-hv-HSG" firstAttribute="centerX" secondItem="bMx-wX-oqb" secondAttribute="centerX" id="Pf1-Js-amH"/>
                             <constraint firstItem="a4q-hv-HSG" firstAttribute="top" secondItem="6cy-LU-DfM" secondAttribute="bottom" id="R51-Ki-Ekk"/>
-                            <constraint firstItem="HHF-HU-C7F" firstAttribute="centerY" secondItem="W8J-rC-aFF" secondAttribute="centerY" id="XVD-qg-ZYp"/>
-                            <constraint firstItem="HHF-HU-C7F" firstAttribute="top" secondItem="6cy-LU-DfM" secondAttribute="bottom" id="XpW-qm-PIX"/>
                             <constraint firstItem="6cy-LU-DfM" firstAttribute="trailing" secondItem="EqD-8F-gip" secondAttribute="trailing" id="cpu-6e-o4s"/>
                             <constraint firstItem="6cy-LU-DfM" firstAttribute="leading" secondItem="EqD-8F-gip" secondAttribute="leading" id="hsP-SH-rEb"/>
                             <constraint firstItem="6cy-LU-DfM" firstAttribute="height" secondItem="bMx-wX-oqb" secondAttribute="height" multiplier="0.65" id="os0-nA-1jt"/>
-                            <constraint firstItem="HHF-HU-C7F" firstAttribute="leading" secondItem="W8J-rC-aFF" secondAttribute="trailing" constant="8" symbolic="YES" id="trF-Mp-BgS"/>
                             <constraint firstItem="6cy-LU-DfM" firstAttribute="centerY" secondItem="bMx-wX-oqb" secondAttribute="centerY" id="uFa-pd-ptF"/>
                         </constraints>
                     </view>
@@ -100,11 +69,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="6cy-LU-DfM" id="FQi-Yi-Hq8"/>
-                        <outlet property="deleteButton" destination="HHF-HU-C7F" id="UsF-oQ-hTp"/>
-                        <outlet property="modifyingTestButton" destination="9DG-6d-8Oy" id="iUz-lo-8kp"/>
-                        <outlet property="newCatButton" destination="W8J-rC-aFF" id="Fhu-Ud-hz1"/>
                         <outlet property="pageController" destination="a4q-hv-HSG" id="N14-q5-vcW"/>
-                        <outlet property="testLabel" destination="5Ym-hQ-0AL" id="pVz-bV-Ez1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FhY-jc-9Zp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
