@@ -150,7 +150,7 @@ class HomeViewController: UIViewController {
         let adjustAction = UIAlertAction(title: "수정", style: .default) { _ in
             self.isModifying.accept(!self.isModifying.value)
         }
-        let delete = UIAlertAction(title: "삭제", style: .default) {[weak self] _ in
+        let delete = UIAlertAction(title: "삭제", style: .destructive) {[weak self] _ in
             let alert = UIAlertController(title: "정말 삭제하시겠습니까?", message: nil, preferredStyle: .alert)
             let ok = UIAlertAction(title: "네", style: .default) { _ in
                 guard let self = self else {return}
