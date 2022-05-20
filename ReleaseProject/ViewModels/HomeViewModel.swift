@@ -44,11 +44,7 @@ typealias TaskSection = AnimatableSectionModel<String, CatData>
 
 class HomeViewModel {
     
-    private let realmService: RealmServiceType
-    
-    init(realmService: RealmServiceType) {
-        self.realmService = realmService
-    }
+    private let realmService: RealmServiceType = RealmService()
     
     //RxDataSource에 CatData Object를 전달한다.
     var sectionItems: Observable<[TaskSection]> {

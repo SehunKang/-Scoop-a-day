@@ -22,7 +22,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var pageController: UIPageControl!
     
     //이게 맞는 방법일까?
-    let viewModel = HomeViewModel(realmService: RealmService())
+    let viewModel = HomeViewModel()
     
     let bag = DisposeBag()
     
@@ -39,8 +39,9 @@ class HomeViewController: UIViewController {
         bind()
     }
     
-    
     func configureCollectionView() {
+        
+        collectionView.register(UINib(nibName: MainCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: MainCollectionViewCell.identifier)
         
         collectionView.rx.setDelegate(self)
             .disposed(by: bag)
@@ -58,10 +59,12 @@ class HomeViewController: UIViewController {
         viewModel.sectionItems.bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         
+        //고양이 수와 페이지컨트롤러 동기화
         viewModel.numberOfCats
             .bind(to: pageController.rx.numberOfPages)
             .disposed(by: bag)
         
+        //고양이 수 0인지에 따라 고양이 추가 뷰(컬렉션뷰 백그라운드 뷰), 네비게이션 아이템 hidden 여부 동기화
         viewModel.numberOfCats
             .subscribe {[weak self] count in
                 guard let count = count.element else {return}
@@ -75,6 +78,7 @@ class HomeViewController: UIViewController {
             }
             .disposed(by: bag)
         
+        //페이지컨트롤러와 스크롤을 동기화
         collectionView.rx.didScroll
             .map {[weak self] Void -> Int in
                 guard let self = self else {return 0}
@@ -87,8 +91,8 @@ class HomeViewController: UIViewController {
             .bind(to: currentIndexOfCat)
             .disposed(by: bag)
         
+        //페이지컨트롤러와 현재 보고있는 인덱스 동기화
         let index = currentIndexOfCat.distinctUntilChanged()
-        
         index.bind(to: pageController.rx.currentPage)
             .disposed(by: bag)
         
@@ -103,6 +107,7 @@ class HomeViewController: UIViewController {
             .bind(to: self.navigationItem.rx.title)
             .disposed(by: bag)
         
+        //수정중인 경우 동작을 제한함
         isModifying
             .map {!$0}
             .bind(to: collectionView.rx.isScrollEnabled,
