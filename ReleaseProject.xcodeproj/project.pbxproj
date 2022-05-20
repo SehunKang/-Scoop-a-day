@@ -10,6 +10,8 @@
 		2E353AD227589F2700F4F8A2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E353AD427589F2700F4F8A2 /* InfoPlist.strings */; };
 		2E36F864276F496F002C986B /* InfoTableVIewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E36F863276F496F002C986B /* InfoTableVIewController.swift */; };
 		2E36F86B27704B97002C986B /* OpensourceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E36F86A27704B97002C986B /* OpensourceList.swift */; };
+		2E398D9528372D44003CEFAA /* CreateNewCatView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E398D9428372D44003CEFAA /* CreateNewCatView.xib */; };
+		2E398D9728372DCF003CEFAA /* CreateNewCatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E398D9628372DCF003CEFAA /* CreateNewCatView.swift */; };
 		2E39C440280ACE7500905D20 /* ReleaseProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E39C43F280ACE7500905D20 /* ReleaseProjectTests.swift */; };
 		2E42A64427FC634E00C78137 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E42A64327FC634E00C78137 /* HomeViewModel.swift */; };
 		2E616D4C2816BD2B001F86F3 /* LocalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E616D4B2816BD2B001F86F3 /* LocalizationService.swift */; };
@@ -31,8 +33,6 @@
 		2EDED2A1274A7EB0006C38DF /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED2A0274A7EAF006C38DF /* RealmModel.swift */; };
 		2EDED2A8274B6E3A006C38DF /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED2A7274B6E3A006C38DF /* RealmService.swift */; };
 		2EDED2AA274BCAA9006C38DF /* Extension+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED2A9274BCAA9006C38DF /* Extension+Date.swift */; };
-		2EDED2AD274CCBB7006C38DF /* CreateNewCatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED2AB274CCBB7006C38DF /* CreateNewCatCollectionViewCell.swift */; };
-		2EDED2AE274CCBB7006C38DF /* CreateNewCatCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EDED2AC274CCBB7006C38DF /* CreateNewCatCollectionViewCell.xib */; };
 		2EDED2B1274CCC3B006C38DF /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED2AF274CCC3B006C38DF /* MainCollectionViewCell.swift */; };
 		2EDED2B2274CCC3B006C38DF /* MainCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EDED2B0274CCC3B006C38DF /* MainCollectionViewCell.xib */; };
 		2EDED2B4274CF5A7006C38DF /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED2B3274CF5A7006C38DF /* Extension+String.swift */; };
@@ -59,6 +59,8 @@
 		2E353AD627589F2900F4F8A2 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		2E36F863276F496F002C986B /* InfoTableVIewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableVIewController.swift; sourceTree = "<group>"; };
 		2E36F86A27704B97002C986B /* OpensourceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpensourceList.swift; sourceTree = "<group>"; };
+		2E398D9428372D44003CEFAA /* CreateNewCatView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateNewCatView.xib; sourceTree = "<group>"; };
+		2E398D9628372DCF003CEFAA /* CreateNewCatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewCatView.swift; sourceTree = "<group>"; };
 		2E39C43D280ACE7500905D20 /* ReleaseProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReleaseProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E39C43F280ACE7500905D20 /* ReleaseProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseProjectTests.swift; sourceTree = "<group>"; };
 		2E42A64327FC634E00C78137 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -85,8 +87,6 @@
 		2EDED2A0274A7EAF006C38DF /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
 		2EDED2A7274B6E3A006C38DF /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		2EDED2A9274BCAA9006C38DF /* Extension+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Date.swift"; sourceTree = "<group>"; };
-		2EDED2AB274CCBB7006C38DF /* CreateNewCatCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewCatCollectionViewCell.swift; sourceTree = "<group>"; };
-		2EDED2AC274CCBB7006C38DF /* CreateNewCatCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreateNewCatCollectionViewCell.xib; sourceTree = "<group>"; };
 		2EDED2AF274CCC3B006C38DF /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
 		2EDED2B0274CCC3B006C38DF /* MainCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainCollectionViewCell.xib; sourceTree = "<group>"; };
 		2EDED2B3274CF5A7006C38DF /* Extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String.swift"; sourceTree = "<group>"; };
@@ -189,8 +189,8 @@
 				2EDED2B0274CCC3B006C38DF /* MainCollectionViewCell.xib */,
 				2E36F863276F496F002C986B /* InfoTableVIewController.swift */,
 				2E36F86A27704B97002C986B /* OpensourceList.swift */,
-				2EDED2AB274CCBB7006C38DF /* CreateNewCatCollectionViewCell.swift */,
-				2EDED2AC274CCBB7006C38DF /* CreateNewCatCollectionViewCell.xib */,
+				2E398D9428372D44003CEFAA /* CreateNewCatView.xib */,
+				2E398D9628372DCF003CEFAA /* CreateNewCatView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -337,7 +337,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EDED2AE274CCBB7006C38DF /* CreateNewCatCollectionViewCell.xib in Resources */,
 				2EDED2B2274CCC3B006C38DF /* MainCollectionViewCell.xib in Resources */,
 				2EDED283274A5238006C38DF /* Data.storyboard in Resources */,
 				2EDED26C27476FDA006C38DF /* LaunchScreen.storyboard in Resources */,
@@ -345,6 +344,7 @@
 				2EDED28D274A52AF006C38DF /* Localizable.strings in Resources */,
 				2EDED26727476FD8006C38DF /* Main.storyboard in Resources */,
 				2E94FE0D2768D1D300A6BAA1 /* GoogleService-Info.plist in Resources */,
+				2E398D9528372D44003CEFAA /* CreateNewCatView.xib in Resources */,
 				2EDED2792747855F006C38DF /* Calendar.storyboard in Resources */,
 				2E353AD227589F2700F4F8A2 /* InfoPlist.strings in Resources */,
 			);
@@ -469,7 +469,7 @@
 			files = (
 				2EDED281274A51F8006C38DF /* CalendarViewController.swift in Sources */,
 				2EDED2A1274A7EB0006C38DF /* RealmModel.swift in Sources */,
-				2EDED2AD274CCBB7006C38DF /* CreateNewCatCollectionViewCell.swift in Sources */,
+				2E398D9728372DCF003CEFAA /* CreateNewCatView.swift in Sources */,
 				2E36F864276F496F002C986B /* InfoTableVIewController.swift in Sources */,
 				2EDED2A8274B6E3A006C38DF /* RealmService.swift in Sources */,
 				2E36F86B27704B97002C986B /* OpensourceList.swift in Sources */,

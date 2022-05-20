@@ -111,7 +111,6 @@ struct RealmService: RealmServiceType {
         withRealm(#function) { realm in
             let task = realm.objects(CatData.self)
             let cat = task.toArray()
-            print(cat.count)
             if cat.count <= index || cat.count == 0 { return }
             try realm.write {
                 realm.delete(cat[index])
