@@ -27,6 +27,7 @@ class HomeViewController: UIViewController {
     let bag = DisposeBag()
     
     var dataSource: CustomRxCollectionViewSectionedAnimatedDataSource<TaskSection>!
+    
     let currentIndexOfCat = BehaviorRelay<Int>(value: 0)
     let isModifying = BehaviorRelay<Bool>(value: false)
     
@@ -130,6 +131,7 @@ class HomeViewController: UIViewController {
                     }
                     let dailyData = item.dailyDataList.filter("date == %@", Date().removeTime()).first!
                     
+                    cell.catButton.setImage(UIImage(named: "cat\(item.numForImage)"), for: .normal)
                     cell.configure(with: dailyData, buttonAction: self.viewModel.buttonClicked(cat: item), modifyingEvent: self.isModifying)
                     
                     cell.doneButton.rx.tap
