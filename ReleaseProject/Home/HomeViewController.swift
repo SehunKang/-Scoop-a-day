@@ -28,7 +28,6 @@ class HomeViewController: UIViewController {
     
     var dataSource: CustomRxCollectionViewSectionedAnimatedDataSource<TaskSection>!
     
-    let currentIndexOfCat = BehaviorRelay<Int>(value: 0)
     let isModifying = BehaviorRelay<Bool>(value: false)
     
     override func viewDidLoad() {
@@ -60,25 +59,6 @@ class HomeViewController: UIViewController {
         viewModel.sectionItems.bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         
-        //고양이 수와 페이지컨트롤러 동기화
-        viewModel.numberOfCats
-            .bind(to: pageController.rx.numberOfPages)
-            .disposed(by: bag)
-        
-        //고양이 수 0인지에 따라 고양이 추가 뷰(컬렉션뷰 백그라운드 뷰), 네비게이션 아이템 hidden 여부 동기화
-        viewModel.numberOfCats
-            .subscribe {[weak self] count in
-                guard let count = count.element else {return}
-                if count == 0 {
-                    self?.collectionView.backgroundView?.isHidden = false
-                    self?.navigationController?.setNavigationBarHidden(true, animated: true)
-                } else {
-                    self?.collectionView.backgroundView?.isHidden = true
-                    self?.navigationController?.setNavigationBarHidden(false, animated: true)
-                }
-            }
-            .disposed(by: bag)
-        
         //페이지컨트롤러와 스크롤을 동기화
         collectionView.rx.didScroll
             .map {[weak self] Void -> Int in
@@ -89,24 +69,39 @@ class HomeViewController: UIViewController {
                 let count = Int(offSet + horizontalCenter) / Int(width)
                 return count
             }
-            .bind(to: currentIndexOfCat)
+            .bind(to: viewModel.currentIndexOfCat)
+            .disposed(by: bag)
+
+        
+        //고양이 수와 페이지컨트롤러 동기화
+        viewModel.numberOfCats
+            .bind(to: pageController.rx.numberOfPages)
             .disposed(by: bag)
         
+        //고양이 수 0인지에 따라 고양이 추가 뷰(컬렉션뷰 백그라운드 뷰), 네비게이션 아이템 hidden 여부 동기화
+        viewModel.numberOfCats
+            .map { count in
+                count == 0
+            }
+            .subscribe(onNext: { [weak self] bool in
+                self?.collectionView.backgroundView?.isHidden = !bool
+                self?.navigationController?.setNavigationBarHidden(bool, animated: true)
+//                self?.tabBarController?.tabBar.isUserInteractionEnabled = !bool
+            })
+            .disposed(by: bag)
+        
+        
         //페이지컨트롤러와 현재 보고있는 인덱스 동기화
-        let index = currentIndexOfCat.distinctUntilChanged()
-        index.bind(to: pageController.rx.currentPage)
+        viewModel.currentIndexOfCat
+            .distinctUntilChanged()
+            .bind(to: pageController.rx.currentPage)
             .disposed(by: bag)
         
         //title에 현재 index의 고양이 이름을 보여줌
-        _ = Observable
-            .combineLatest(viewModel.catDataList, index) { (catData, index) -> String? in
-                if catData.isEmpty {return nil}
-                if index < catData.startIndex || index >= catData.endIndex {return nil}
-                return catData[index].catName
-            }
-            .ifEmpty(default: "")
+        viewModel.currentTitle
             .bind(to: self.navigationItem.rx.title)
             .disposed(by: bag)
+        
         
         //수정중인 경우 동작을 제한함
         isModifying
@@ -159,9 +154,11 @@ class HomeViewController: UIViewController {
             self?.deleteCatAlert()
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        
         [addAction, adjustAction, delete ,cancel].forEach {
             alert.addAction($0)
         }
+        
         self.present(alert, animated: true)
     }
     
@@ -184,12 +181,12 @@ class HomeViewController: UIViewController {
         let alert = UIAlertController(title: "정말 삭제하시겠습니까?", message: nil, preferredStyle: .alert)
         let ok = UIAlertAction(title: "네", style: .default) {[weak self]_ in
             guard let self = self else {return}
-            let index = self.currentIndexOfCat.value
+            let index = self.viewModel.currentIndexOfCat.value
             self.viewModel.deleteCat(indexOfCat: index)
             if self.collectionView.numberOfItems(inSection: 0) - 1 == index && index != 0 {
-                self.currentIndexOfCat.accept(index - 1)
+                self.viewModel.currentIndexOfCat.accept(index - 1)
             } else {
-                self.currentIndexOfCat.accept(index)
+                self.viewModel.currentIndexOfCat.accept(index)
             }
         }
         let no = UIAlertAction(title: "아니오", style: .cancel, handler: nil)

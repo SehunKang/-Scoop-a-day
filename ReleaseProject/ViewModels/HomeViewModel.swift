@@ -9,6 +9,7 @@ import Foundation
 
 import Action
 import RxSwift
+import RxCocoa
 import RxDataSources
 
 import RealmSwift
@@ -46,6 +47,8 @@ class HomeViewModel {
     
     private let realmService: RealmServiceType = RealmService()
     
+    let currentIndexOfCat = BehaviorRelay<Int>(value: 0)
+
     //RxDataSource에 CatData Object를 전달한다.
     var sectionItems: Observable<[TaskSection]> {
         return self.realmService.taskOn()
@@ -73,6 +76,15 @@ class HomeViewModel {
             }
             .distinctUntilChanged()
     }
+    
+    var currentTitle: Observable<String> {
+        Observable.combineLatest(catDataList, currentIndexOfCat.distinctUntilChanged()) { (catData, index) -> String in
+            if catData.isEmpty { return "" }
+            if index < catData.startIndex || index >= catData.endIndex { return "" }
+            return catData[index].catName
+        }
+    }
+    
     
     //고양이 생성
     func createCat(name: String) -> CocoaAction {
