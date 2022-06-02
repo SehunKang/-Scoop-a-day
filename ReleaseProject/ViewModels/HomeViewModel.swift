@@ -85,7 +85,6 @@ class HomeViewModel {
         }
     }
     
-    
     //고양이 생성
     func createCat(name: String) -> CocoaAction {
         return CocoaAction {
@@ -93,8 +92,17 @@ class HomeViewModel {
         }
     }
     
+    func getDailyData(item: CatData) -> DailyData {
+        if item.dailyDataList.filter("date == %@", Date().removeTime()).first == nil {
+            newDailyData(of: item)
+        }
+        let dailyData = item.dailyDataList.filter("date == %@", Date().removeTime()).first!
+
+        return dailyData
+    }
+    
     //dailyData를 추가
-    func newDailyData(of cat: CatData) {
+    private func newDailyData(of cat: CatData) {
         self.realmService.appendNewDailyData(of: cat)
     }
     

@@ -71,7 +71,6 @@ class HomeViewController: UIViewController {
             }
             .bind(to: viewModel.currentIndexOfCat)
             .disposed(by: bag)
-
         
         //고양이 수와 페이지컨트롤러 동기화
         viewModel.numberOfCats
@@ -90,7 +89,6 @@ class HomeViewController: UIViewController {
             })
             .disposed(by: bag)
         
-        
         //페이지컨트롤러와 현재 보고있는 인덱스 동기화
         viewModel.currentIndexOfCat
             .distinctUntilChanged()
@@ -101,7 +99,6 @@ class HomeViewController: UIViewController {
         viewModel.currentTitle
             .bind(to: self.navigationItem.rx.title)
             .disposed(by: bag)
-        
         
         //수정중인 경우 동작을 제한함
         isModifying
@@ -121,10 +118,8 @@ class HomeViewController: UIViewController {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MainCollectionViewCell.identifier, for: indexPath) as! MainCollectionViewCell
                 
                 if let self = self {
-                    if item.dailyDataList.filter("date == %@", Date().removeTime()).first == nil {
-                        self.viewModel.newDailyData(of: item)
-                    }
-                    let dailyData = item.dailyDataList.filter("date == %@", Date().removeTime()).first!
+                    
+                    let dailyData = self.viewModel.getDailyData(item: item)
                     
                     cell.catButton.setImage(UIImage(named: "cat\(item.numForImage)"), for: .normal)
                     cell.configure(with: dailyData, buttonAction: self.viewModel.buttonClicked(cat: item), modifyingEvent: self.isModifying)
