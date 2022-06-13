@@ -79,6 +79,15 @@ class HomeViewModel: ViewModel {
             }
             .distinctUntilChanged()
     }
+    
+    func currentTitle(index: Observable<Int>) -> Observable<String> {
+        return Observable.combineLatest(index, catDataList) {
+            (index, catData) -> String in
+                if catData.isEmpty { return "" }
+                if index < catData.startIndex || index >= catData.endIndex { return "" }
+                return catData[index].catName
+        }
+    }
         
     //고양이 생성
     func createCat(name: String) -> CocoaAction {
@@ -86,6 +95,7 @@ class HomeViewModel: ViewModel {
             return self.realmService.createNewCat(catName: name)
         }
     }
+    
     
     func getDailyData(item: CatData) -> DailyData {
         if item.dailyDataList.filter("date == %@", Date().removeTime()).first == nil {

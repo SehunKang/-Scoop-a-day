@@ -109,15 +109,9 @@ final class HomeViewController: UIViewController {
             .disposed(by: bag)
         
         //title에 현재 index의 고양이 이름을 보여줌
-        Observable.combineLatest(currentIndexOfCat.distinctUntilChanged(), viewModel.catDataList) { (index, catData) -> String in
-            print("index = \(index)")
-            print("catdata = \(catData)")
-            if catData.isEmpty { return "" }
-            if index < catData.startIndex || index >= catData.endIndex { return "" }
-            return catData[index].catName
-        }
-        .bind(to: self.navigationItem.rx.title)
-        .disposed(by: bag)
+        viewModel.currentTitle(index: currentIndexOfCat.distinctUntilChanged())
+            .bind(to: self.navigationItem.rx.title)
+            .disposed(by: bag)
         
         
         //수정중인 경우 동작을 제한함
