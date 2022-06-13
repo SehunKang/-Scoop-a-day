@@ -16,7 +16,7 @@ import RxDataSources
 
 
 
-class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var pageController: UIPageControl!
@@ -30,6 +30,18 @@ class HomeViewController: UIViewController {
     
     let isModifying = BehaviorRelay<Bool>(value: false)
     
+    let currentIndexOfCat: BehaviorRelay<Int>
+    
+    init(catIndex: Int) {
+        currentIndexOfCat = BehaviorRelay<Int>(value: catIndex)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        currentIndexOfCat = BehaviorRelay<Int>(value: 0)
+        super.init(coder: coder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print(Realm.Configuration.defaultConfiguration.fileURL!)
@@ -37,6 +49,7 @@ class HomeViewController: UIViewController {
         configureCollectionView()
         configureDataSource()
         bind()
+        setVisibleCellAsCurrentIndex()
     }
     
     func configureCollectionView() {
@@ -69,7 +82,7 @@ class HomeViewController: UIViewController {
                 let count = Int(offSet + horizontalCenter) / Int(width)
                 return count
             }
-            .bind(to: viewModel.currentIndexOfCat)
+            .bind(to: currentIndexOfCat)
             .disposed(by: bag)
         
         //고양이 수와 페이지컨트롤러 동기화
@@ -90,15 +103,22 @@ class HomeViewController: UIViewController {
             .disposed(by: bag)
         
         //페이지컨트롤러와 현재 보고있는 인덱스 동기화
-        viewModel.currentIndexOfCat
+        currentIndexOfCat
             .distinctUntilChanged()
             .bind(to: pageController.rx.currentPage)
             .disposed(by: bag)
         
         //title에 현재 index의 고양이 이름을 보여줌
-        viewModel.currentTitle
-            .bind(to: self.navigationItem.rx.title)
-            .disposed(by: bag)
+        Observable.combineLatest(currentIndexOfCat.distinctUntilChanged(), viewModel.catDataList) { (index, catData) -> String in
+            print("index = \(index)")
+            print("catdata = \(catData)")
+            if catData.isEmpty { return "" }
+            if index < catData.startIndex || index >= catData.endIndex { return "" }
+            return catData[index].catName
+        }
+        .bind(to: self.navigationItem.rx.title)
+        .disposed(by: bag)
+        
         
         //수정중인 경우 동작을 제한함
         isModifying
@@ -133,6 +153,14 @@ class HomeViewController: UIViewController {
                 return cell
             })
     }
+    
+    private func setVisibleCellAsCurrentIndex() {
+        
+        collectionView.reloadData()
+        collectionView.layoutIfNeeded()
+        collectionView.scrollToItem(at: IndexPath(item: currentIndexOfCat.value, section: 0), at: .centeredHorizontally, animated: false)
+    }
+    
     
     @IBAction func rightBarItemAction(_ sender: Any) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -176,12 +204,12 @@ class HomeViewController: UIViewController {
         let alert = UIAlertController(title: "정말 삭제하시겠습니까?", message: nil, preferredStyle: .alert)
         let ok = UIAlertAction(title: "네", style: .default) {[weak self]_ in
             guard let self = self else {return}
-            let index = self.viewModel.currentIndexOfCat.value
+            let index = self.currentIndexOfCat.value
             self.viewModel.deleteCat(indexOfCat: index)
             if self.collectionView.numberOfItems(inSection: 0) - 1 == index && index != 0 {
-                self.viewModel.currentIndexOfCat.accept(index - 1)
+                self.currentIndexOfCat.accept(index - 1)
             } else {
-                self.viewModel.currentIndexOfCat.accept(index)
+                self.currentIndexOfCat.accept(index)
             }
         }
         let no = UIAlertAction(title: "아니오", style: .cancel, handler: nil)

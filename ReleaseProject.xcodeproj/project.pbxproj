@@ -159,7 +159,6 @@
 		2EDED25E27476FD8006C38DF /* ReleaseProject */ = {
 			isa = PBXGroup;
 			children = (
-				2E42A64227FC1EB100C78137 /* ViewModels */,
 				2EDED25F27476FD8006C38DF /* AppDelegate.swift */,
 				2EDED26127476FD8006C38DF /* SceneDelegate.swift */,
 				2EDED2A0274A7EAF006C38DF /* RealmModel.swift */,
@@ -167,6 +166,7 @@
 				2EDED2A9274BCAA9006C38DF /* Extension+Date.swift */,
 				2EDED2B3274CF5A7006C38DF /* Extension+String.swift */,
 				2EDED28A274A528D006C38DF /* Localization */,
+				2E42A64227FC1EB100C78137 /* ViewModels */,
 				2EDED27327478032006C38DF /* Home */,
 				2EDED27427478048006C38DF /* Calendar */,
 				2EDED27527478054006C38DF /* Data */,
