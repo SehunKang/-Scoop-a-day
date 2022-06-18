@@ -21,11 +21,13 @@ enum RealmServiceError: Error {
     case creationFailed
     case updateFailed(CatData)
     case deletionFailed
+    
+    case catNameDuplication
 }
 
 protocol RealmServiceType {
     
-    func createNewCat(catName: String) -> Observable<Void>
+    func createNewCat(catName: String) -> Single<Void>
     func appendNewDailyData(of cat: CatData)
     func changeCount(cat: CatData, date: Date, type: PooOrPee, value: Int) -> Observable<CatData>
     func changeName(cat: CatData, newName: String) -> Observable<CatData>
@@ -47,15 +49,19 @@ struct RealmService: RealmServiceType {
         }
     }
     
-    func createNewCat(catName: String) -> Observable<Void> {
-        let result = withRealm(#function) { realm -> Observable<Void> in
-            let catData = CatData(catName: catName)
-            catData.dailyDataList.append(DailyData())
-            try realm.write {
-                realm.add(catData)
+    func createNewCat(catName: String) -> Single<Void> {
+        let result = withRealm(#function) { realm -> Single<Void> in
+            if realm.objects(CatData.self)
+                .contains(where: { $0.catName == catName}) {
+                return Single.error(RealmServiceError.catNameDuplication)
+            } else {
+                let catData = CatData(catName: catName)
+                catData.dailyDataList.append(DailyData())
+                try realm.write {
+                    realm.add(catData)
+                }
+                return Single.just(Void())
             }
-            
-            return .empty()
         }
         return result ?? .error(RealmServiceError.creationFailed)
     }

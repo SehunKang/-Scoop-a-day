@@ -182,8 +182,12 @@ final class HomeViewController: UIViewController {
     private func addCatAlert() {
         let alert = UIAlertController(title: "추가", message: "추가하시겠습니까?", preferredStyle: .alert)
         let ok = UIAlertAction(title: "ok", style: .default) {[weak self] _ in
-            guard let name = alert.textFields?.first?.text else {return}
-            self?.viewModel.createCat(name: name).execute()
+            guard let name = alert.textFields?.first?.text, let self = self else {return}
+            self.viewModel.createCat(name: name)
+                .subscribe(onFailure: { _ in
+                    self.duplicateCatNameAlert()
+                })
+                .disposed(by: self.bag)
         }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         
@@ -196,7 +200,7 @@ final class HomeViewController: UIViewController {
     
     private func deleteCatAlert() {
         let alert = UIAlertController(title: "정말 삭제하시겠습니까?", message: nil, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "네", style: .default) {[weak self]_ in
+        let ok = UIAlertAction(title: "네", style: .default) {[weak self] _ in
             guard let self = self else {return}
             let index = self.currentIndexOfCat.value
             self.viewModel.deleteCat(indexOfCat: index)
@@ -213,6 +217,15 @@ final class HomeViewController: UIViewController {
         
         present(alert, animated: true)
 
+    }
+    
+    private func duplicateCatNameAlert() {
+        let alert = UIAlertController(title: "이미 존재하는 이름입니다.", message: nil, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "네", style: .default) { [weak self] _ in
+            self?.addCatAlert()
+        }
+        alert.addAction(ok)
+        present(alert, animated: true)
     }
     
 }

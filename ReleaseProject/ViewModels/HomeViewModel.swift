@@ -44,6 +44,7 @@ enum ButtonType {
 typealias TaskSection = AnimatableSectionModel<String, CatData>
 
 protocol ViewModel {
+    func createCat(name: String) -> Single<Void>
     
 }
 
@@ -89,12 +90,6 @@ class HomeViewModel: ViewModel {
         }
     }
         
-    //고양이 생성
-    func createCat(name: String) -> CocoaAction {
-        return CocoaAction {
-            return self.realmService.createNewCat(catName: name)
-        }
-    }
     
     
     func getDailyData(item: CatData) -> DailyData {
@@ -109,6 +104,12 @@ class HomeViewModel: ViewModel {
     //dailyData를 추가
     private func newDailyData(of cat: CatData) {
         self.realmService.appendNewDailyData(of: cat)
+    }
+    
+    //고양이 생성
+    func createCat(name: String) -> Single<Void> {
+        self.realmService.createNewCat(catName: name)
+        
     }
     
     //고양이 삭제, 인덱스로 처리
