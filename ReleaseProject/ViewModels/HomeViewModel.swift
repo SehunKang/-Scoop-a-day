@@ -41,17 +41,53 @@ enum ButtonType {
     }
 }
 
+//struct CatModel: IdentifiableType, Equatable {
+//    static func == (lhs: CatModel, rhs: CatModel) -> Bool {
+//        lhs.catName == rhs.catName
+//    }
+//    
+//    
+//    let catName: String
+//    let numForImage: Int
+//    let poopCount: Observable<Int?>
+//    let urineCount: Observable<Int?>
+//    var identity = UUID()
+//
+//}
+
+
 typealias TaskSection = AnimatableSectionModel<String, CatData>
 
-protocol ViewModel {
+protocol HomeViewModelType {
+    var sectionItems: Observable<[TaskSection]> { get }
+    
+    var numberOfCats: Observable<Int> { get }
+    var currentTitle: Observable<String> { get }
+    
+    var currentIndexOfCat: BehaviorRelay<Int> { get }
+    var isModifying: BehaviorRelay<Bool> { get }
+    
+    func getDailyData(item: CatData) -> DailyData
+    
     func createCat(name: String) -> Single<Void>
+    func deleteCat()
+    
+    func buttonClicked(cat: CatData) -> Action<ButtonType, Void>
     
 }
 
-class HomeViewModel: ViewModel {
+final class HomeViewModel: HomeViewModelType {
     
     private let realmService: RealmServiceType = RealmService()
     
+    var isModifying = BehaviorRelay<Bool>(value: false)
+    
+    var currentIndexOfCat: BehaviorRelay<Int>
+    
+    init(index: Int) {
+        currentIndexOfCat = BehaviorRelay<Int>(value: index)
+    }
+
     //RxDataSource에 CatData Object를 전달한다.
     var sectionItems: Observable<[TaskSection]> {
         return self.realmService.taskOn()
@@ -63,13 +99,16 @@ class HomeViewModel: ViewModel {
             }
     }
     
-    var catDataList: Observable<[CatData]> {
-        print("catDataListChanged")
+    private var catDataList: Observable<[CatData]> {
         return self.realmService.taskOn()
             .map { results in
                 results.toArray()
             }
             .distinctUntilChanged()
+    }
+    
+    func getDailyData(item: CatData) -> DailyData {
+        self.realmService.getDailyData(of: item)
     }
     
     //현재 관리하는 고양이는 몇마리인지
@@ -81,8 +120,8 @@ class HomeViewModel: ViewModel {
             .distinctUntilChanged()
     }
     
-    func currentTitle(index: Observable<Int>) -> Observable<String> {
-        return Observable.combineLatest(index, catDataList) {
+    var currentTitle: Observable<String> {
+        return Observable.combineLatest(currentIndexOfCat.distinctUntilChanged(), catDataList) {
             (index, catData) -> String in
                 if catData.isEmpty { return "" }
                 if index < catData.startIndex || index >= catData.endIndex { return "" }
@@ -90,22 +129,6 @@ class HomeViewModel: ViewModel {
         }
     }
         
-    
-    
-    func getDailyData(item: CatData) -> DailyData {
-        if item.dailyDataList.filter("date == %@", Date().removeTime()).first == nil {
-            newDailyData(of: item)
-        }
-        let dailyData = item.dailyDataList.filter("date == %@", Date().removeTime()).first!
-
-        return dailyData
-    }
-    
-    //dailyData를 추가
-    private func newDailyData(of cat: CatData) {
-        self.realmService.appendNewDailyData(of: cat)
-    }
-    
     //고양이 생성
     func createCat(name: String) -> Single<Void> {
         self.realmService.createNewCat(catName: name)
@@ -113,12 +136,13 @@ class HomeViewModel: ViewModel {
     }
     
     //고양이 삭제, 인덱스로 처리
-    func deleteCat(indexOfCat: Int) {
-        self.realmService.deleteIndex(index: indexOfCat)
+    func deleteCat() {
+        self.realmService.deleteIndex(index: currentIndexOfCat.value)
     }
     
     //컬렉션뷰 셀 안의 감자, 맛동산, 혹은 수정 버튼들에 대한 액션
     func buttonClicked(cat: CatData) -> Action<ButtonType, Void> {
+        
         return Action<ButtonType, Void> { buttonType in
             let at = Date().removeTime()
             var count: Int?

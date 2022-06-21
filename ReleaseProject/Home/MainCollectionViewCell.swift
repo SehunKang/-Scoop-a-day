@@ -62,6 +62,8 @@ class MainCollectionViewCell: UICollectionViewCell {
         
         //추가해야 위의 버튼들이 작동
         buttonAction.elements.subscribe { _ in}.disposed(by: bag)
+        
+    
 
         item.rx.observe(Int.self, "poopCount")
             .subscribe { [weak self] count in

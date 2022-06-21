@@ -26,14 +26,19 @@ enum RealmServiceError: Error {
 }
 
 protocol RealmServiceType {
-    
+    //C
     func createNewCat(catName: String) -> Single<Void>
-    func appendNewDailyData(of cat: CatData)
+    //R
+    func taskOn() -> Observable<Results<CatData>>
+    func getDailyData(of cat: CatData) -> DailyData
+    //U
     func changeCount(cat: CatData, date: Date, type: PooOrPee, value: Int) -> Observable<CatData>
     func changeName(cat: CatData, newName: String) -> Observable<CatData>
+    func appendNewDailyData(of cat: CatData)
+    //D
     func delete(cat: CatData) -> Observable<Void>
     func deleteIndex(index: Int)
-    func taskOn() -> Observable<Results<CatData>>
+
     
 }
 
@@ -47,6 +52,21 @@ struct RealmService: RealmServiceType {
             print("Failed \(operation) function in RealmService with error: \(err)")
             return nil
         }
+    }
+    
+    func appendNewDailyData(of cat: CatData) {
+        withRealm(#function) { realm in
+            try realm.write {
+                cat.dailyDataList.append(DailyData())
+            }
+        }
+    }
+   
+    func getDailyData(of cat: CatData) -> DailyData {
+        return withRealm(#function) { realm in
+            return cat.dailyDataList.filter("date == %@", Date().removeTime()).first!
+        }!
+        
     }
     
     func createNewCat(catName: String) -> Single<Void> {
@@ -66,19 +86,11 @@ struct RealmService: RealmServiceType {
         return result ?? .error(RealmServiceError.creationFailed)
     }
     
-    func appendNewDailyData(of cat: CatData) {
-        withRealm(#function) { realm in
-            try realm.write {
-                cat.dailyDataList.append(DailyData())
-            }
-        }
-    }
     
-    //value가 음수, 99이상으로 오는 경우 이곳에서 막아준다.
     func changeCount(cat: CatData, date: Date, type: PooOrPee, value: Int) -> Observable<CatData> {
         var value = value
         value = value < 0 ? 0 : value
-        value = value > 99 ? 99 : value
+        value = value > 999 ? 999 : value
         let result = withRealm(#function) { realm -> Observable<CatData> in
             try realm.write {
                 switch type {
@@ -128,6 +140,7 @@ struct RealmService: RealmServiceType {
     func taskOn() -> Observable<Results<CatData>> {
         let result = withRealm(#function) { realm -> Observable<Results<CatData>> in
             let task = realm.objects(CatData.self)
+                .sorted(byKeyPath: "createDate", ascending: true)
             return Observable.collection(from: task)
         }
         return result ?? .empty()

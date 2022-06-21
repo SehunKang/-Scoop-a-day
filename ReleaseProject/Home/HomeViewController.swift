@@ -22,23 +22,19 @@ final class HomeViewController: UIViewController {
     @IBOutlet weak var pageController: UIPageControl!
     
     //이게 맞는 방법일까?
-    let viewModel = HomeViewModel()
+    let viewModel: HomeViewModelType
     
     let bag = DisposeBag()
     
     var dataSource: CustomRxCollectionViewSectionedAnimatedDataSource<TaskSection>!
     
-    let isModifying = BehaviorRelay<Bool>(value: false)
-    
-    let currentIndexOfCat: BehaviorRelay<Int>
-    
     init(catIndex: Int) {
-        currentIndexOfCat = BehaviorRelay<Int>(value: catIndex)
+        viewModel = HomeViewModel(index: catIndex)
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
-        currentIndexOfCat = BehaviorRelay<Int>(value: 0)
+        viewModel = HomeViewModel(index: 0)
         super.init(coder: coder)
     }
     
@@ -82,9 +78,9 @@ final class HomeViewController: UIViewController {
                 let count = Int(offSet + horizontalCenter) / Int(width)
                 return count
             }
-            .bind(to: currentIndexOfCat)
+            .bind(to: viewModel.currentIndexOfCat)
             .disposed(by: bag)
-        
+
         //고양이 수와 페이지컨트롤러 동기화
         viewModel.numberOfCats
             .bind(to: pageController.rx.numberOfPages)
@@ -103,19 +99,19 @@ final class HomeViewController: UIViewController {
             .disposed(by: bag)
         
         //페이지컨트롤러와 현재 보고있는 인덱스 동기화
-        currentIndexOfCat
+        viewModel.currentIndexOfCat
             .distinctUntilChanged()
             .bind(to: pageController.rx.currentPage)
             .disposed(by: bag)
         
         //title에 현재 index의 고양이 이름을 보여줌
-        viewModel.currentTitle(index: currentIndexOfCat.distinctUntilChanged())
+        viewModel.currentTitle
             .bind(to: self.navigationItem.rx.title)
             .disposed(by: bag)
         
         
         //수정중인 경우 동작을 제한함
-        isModifying
+        viewModel.isModifying
             .map {!$0}
             .bind(to: collectionView.rx.isScrollEnabled,
                   tabBarController!.tabBar.rx.isUserInteractionEnabled,
@@ -136,11 +132,11 @@ final class HomeViewController: UIViewController {
                     let dailyData = self.viewModel.getDailyData(item: item)
                     
                     cell.catButton.setImage(UIImage(named: "cat\(item.numForImage)"), for: .normal)
-                    cell.configure(with: dailyData, buttonAction: self.viewModel.buttonClicked(cat: item), modifyingEvent: self.isModifying)
+                    cell.configure(with: dailyData, buttonAction: self.viewModel.buttonClicked(cat: item), modifyingEvent: self.viewModel.isModifying)
                     
                     cell.doneButton.rx.tap
                         .subscribe {[weak self] _ in
-                            self?.isModifying.accept(false)
+                            self?.viewModel.isModifying.accept(false)
                         }
                         .disposed(by: cell.bag)
                 }
@@ -152,7 +148,9 @@ final class HomeViewController: UIViewController {
         
         collectionView.reloadData()
         collectionView.layoutIfNeeded()
-        collectionView.scrollToItem(at: IndexPath(item: currentIndexOfCat.value, section: 0), at: .centeredHorizontally, animated: false)
+        if collectionView.numberOfItems(inSection: 0) > 0 {
+            collectionView.scrollToItem(at: IndexPath(item: viewModel.currentIndexOfCat.value, section: 0), at: .centeredHorizontally, animated: false)
+        }
     }
     
     
@@ -164,7 +162,7 @@ final class HomeViewController: UIViewController {
         }
         let adjustAction = UIAlertAction(title: "수정", style: .default) {[weak self] _ in
             if let self = self {
-                self.isModifying.accept(!self.isModifying.value)
+                self.viewModel.isModifying.accept(!self.viewModel.isModifying.value)
             }
         }
         let delete = UIAlertAction(title: "삭제", style: .destructive) {[weak self] _ in
@@ -178,6 +176,21 @@ final class HomeViewController: UIViewController {
         
         self.present(alert, animated: true)
     }
+    
+    
+}
+
+extension HomeViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
+    }
+    
+}
+
+//MARK: - Alerts
+extension HomeViewController {
     
     private func addCatAlert() {
         let alert = UIAlertController(title: "추가", message: "추가하시겠습니까?", preferredStyle: .alert)
@@ -202,12 +215,12 @@ final class HomeViewController: UIViewController {
         let alert = UIAlertController(title: "정말 삭제하시겠습니까?", message: nil, preferredStyle: .alert)
         let ok = UIAlertAction(title: "네", style: .default) {[weak self] _ in
             guard let self = self else {return}
-            let index = self.currentIndexOfCat.value
-            self.viewModel.deleteCat(indexOfCat: index)
+            let index = self.viewModel.currentIndexOfCat.value
+            self.viewModel.deleteCat()
             if self.collectionView.numberOfItems(inSection: 0) - 1 == index && index != 0 {
-                self.currentIndexOfCat.accept(index - 1)
+                self.viewModel.currentIndexOfCat.accept(index - 1)
             } else {
-                self.currentIndexOfCat.accept(index)
+                self.viewModel.currentIndexOfCat.accept(index)
             }
         }
         let no = UIAlertAction(title: "아니오", style: .cancel, handler: nil)
@@ -227,14 +240,5 @@ final class HomeViewController: UIViewController {
         alert.addAction(ok)
         present(alert, animated: true)
     }
-    
-}
 
-extension HomeViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
-    }
-    
 }
