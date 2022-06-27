@@ -12,6 +12,23 @@ import RealmSwift
 import RxRealm
 import RxSwift
 
+
+
+protocol RealmServiceType {
+    //C
+    func createNewCat(catName: String) -> Single<Void>
+    //R
+    func taskOn() -> Observable<Results<CatData>>
+    func getDailyData(of cat: CatData) -> Observable<DailyData>
+    //U
+    func changeCount(cat: CatData, date: Date, type: PooOrPee, value: Int) -> Observable<CatData>
+    func changeName(cat: CatData, newName: String) -> Observable<CatData>
+    func appendNewDailyData(of cat: CatData)
+    //D
+    func deleteCatByIndex(index: Int)
+    
+}
+
 enum PooOrPee {
     case poo
     case pee
@@ -21,25 +38,8 @@ enum RealmServiceError: Error {
     case creationFailed
     case updateFailed(CatData)
     case deletionFailed
-    
+    case todayDailyDataQueryError(CatData)
     case catNameDuplication
-}
-
-protocol RealmServiceType {
-    //C
-    func createNewCat(catName: String) -> Single<Void>
-    //R
-    func taskOn() -> Observable<Results<CatData>>
-    func getDailyData(of cat: CatData) -> DailyData
-    //U
-    func changeCount(cat: CatData, date: Date, type: PooOrPee, value: Int) -> Observable<CatData>
-    func changeName(cat: CatData, newName: String) -> Observable<CatData>
-    func appendNewDailyData(of cat: CatData)
-    //D
-    func delete(cat: CatData) -> Observable<Void>
-    func deleteIndex(index: Int)
-
-    
 }
 
 struct RealmService: RealmServiceType {
@@ -62,11 +62,14 @@ struct RealmService: RealmServiceType {
         }
     }
    
-    func getDailyData(of cat: CatData) -> DailyData {
-        return withRealm(#function) { realm in
-            return cat.dailyDataList.filter("date == %@", Date().removeTime()).first!
-        }!
-        
+    func getDailyData(of cat: CatData) -> Observable<DailyData> {
+        let result = withRealm(#function) { realm -> Observable<DailyData> in
+            guard let dailyData = cat.dailyDataList.filter("date == %@", Date().removeTime()).first else {
+                return .empty()
+            }
+            return .just(dailyData)
+        }
+        return result ?? .error(RealmServiceError.todayDailyDataQueryError(cat))
     }
     
     func createNewCat(catName: String) -> Single<Void> {
@@ -115,17 +118,7 @@ struct RealmService: RealmServiceType {
         return result ?? .error(RealmServiceError.updateFailed(cat))
     }
     
-    func delete(cat: CatData) -> Observable<Void> {
-        let result = withRealm(#function) { realm -> Observable<Void> in
-            try realm.write {
-                realm.delete(cat)
-            }
-            return .empty()
-        }
-        return result ?? .error(RealmServiceError.deletionFailed)
-    }
-    
-    func deleteIndex(index: Int) {
+    func deleteCatByIndex(index: Int) {
         withRealm(#function) { realm in
             let task = realm.objects(CatData.self)
             let cat = task.toArray()

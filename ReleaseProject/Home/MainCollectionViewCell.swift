@@ -38,7 +38,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         
     }
     
-    func configure(with item: DailyData, buttonAction: Action<ButtonType, Void>, modifyingEvent: BehaviorRelay<Bool>) {
+    func configure(with item: Observable<DailyData>, buttonAction: Action<ButtonType, Void>, modifyingEvent: BehaviorRelay<Bool>) {
         
         modifyingEvent
             .asDriver()
@@ -63,22 +63,24 @@ class MainCollectionViewCell: UICollectionViewCell {
         //추가해야 위의 버튼들이 작동
         buttonAction.elements.subscribe { _ in}.disposed(by: bag)
         
-    
+        item.flatMap { data -> Observable<Int?> in
+            data.rx.observe(Int.self, "poopCount")
+        }
+        .subscribe{ [weak self] count in
+            let count = (count.element ?? 0) ?? 0
+            self?.poopCountLabel.text = "\(count)"
+        }
+        .disposed(by: bag)
+        
+        item.flatMap { data -> Observable<Int?> in
+            data.rx.observe(Int.self, "urineCount")
+        }
+        .subscribe{ [weak self] count in
+            let count = (count.element ?? 0) ?? 0
+            self?.potatoCountLabel.text = "\(count)"
+        }
+        .disposed(by: bag)
 
-        item.rx.observe(Int.self, "poopCount")
-            .subscribe { [weak self] count in
-                let count = (count.element ?? 0) ?? 0
-                self?.poopCountLabel.text = "\(count)"
-            }
-            .disposed(by: bag)
-        
-        item.rx.observe(Int.self, "urineCount")
-            .subscribe { [weak self] count in
-                let count = (count.element ?? 0) ?? 0
-                self?.potatoCountLabel.text = "\(count)"
-            }
-            .disposed(by: bag)
-        
     }
     
         

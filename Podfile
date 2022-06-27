@@ -18,6 +18,7 @@ target 'ReleaseProject' do
 	pod 'Action'
 	pod 'Charts'
 	pod 'SnapKit'
+	pod 'ReactorKit'
 
   target 'ReleaseProjectTests' do
     inherit! :search_paths

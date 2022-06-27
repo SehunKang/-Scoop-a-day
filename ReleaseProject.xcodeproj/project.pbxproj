@@ -27,8 +27,6 @@
 		2EDED2792747855F006C38DF /* Calendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EDED2782747855F006C38DF /* Calendar.storyboard */; };
 		2EDED27D2747858B006C38DF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED27C2747858B006C38DF /* HomeViewController.swift */; };
 		2EDED281274A51F8006C38DF /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED280274A51F7006C38DF /* CalendarViewController.swift */; };
-		2EDED283274A5238006C38DF /* Data.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EDED282274A5238006C38DF /* Data.storyboard */; };
-		2EDED285274A5241006C38DF /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED284274A5241006C38DF /* DataViewController.swift */; };
 		2EDED28D274A52AF006C38DF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2EDED28F274A52AF006C38DF /* Localizable.strings */; };
 		2EDED2A1274A7EB0006C38DF /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED2A0274A7EAF006C38DF /* RealmModel.swift */; };
 		2EDED2A8274B6E3A006C38DF /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED2A7274B6E3A006C38DF /* RealmService.swift */; };
@@ -67,6 +65,7 @@
 		2E616D4B2816BD2B001F86F3 /* LocalizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationService.swift; sourceTree = "<group>"; };
 		2E669206282A9AC600FCEA3A /* CustomRxCollectionViewSectionedAnimatedDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRxCollectionViewSectionedAnimatedDataSource.swift; sourceTree = "<group>"; };
 		2E94FE0C2768D1D300A6BAA1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2EAA6FB62862E5E300CF50C5 /* DataViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewReactor.swift; sourceTree = "<group>"; };
 		2EB5F9E52812892400C880E6 /* MainViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelTest.swift; sourceTree = "<group>"; };
 		2EB5F9E72812892C00C880E6 /* RealmServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmServiceTest.swift; sourceTree = "<group>"; };
 		2EDED25C27476FD8006C38DF /* ReleaseProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReleaseProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,7 +78,6 @@
 		2EDED2782747855F006C38DF /* Calendar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Calendar.storyboard; sourceTree = "<group>"; };
 		2EDED27C2747858B006C38DF /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		2EDED280274A51F7006C38DF /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
-		2EDED282274A5238006C38DF /* Data.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Data.storyboard; sourceTree = "<group>"; };
 		2EDED284274A5241006C38DF /* DataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewController.swift; sourceTree = "<group>"; };
 		2EDED28E274A52AF006C38DF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2EDED290274A52B3006C38DF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -128,14 +126,6 @@
 			path = ReleaseProjectTests;
 			sourceTree = "<group>";
 		};
-		2E42A64227FC1EB100C78137 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				2E42A64327FC634E00C78137 /* HomeViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		2EDED25327476FD7006C38DF = {
 			isa = PBXGroup;
 			children = (
@@ -166,7 +156,6 @@
 				2EDED2A9274BCAA9006C38DF /* Extension+Date.swift */,
 				2EDED2B3274CF5A7006C38DF /* Extension+String.swift */,
 				2EDED28A274A528D006C38DF /* Localization */,
-				2E42A64227FC1EB100C78137 /* ViewModels */,
 				2EDED27327478032006C38DF /* Home */,
 				2EDED27427478048006C38DF /* Calendar */,
 				2EDED27527478054006C38DF /* Data */,
@@ -183,6 +172,7 @@
 		2EDED27327478032006C38DF /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				2E42A64327FC634E00C78137 /* HomeViewModel.swift */,
 				2EDED27C2747858B006C38DF /* HomeViewController.swift */,
 				2E669206282A9AC600FCEA3A /* CustomRxCollectionViewSectionedAnimatedDataSource.swift */,
 				2EDED2AF274CCC3B006C38DF /* MainCollectionViewCell.swift */,
@@ -207,8 +197,8 @@
 		2EDED27527478054006C38DF /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				2EDED282274A5238006C38DF /* Data.storyboard */,
 				2EDED284274A5241006C38DF /* DataViewController.swift */,
+				2EAA6FB62862E5E300CF50C5 /* DataViewReactor.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -338,7 +328,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EDED2B2274CCC3B006C38DF /* MainCollectionViewCell.xib in Resources */,
-				2EDED283274A5238006C38DF /* Data.storyboard in Resources */,
 				2EDED26C27476FDA006C38DF /* LaunchScreen.storyboard in Resources */,
 				2EDED26927476FDA006C38DF /* Assets.xcassets in Resources */,
 				2EDED28D274A52AF006C38DF /* Localizable.strings in Resources */,
@@ -481,7 +470,6 @@
 				2EDED2B4274CF5A7006C38DF /* Extension+String.swift in Sources */,
 				2E616D4C2816BD2B001F86F3 /* LocalizationService.swift in Sources */,
 				2EDED2B1274CCC3B006C38DF /* MainCollectionViewCell.swift in Sources */,
-				2EDED285274A5241006C38DF /* DataViewController.swift in Sources */,
 				2EDED27D2747858B006C38DF /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

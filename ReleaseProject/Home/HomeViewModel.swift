@@ -12,9 +12,6 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-import RealmSwift
-
-
 enum ButtonType {
     case poop
     case urine
@@ -41,21 +38,6 @@ enum ButtonType {
     }
 }
 
-//struct CatModel: IdentifiableType, Equatable {
-//    static func == (lhs: CatModel, rhs: CatModel) -> Bool {
-//        lhs.catName == rhs.catName
-//    }
-//    
-//    
-//    let catName: String
-//    let numForImage: Int
-//    let poopCount: Observable<Int?>
-//    let urineCount: Observable<Int?>
-//    var identity = UUID()
-//
-//}
-
-
 typealias TaskSection = AnimatableSectionModel<String, CatData>
 
 protocol HomeViewModelType {
@@ -67,11 +49,12 @@ protocol HomeViewModelType {
     var currentIndexOfCat: BehaviorRelay<Int> { get }
     var isModifying: BehaviorRelay<Bool> { get }
     
-    func getDailyData(item: CatData) -> DailyData
+    func getDailyData(item: CatData) -> Observable<DailyData>
     
     func createCat(name: String) -> Single<Void>
     func deleteCat()
     
+    //Action을 다이어트 한 결과 이 함수 하나 남았음, 바꿀것인지 고민 필요
     func buttonClicked(cat: CatData) -> Action<ButtonType, Void>
     
 }
@@ -107,7 +90,7 @@ final class HomeViewModel: HomeViewModelType {
             .distinctUntilChanged()
     }
     
-    func getDailyData(item: CatData) -> DailyData {
+    func getDailyData(item: CatData) -> Observable<DailyData> {
         self.realmService.getDailyData(of: item)
     }
     
@@ -137,7 +120,7 @@ final class HomeViewModel: HomeViewModelType {
     
     //고양이 삭제, 인덱스로 처리
     func deleteCat() {
-        self.realmService.deleteIndex(index: currentIndexOfCat.value)
+        self.realmService.deleteCatByIndex(index: currentIndexOfCat.value)
     }
     
     //컬렉션뷰 셀 안의 감자, 맛동산, 혹은 수정 버튼들에 대한 액션

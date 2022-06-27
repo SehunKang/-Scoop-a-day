@@ -65,6 +65,7 @@ final class HomeViewController: UIViewController {
     }
     
     func bind() {
+        
         viewModel.sectionItems.bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         
@@ -120,6 +121,7 @@ final class HomeViewController: UIViewController {
         
     }
     
+    //리팩터링 필요해보임, 과연 CatData를 직접 넘겨주는게 바람직 한것일까..? 값타입을 넘겨주는 시도를 했더니 업데이트할 때마다 모든 CollectionView가 reload 되는 듯 했음.
     func configureDataSource() {
         
         dataSource = CustomRxCollectionViewSectionedAnimatedDataSource<TaskSection>(
