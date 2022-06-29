@@ -61,17 +61,18 @@ protocol HomeViewModelType {
 
 final class HomeViewModel: HomeViewModelType {
     
-    private let realmService: RealmServiceType = RealmService()
+    private let realmService: RealmServiceTypeForHomeView
     
     var isModifying = BehaviorRelay<Bool>(value: false)
     
     var currentIndexOfCat: BehaviorRelay<Int>
     
-    init(index: Int) {
-        currentIndexOfCat = BehaviorRelay<Int>(value: index)
+    init(index: Int, realmService: RealmServiceTypeForHomeView) {
+        self.currentIndexOfCat = BehaviorRelay<Int>(value: index)
+        self.realmService = realmService
     }
 
-    //RxDataSource에 CatData Object를 전달한다.
+    //RxDataSource에 binding
     var sectionItems: Observable<[TaskSection]> {
         return self.realmService.taskOn()
             .map { results in
@@ -94,7 +95,6 @@ final class HomeViewModel: HomeViewModelType {
         self.realmService.getDailyData(of: item)
     }
     
-    //현재 관리하는 고양이는 몇마리인지
     var numberOfCats: Observable<Int> {
         return self.realmService.taskOn()
             .map { results in
@@ -112,13 +112,12 @@ final class HomeViewModel: HomeViewModelType {
         }
     }
         
-    //고양이 생성
     func createCat(name: String) -> Single<Void> {
         self.realmService.createNewCat(catName: name)
         
     }
     
-    //고양이 삭제, 인덱스로 처리
+    //고양이 삭제, 현재 인덱스로 처리
     func deleteCat() {
         self.realmService.deleteCatByIndex(index: currentIndexOfCat.value)
     }
@@ -146,7 +145,7 @@ final class HomeViewModel: HomeViewModelType {
                 return .empty()
             }
 
-            //value가 0 미만, 99 초과일때는 RealmService에서 막아준다.
+            //value가 0 미만, 999 초과일때는 RealmService에서 막아준다.
             switch buttonType {
             case .poop:
                 count += 1

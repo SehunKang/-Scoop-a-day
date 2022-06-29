@@ -14,7 +14,7 @@ import RxSwift
 
 
 
-protocol RealmServiceType {
+protocol RealmServiceTypeForHomeView {
     //C
     func createNewCat(catName: String) -> Single<Void>
     //R
@@ -27,6 +27,10 @@ protocol RealmServiceType {
     //D
     func deleteCatByIndex(index: Int)
     
+}
+
+protocol RealmServiceTypeForDataView {
+    func taskOn() -> Observable<Results<CatData>>
 }
 
 enum PooOrPee {
@@ -42,7 +46,7 @@ enum RealmServiceError: Error {
     case catNameDuplication
 }
 
-struct RealmService: RealmServiceType {
+struct RealmService: RealmServiceTypeForHomeView, RealmServiceTypeForDataView {
     
     private func withRealm<T>(_ operation: String, action: (Realm) throws -> T) -> T? {
         do {

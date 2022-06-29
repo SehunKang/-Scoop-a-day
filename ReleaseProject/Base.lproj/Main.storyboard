@@ -84,39 +84,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cE1-8U-Lgg" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="10" y="108" width="394" height="358.5"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            </view>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hu2-rG-azL">
-                                <rect key="frame" x="57" y="476.5" width="300" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="300" id="5qn-Z6-ktK"/>
-                                    <constraint firstAttribute="height" constant="100" id="D5H-ch-up8"/>
-                                </constraints>
-                            </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ChT-Wa-IA2">
+                                <rect key="frame" x="84" y="261" width="246" height="375"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="XJQ-vl-XfB"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="cE1-8U-Lgg" firstAttribute="height" secondItem="bcO-kh-SAt" secondAttribute="height" multiplier="0.4" id="BvK-sM-KOj"/>
-                            <constraint firstItem="hu2-rG-azL" firstAttribute="top" secondItem="cE1-8U-Lgg" secondAttribute="bottom" constant="10" id="RfH-5Q-ReR"/>
-                            <constraint firstItem="cE1-8U-Lgg" firstAttribute="top" secondItem="XJQ-vl-XfB" secondAttribute="top" constant="20" id="X5x-hO-Wcu"/>
-                            <constraint firstItem="cE1-8U-Lgg" firstAttribute="leading" secondItem="XJQ-vl-XfB" secondAttribute="leading" constant="10" id="bEO-Ro-MdV"/>
-                            <constraint firstItem="XJQ-vl-XfB" firstAttribute="trailing" secondItem="cE1-8U-Lgg" secondAttribute="trailing" constant="10" id="uoW-Xm-riY"/>
-                            <constraint firstItem="hu2-rG-azL" firstAttribute="centerX" secondItem="cE1-8U-Lgg" secondAttribute="centerX" id="yVE-rg-FiY"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="miL-o3-34e"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="chartView" destination="cE1-8U-Lgg" id="liV-kJ-l9w"/>
-                        <outlet property="monthPickerView" destination="hu2-rG-azL" id="H37-BI-wTk"/>
+                        <outlet property="label" destination="ChT-Wa-IA2" id="a8l-Py-ZbO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XUG-ML-zV9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4878.2608695652179" y="540.40178571428567"/>
+            <point key="canvasLocation" x="4865.217391304348" y="540.40178571428567"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2j5-fC-iYf">

@@ -10,7 +10,7 @@ import Foundation
 extension Date {
 	
 	func removeTime() -> Date {
-		let calendar = Calendar(identifier: .gregorian)
+        let calendar = Calendar.current
 		let components = calendar.dateComponents([.year, .month, .day], from: self)
 		let date = calendar.date(from: components)
 		return date!
@@ -42,7 +42,7 @@ extension Date {
 	}
 	
 	/// Date로부터 by만큼 떨어진 주의 말일을 알려줌
-	func endDayOfWeek(by: Int) -> Date {
+	func endDayOfWeek(by: Int = 0) -> Date {
 		return Calendar.current.date(byAdding: DateComponents(second: -1, weekOfYear: 1 + by), to: self.startDayOfWeek())!
 	}
 	

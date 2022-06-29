@@ -28,13 +28,13 @@ final class HomeViewController: UIViewController {
     
     var dataSource: CustomRxCollectionViewSectionedAnimatedDataSource<TaskSection>!
     
-    init(catIndex: Int) {
-        viewModel = HomeViewModel(index: catIndex)
+    init(viewModel: HomeViewModelType) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
-        viewModel = HomeViewModel(index: 0)
+        viewModel = HomeViewModel(index: 0, realmService: RealmService() as RealmServiceTypeForHomeView)
         super.init(coder: coder)
     }
     
