@@ -17,8 +17,11 @@
 		2E616D4C2816BD2B001F86F3 /* LocalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E616D4B2816BD2B001F86F3 /* LocalizationService.swift */; };
 		2E669207282A9AC600FCEA3A /* CustomRxCollectionViewSectionedAnimatedDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E669206282A9AC600FCEA3A /* CustomRxCollectionViewSectionedAnimatedDataSource.swift */; };
 		2E94FE0D2768D1D300A6BAA1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E94FE0C2768D1D300A6BAA1 /* GoogleService-Info.plist */; };
-		2EAA6FBA2869800200CF50C5 /* DataViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA6FB62862E5E300CF50C5 /* DataViewReactor.swift */; };
-		2EAA6FBB2869800400CF50C5 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED284274A5241006C38DF /* DataViewController.swift */; };
+		2EAA6FBE286D777400CF50C5 /* DataViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA6FB62862E5E300CF50C5 /* DataViewReactor.swift */; };
+		2EAA6FBF286D777700CF50C5 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED284274A5241006C38DF /* DataViewController.swift */; };
+		2EAA6FC5286ECE8D00CF50C5 /* ChartDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA6FC4286ECE8D00CF50C5 /* ChartDateCollectionViewCell.swift */; };
+		2EAA6FC7286ED86A00CF50C5 /* ChartDateCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA6FC6286ED86A00CF50C5 /* ChartDateCellReactor.swift */; };
+		2EAA6FC9286ED94500CF50C5 /* ChartDateCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA6FC8286ED94500CF50C5 /* ChartDateCellModel.swift */; };
 		2EB5F9E62812892400C880E6 /* MainViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5F9E52812892400C880E6 /* MainViewModelTest.swift */; };
 		2EB5F9E82812892C00C880E6 /* RealmServiceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB5F9E72812892C00C880E6 /* RealmServiceTest.swift */; };
 		2EDED26027476FD8006C38DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED25F27476FD8006C38DF /* AppDelegate.swift */; };
@@ -68,6 +71,9 @@
 		2E669206282A9AC600FCEA3A /* CustomRxCollectionViewSectionedAnimatedDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRxCollectionViewSectionedAnimatedDataSource.swift; sourceTree = "<group>"; };
 		2E94FE0C2768D1D300A6BAA1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2EAA6FB62862E5E300CF50C5 /* DataViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewReactor.swift; sourceTree = "<group>"; };
+		2EAA6FC4286ECE8D00CF50C5 /* ChartDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDateCollectionViewCell.swift; sourceTree = "<group>"; };
+		2EAA6FC6286ED86A00CF50C5 /* ChartDateCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDateCellReactor.swift; sourceTree = "<group>"; };
+		2EAA6FC8286ED94500CF50C5 /* ChartDateCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDateCellModel.swift; sourceTree = "<group>"; };
 		2EB5F9E52812892400C880E6 /* MainViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModelTest.swift; sourceTree = "<group>"; };
 		2EB5F9E72812892C00C880E6 /* RealmServiceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmServiceTest.swift; sourceTree = "<group>"; };
 		2EDED25C27476FD8006C38DF /* ReleaseProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReleaseProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,6 +207,9 @@
 			children = (
 				2EDED284274A5241006C38DF /* DataViewController.swift */,
 				2EAA6FB62862E5E300CF50C5 /* DataViewReactor.swift */,
+				2EAA6FC4286ECE8D00CF50C5 /* ChartDateCollectionViewCell.swift */,
+				2EAA6FC6286ED86A00CF50C5 /* ChartDateCellReactor.swift */,
+				2EAA6FC8286ED94500CF50C5 /* ChartDateCellModel.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -462,14 +471,17 @@
 				2EDED2A1274A7EB0006C38DF /* RealmModel.swift in Sources */,
 				2E398D9728372DCF003CEFAA /* CreateNewCatView.swift in Sources */,
 				2E36F864276F496F002C986B /* InfoTableVIewController.swift in Sources */,
+				2EAA6FC9286ED94500CF50C5 /* ChartDateCellModel.swift in Sources */,
+				2EAA6FC7286ED86A00CF50C5 /* ChartDateCellReactor.swift in Sources */,
 				2EDED2A8274B6E3A006C38DF /* RealmService.swift in Sources */,
-				2EAA6FBA2869800200CF50C5 /* DataViewReactor.swift in Sources */,
+				2EAA6FBE286D777400CF50C5 /* DataViewReactor.swift in Sources */,
 				2E36F86B27704B97002C986B /* OpensourceList.swift in Sources */,
 				2EDED26027476FD8006C38DF /* AppDelegate.swift in Sources */,
+				2EAA6FC5286ECE8D00CF50C5 /* ChartDateCollectionViewCell.swift in Sources */,
 				2EDED26227476FD8006C38DF /* SceneDelegate.swift in Sources */,
 				2EDED2AA274BCAA9006C38DF /* Extension+Date.swift in Sources */,
 				2E42A64427FC634E00C78137 /* HomeViewModel.swift in Sources */,
-				2EAA6FBB2869800400CF50C5 /* DataViewController.swift in Sources */,
+				2EAA6FBF286D777700CF50C5 /* DataViewController.swift in Sources */,
 				2E669207282A9AC600FCEA3A /* CustomRxCollectionViewSectionedAnimatedDataSource.swift in Sources */,
 				2EDED2B4274CF5A7006C38DF /* Extension+String.swift in Sources */,
 				2E616D4C2816BD2B001F86F3 /* LocalizationService.swift in Sources */,
