@@ -10,16 +10,25 @@ import UIKit
 import Charts
 import RealmSwift
 import ReactorKit
+import RxDataSources
 
 class DataViewController: UIViewController, StoryboardView {
 
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var datesCollectionView: UICollectionView!
+    @IBOutlet weak var dateDecreaseButton: UIButton!
+    @IBOutlet weak var dateIncreaseButton: UIButton!
     //	@IBOutlet weak var chartView: BarChartView!
 	
 //	@IBOutlet weak var monthPickerView: UIPickerView!
 //	@IBOutlet weak var navigationBar: UINavigationBar!
     var disposeBag: DisposeBag = DisposeBag()
-	
+    
+    var dataSource = RxCollectionViewSectionedReloadDataSource<ChartDateSection> { dataSource, collectionView, indexPath, reactor in
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChartDateCollectionViewCell.identifier, for: indexPath) as! ChartDateCollectionViewCell
+        
+        cell.reactor = reactor
+        return cell
+    }
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -35,6 +44,23 @@ class DataViewController: UIViewController, StoryboardView {
 	override func viewDidLoad() {
         super.viewDidLoad()
         
+        configure()
+    }
+    
+    private func configure() {
+        datesCollectionView.register(ChartDateCollectionViewCell.self, forCellWithReuseIdentifier: ChartDateCollectionViewCell.identifier)
+        
+        datesCollectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
+        dataSource = RxCollectionViewSectionedReloadDataSource<ChartDateSection> { dataSource, collectionView, indexPath, reactor in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChartDateCollectionViewCell.identifier, for: indexPath) as! ChartDateCollectionViewCell
+            
+            cell.reactor = reactor
+            return cell
+        }
+        datesCollectionView.layoutIfNeeded()
+        datesCollectionView.scrollToItem(at: IndexPath(item: datesCollectionView.numberOfItems(inSection: 0) - 1, section: 0), at: .centeredHorizontally, animated: true)
     }
     
     func bind(reactor: DataViewReactor) {
@@ -47,10 +73,48 @@ class DataViewController: UIViewController, StoryboardView {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        reactor.state.asObservable().map {$0.currentCat}
-            .bind(to: self.navigationItem.rx.title)
+        datesCollectionView.rx.didScroll
+            .map {[weak self] Void -> Reactor.Action in
+                guard let self = self else {return .dateSelected(0)}
+                let offSet = self.datesCollectionView.contentOffset.x
+                let width = self.datesCollectionView.frame.width
+                let horizontalCenter = width / 2
+                let count = Int(offSet + horizontalCenter) / Int(width)
+                return .dateSelected(count)
+            }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        reactor.state.asObservable().map { $0.sections }
+            .bind(to: datesCollectionView.rx.items(dataSource: self.dataSource))
+            .disposed(by: disposeBag)
+        
+        reactor.state.asObservable().map { $0.currentCat }
+            .bind(to: self.navigationItem.rx.title)
+            .disposed(by: disposeBag)
+                
+        reactor.state.asObservable().map { $0.dataModel }
+            .distinctUntilChanged()
+            .subscribe { dataModel in
+                print(dataModel)
+            }
+            .disposed(by: disposeBag)
+
+        
+    }
+    
+}
+
+extension DataViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        collectionView.bounds.size
+
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        0
     }
     
 }

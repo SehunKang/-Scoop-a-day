@@ -31,6 +31,7 @@ class ChartDateCollectionViewCell: UICollectionViewCell, View {
     override init(frame: CGRect) {
         super.init(frame: frame)
         layout()
+        self.insetsLayoutMarginsFromSafeArea = false
     }
     
     required init?(coder: NSCoder) {
@@ -41,28 +42,28 @@ class ChartDateCollectionViewCell: UICollectionViewCell, View {
         self.contentView.addSubview(dateLabel)
         
         dateLabel.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalTo(contentView)
         }
-        
     }
     
-    func bind(reactor: ChartDateCellReactor) {
+    func bind(reactor: Reactor) {
         let date = reactor.currentState.date
         let presentType = reactor.currentState.presentType
         
         let formatter = DateFormatter()
+        let text: String
         switch presentType {
         case .week:
-            let week = Calendar.current.dateComponents([.weekday], from: date).weekOfMonth!
-            formatter.dateFormat = "MMM, Week \(week)"
+            let week = Calendar.current.dateComponents([.weekOfMonth], from: date).weekOfMonth!
+            formatter.dateFormat = "MMM"
+            text = "\(formatter.string(from: date)) Week \(week)"
         case .month:
             formatter.dateFormat = "MMMM yyyy"
+            text = formatter.string(from: date)
         case .year:
             formatter.dateFormat = "yyyy"
+            text = formatter.string(from: date)
         }
-        
-        dateLabel.text = formatter.string(from: date)
+        dateLabel.text = text
     }
-
-    
 }

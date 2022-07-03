@@ -10,6 +10,7 @@ import Foundation
 import ReactorKit
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 
 enum DataPresentType {
@@ -18,33 +19,38 @@ enum DataPresentType {
     case week
 }
 
-struct DataModel {
-    
-    let poopCount: Int
-    let urineCount: Int
-    let date: Date
-    
-}
+
+typealias ChartDateSection = SectionModel<Void, ChartDateCellReactor>
 
 class DataViewReactor: Reactor {
     
     enum Action {
         case refresh
-//        case datePickerSelected(DataPresentType)
-//        case catSelected(Int)
+        case dateSelected(Int)
+        //        case datePickerSelected(DataPresentType)
+        //        case dateIncrease
+        //        case dateDecrease
+        //        case catSelected(Int)
     }
     
     enum Mutation {
-        case refresh([DataModel], String)
-//        case datePickerSelected
-//        case catSelected(CatData)
+        case setCat(String, [ChartDateSection])
+        case dateSelected([DataModel])
+//        case setDatesForChartHeader([ChartDateSection])
+//        case setDataForChart([DataModel])
+        //        case datePickerSelected
+        //        case dateIncrease
+        //        case dateDecrease
+        //        case catSelected(CatData)
     }
     
     struct State {
         var currentIndexOfCat: Int
         var currentCat: String
         var dataPresentType: DataPresentType
+        var datesCollection: [Date]
         var dataModel: [DataModel]
+        var sections: [ChartDateSection]
         
     }
     
@@ -58,44 +64,70 @@ class DataViewReactor: Reactor {
         self.initialState = State(currentIndexOfCat: currentIndexOfCat,
                                   currentCat: "",
                                   dataPresentType: .week,
-                                  dataModel: [])
+                                  datesCollection: [],
+                                  dataModel: [],
+                                  sections: [])
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
+        let state = currentState
         switch action {
         case .refresh:
-            let state = currentState
             return self.realmService.taskOn()
-                .map { [weak self] result in
-                    let cat = result.toArray()[state.currentIndexOfCat]
-                    let rawData = cat.dailyDataList.filter("%@ <= date AND date <= %@", Date().startDayOfWeek(), Date().endDayOfWeek()).toArray()
-                    if rawData.isEmpty {
-                        return .refresh([], cat.catName)
-                    }
-                    let modelData = self?.setDataByDataPresentType(dataPresentType: .week, data: rawData) ?? []
-                    return .refresh(modelData, cat.catName)
+                .withUnretained(self)
+                .map {owner, result -> (String, [ChartDateSection]) in
+                    let catData = result.toArray()[state.currentIndexOfCat]
+                    let name = catData.catName
+                    let dates = owner.getDatesForPresentation(data: catData.dailyDataList.toArray() , dataPresentType: state.dataPresentType)
+                    let sectionItem = dates.map { ChartDateCellReactor(task: ChartDateCellModel(date: $0, presentType: state.dataPresentType)) }
+                    let section = ChartDateSection(model: Void(), items: sectionItem)
+                    return (name, [section])
+                }
+                .flatMap { (name, section) -> Observable<Mutation> in
+                    Observable.just(.setCat(name, section))
                 }
             
-//        case .datePickerSelected(let datePickerType):
-//            <#code#>
-//        case .catSelected(let int):
-//            <#code#>
+            //        case .datePickerSelected(let datePickerType):
+            //            <#code#>
+            //        case .catSelected(let int):
+            //            <#code#>
+        case let .dateSelected(index):
+            return self.realmService.taskOn()
+                .map { result -> CatData in
+                    result.toArray()[state.currentIndexOfCat]
+                }
+                .withUnretained(self)
+                .flatMap { owner, catData -> Observable<Mutation> in
+                    let date = state.sections.first!.items[index].initialState.date
+                    let data = owner.setDataByDataPresentType(dataPresentType: state.dataPresentType, cat: catData, dateBase: date)
+                    return Observable.just(.dateSelected(data))
+                }
         }
+        
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
         switch mutation {
-        case let .refresh(data, catName):
+        case let .setCat(catName, section):
             state.currentCat = catName
+            state.sections = section
+            return state
+        case let .dateSelected(data):
             state.dataModel = data
             return state
+//        case .setDatesForChartHeader(let array):
+//            <#code#>
+//        case .setDataForChart(let array):
+//            <#code#>
         }
     }
     
-    private func setDataByDataPresentType(dataPresentType: DataPresentType, data: [DailyData]) -> [DataModel] {
+    
+    private func setDataByDataPresentType(dataPresentType: DataPresentType, cat: CatData, dateBase: Date) -> [DataModel] {
         switch dataPresentType {
         case .year:
+            let data = cat.dailyDataList.filter("%@ <= date AND date <= %@ ", dateBase.startDayOfYear(), dateBase.endDayOfYear())
             var result = [DataModel]()
             var poopAverage = Array(repeating: 0, count: 12)
             var urineAverage = Array(repeating: 0, count: 12)
@@ -124,17 +156,17 @@ class DataViewReactor: Reactor {
             
             
         case .month:
-            let dates = getDates(from: data.first!.date.startDayOfMonth(), to: data.first!.date.endDayOfMonth())
+            let dates = getDatesBetween(from: dateBase.startDayOfMonth(), to: dateBase.endDayOfMonth())
             return dates.map { date -> DataModel in
-                guard let data = data.filter({ $0.date == date }).first else {
+                guard let data = cat.dailyDataList.filter({ $0.date == date }).first else {
                     return DataModel(poopCount: 0, urineCount: 0, date: date)
                 }
                 return DataModel(poopCount: data.poopCount, urineCount: data.urineCount, date: date)
             }
         case .week:
-            let dates = getDates(from: data.first!.date.startDayOfWeek(), to: data.first!.date.endDayOfWeek())
+            let dates = getDatesBetween(from: dateBase.startDayOfWeek(), to: dateBase.endDayOfWeek())
             return dates.map { date in
-                guard let data = data.filter({ $0.date == date }).first else {
+                guard let data = cat.dailyDataList.filter({ $0.date == date }).first else {
                     return DataModel(poopCount: 0, urineCount: 0, date: date)
                 }
                 return DataModel(poopCount: data.poopCount, urineCount: data.urineCount, date: date)
@@ -144,7 +176,14 @@ class DataViewReactor: Reactor {
         
     }
     
-    private func getDates(from startDate: Date, to endDate: Date) -> [Date] {
+    private func getDatesForPresentation(data: [DailyData], dataPresentType: DataPresentType) -> [Date] {
+        if data.isEmpty {
+            return []
+        }
+        return getDatesBetween(by: dataPresentType, from: data.first!.date, to: data.last!.date)
+    }
+    
+    private func getDatesBetween(from startDate: Date, to endDate: Date) -> [Date] {
         
         var result = [Date]()
         var tmp = startDate
@@ -156,5 +195,41 @@ class DataViewReactor: Reactor {
         }
         return result
     }
+    
+    private func getDatesBetween(by dataPresentType: DataPresentType, from start: Date, to end: Date) -> [Date] {
+        var allDates: [Date] = []
+        guard start <= end else { return allDates }
+        
+        let calendar = Calendar.current
+        switch dataPresentType {
+        case .year:
+            let year = calendar.dateComponents([.year], from: start.startDayOfYear(), to: end.endDayOfYear()).year ?? 1
+            
+            for i in 0...year {
+                if let date = calendar.date(byAdding: .year, value: i, to: start) {
+                    allDates.append(date)
+                }
+            }
+        case .month:
+            let month = calendar.dateComponents([.month], from: start.startDayOfMonth(), to: end.endDayOfMonth()).month ?? 1
+            
+            for i in 0...month {
+                if let date = calendar.date(byAdding: .month, value: i, to: start) {
+                    allDates.append(date)
+                }
+            }
+        case .week:
+            let week = calendar.dateComponents([.weekOfMonth], from: start.startDayOfWeek(), to: end.endDayOfWeek()).weekOfMonth ?? 1
+            
+            for i in 0...week {
+                if let date = calendar.date(byAdding: .weekOfMonth, value: i, to: start) {
+                    allDates.append(date)
+                }
+            }
+        }
+        return allDates
+
+    }
+    
     
 }
