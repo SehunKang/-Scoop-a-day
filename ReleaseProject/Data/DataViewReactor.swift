@@ -99,7 +99,7 @@ class DataViewReactor: Reactor {
                 .withUnretained(self)
                 .flatMap { owner, catData -> Observable<Mutation> in
                     let date = state.sections.first!.items[index].initialState.date
-                    let data = owner.setDataByDataPresentType(dataPresentType: state.dataPresentType, cat: catData, dateBase: date)
+                    let data = owner.setDataByDataPresentType(dataPresentType: .year, cat: catData, dateBase: date)
                     return Observable.just(.dateSelected(data))
                 }
         }
@@ -127,7 +127,7 @@ class DataViewReactor: Reactor {
     private func setDataByDataPresentType(dataPresentType: DataPresentType, cat: CatData, dateBase: Date) -> [DataModel] {
         switch dataPresentType {
         case .year:
-            let data = cat.dailyDataList.filter("%@ <= date AND date <= %@ ", dateBase.startDayOfYear(), dateBase.endDayOfYear())
+            let data = cat.dailyDataList.filter("%@ <= date AND date <= %@ ", dateBase.startDayOfYear(), dateBase.endDayOfYear()).toArray()
             var result = [DataModel]()
             var poopAverage = Array(repeating: 0, count: 12)
             var urineAverage = Array(repeating: 0, count: 12)
@@ -137,8 +137,13 @@ class DataViewReactor: Reactor {
                 let poopCount = data[i].poopCount
                 let urineCount = data[i].urineCount
                 let month = Calendar.current.dateComponents([.month], from: data[i].date).month!
-                monthTableForPoop[month]?.append(poopCount)
-                monthTableForUrine[month]?.append(urineCount)
+                if monthTableForPoop[month] == nil {
+                    monthTableForPoop[month] = [poopCount]
+                    monthTableForUrine[month] = [urineCount]
+                } else {
+                    monthTableForPoop[month]?.append(poopCount)
+                    monthTableForUrine[month]?.append(urineCount)
+                }
             }
             for i in 1...12 {
                 if monthTableForPoop[i] == nil {
