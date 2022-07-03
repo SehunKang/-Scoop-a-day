@@ -49,14 +49,11 @@ class ChartDateCollectionViewCell: UICollectionViewCell, View {
     func bind(reactor: Reactor) {
         let date = reactor.currentState.date
         let presentType = reactor.currentState.presentType
-        
         let formatter = DateFormatter()
         let text: String
         switch presentType {
         case .week:
-            let week = Calendar.current.dateComponents([.weekOfMonth], from: date).weekOfMonth!
-            formatter.dateFormat = "MMM"
-            text = "\(formatter.string(from: date)) Week \(week)"
+            text = getWeekOfMonth(date: date)
         case .month:
             formatter.dateFormat = "MMMM yyyy"
             text = formatter.string(from: date)
@@ -65,5 +62,34 @@ class ChartDateCollectionViewCell: UICollectionViewCell, View {
             text = formatter.string(from: date)
         }
         dateLabel.text = text
+    }
+    
+    private func getWeekOfMonth(date: Date) -> String {
+        var date = date
+        let calendar = Calendar.current
+        let start = calendar.dateComponents([.yearForWeekOfYear, .month, .day, .weekOfMonth], from: date.startDayOfWeek())
+        let end = calendar.dateComponents([.yearForWeekOfYear, .month, .day, .weekOfMonth], from: date.endDayOfWeek())
+        let week: Int
+        if start.weekOfMonth! != end.weekOfMonth! {
+            if start.weekOfMonth! !=
+                calendar.dateComponents([.weekOfMonth], from: calendar.date(byAdding: .day, value: 3, to: date.startDayOfWeek())!).weekOfMonth! {
+                week = end.weekOfMonth!
+                date = date.endDayOfWeek()
+            } else {
+                week = start.weekOfMonth!
+            }
+        } else {
+            let base = calendar.date(byAdding: .day, value: 3, to: date.startDayOfMonth())!
+            let weekOfMonth = calendar.dateComponents([.weekOfMonth], from: base).weekOfMonth!
+            if weekOfMonth == 2 {
+                week = calendar.dateComponents([.weekOfMonth], from: date).weekOfMonth! - 1
+            } else {
+                week = calendar.dateComponents([.weekOfMonth], from: date).weekOfMonth!
+            }
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM"
+        return "\(formatter.string(from: date)) Week \(week)"
+        
     }
 }

@@ -18,7 +18,8 @@ class DataViewController: UIViewController, StoryboardView {
     @IBOutlet weak var dateDecreaseButton: UIButton!
     @IBOutlet weak var dateIncreaseButton: UIButton!
     //	@IBOutlet weak var chartView: BarChartView!
-	
+    @IBOutlet weak var dateTypeControl: UISegmentedControl!
+    
 //	@IBOutlet weak var monthPickerView: UIPickerView!
 //	@IBOutlet weak var navigationBar: UINavigationBar!
     var disposeBag: DisposeBag = DisposeBag()
@@ -45,6 +46,7 @@ class DataViewController: UIViewController, StoryboardView {
         super.viewDidLoad()
         
         configure()
+        reload()
     }
     
     private func configure() {
@@ -59,8 +61,16 @@ class DataViewController: UIViewController, StoryboardView {
             cell.reactor = reactor
             return cell
         }
-        datesCollectionView.layoutIfNeeded()
-        datesCollectionView.scrollToItem(at: IndexPath(item: datesCollectionView.numberOfItems(inSection: 0) - 1, section: 0), at: .centeredHorizontally, animated: true)
+        
+        dateTypeControl.setTitle("week", forSegmentAt: 0)
+        dateTypeControl.setTitle("month", forSegmentAt: 1)
+        dateTypeControl.setTitle("year", forSegmentAt: 2)
+        
+        dateTypeControl.rx.selectedSegmentIndex
+            .subscribe {[weak self] _ in
+                self?.reload()
+            }
+            .disposed(by: disposeBag)
     }
     
     func bind(reactor: DataViewReactor) {
@@ -85,6 +95,21 @@ class DataViewController: UIViewController, StoryboardView {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        dateTypeControl.rx.selectedSegmentIndex
+            .map { index -> Reactor.Action in
+                let type: DataPresentType
+                if index == 0 {
+                    type = .week
+                } else if index == 1 {
+                    type = .month
+                } else {
+                    type = .year
+                }
+                return Reactor.Action.dataPresentTypeSelected(type)
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         reactor.state.asObservable().map { $0.sections }
             .bind(to: datesCollectionView.rx.items(dataSource: self.dataSource))
             .disposed(by: disposeBag)
@@ -93,14 +118,21 @@ class DataViewController: UIViewController, StoryboardView {
             .bind(to: self.navigationItem.rx.title)
             .disposed(by: disposeBag)
                 
-        reactor.state.asObservable().map { $0.dataModel }
-            .distinctUntilChanged()
-            .subscribe { dataModel in
-                print(dataModel)
-            }
-            .disposed(by: disposeBag)
+//        reactor.state.asObservable().map { $0.dataModel }
+//            .distinctUntilChanged()
+//            .subscribe { dataModel in
+//                print(dataModel)
+//            }
+//            .disposed(by: disposeBag)
+        
 
         
+    }
+    
+    private func reload() {
+        datesCollectionView.layoutIfNeeded()
+        datesCollectionView.scrollToItem(at: IndexPath(item: datesCollectionView.numberOfItems(inSection: 0) - 1, section: 0), at: .centeredHorizontally, animated: false)
+
     }
     
 }
@@ -118,6 +150,7 @@ extension DataViewController: UICollectionViewDelegateFlowLayout {
     }
     
 }
+
 //
 //
 //

@@ -129,6 +129,14 @@
                                 <rect key="frame" x="8" y="132" width="398" height="448"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Rmq-An-5KH">
+                                <rect key="frame" x="8" y="590" width="398" height="32"/>
+                                <segments>
+                                    <segment title=""/>
+                                    <segment title=""/>
+                                    <segment title=""/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="XJQ-vl-XfB"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -136,13 +144,16 @@
                             <constraint firstItem="qUS-Xb-GAq" firstAttribute="top" secondItem="261-B7-T7J" secondAttribute="bottom" id="4hx-18-Zla"/>
                             <constraint firstItem="qUS-Xb-GAq" firstAttribute="height" secondItem="bcO-kh-SAt" secondAttribute="height" multiplier="0.5" id="AkE-BT-oj8"/>
                             <constraint firstItem="qV3-yq-a9g" firstAttribute="leading" secondItem="XJQ-vl-XfB" secondAttribute="leading" constant="8" id="DoV-dq-4pE"/>
+                            <constraint firstItem="XJQ-vl-XfB" firstAttribute="trailing" secondItem="Rmq-An-5KH" secondAttribute="trailing" constant="8" id="MmS-Hm-FNc"/>
                             <constraint firstItem="261-B7-T7J" firstAttribute="leading" secondItem="XJQ-vl-XfB" secondAttribute="leading" id="X9D-e0-wk9"/>
+                            <constraint firstItem="Rmq-An-5KH" firstAttribute="top" secondItem="qUS-Xb-GAq" secondAttribute="bottom" constant="10" id="bfj-qb-xh2"/>
                             <constraint firstItem="XJQ-vl-XfB" firstAttribute="trailing" secondItem="261-B7-T7J" secondAttribute="trailing" id="cMf-FT-b3A"/>
                             <constraint firstItem="qUS-Xb-GAq" firstAttribute="leading" secondItem="XJQ-vl-XfB" secondAttribute="leading" constant="8" id="ee9-T5-84N"/>
                             <constraint firstItem="XJQ-vl-XfB" firstAttribute="trailing" secondItem="4jO-ll-Hkq" secondAttribute="trailing" constant="8" id="htj-Cm-wVg"/>
                             <constraint firstItem="XJQ-vl-XfB" firstAttribute="trailing" secondItem="qUS-Xb-GAq" secondAttribute="trailing" constant="8" id="j1q-97-SIc"/>
                             <constraint firstItem="261-B7-T7J" firstAttribute="top" secondItem="XJQ-vl-XfB" secondAttribute="top" id="m5Y-oH-w7w"/>
                             <constraint firstItem="4jO-ll-Hkq" firstAttribute="centerY" secondItem="261-B7-T7J" secondAttribute="centerY" id="pm4-kc-kWJ"/>
+                            <constraint firstItem="Rmq-An-5KH" firstAttribute="leading" secondItem="XJQ-vl-XfB" secondAttribute="leading" constant="8" id="v9S-3u-iBY"/>
                             <constraint firstItem="qV3-yq-a9g" firstAttribute="centerY" secondItem="261-B7-T7J" secondAttribute="centerY" id="x13-Ac-8fB"/>
                         </constraints>
                     </view>
@@ -151,6 +162,7 @@
                     <connections>
                         <outlet property="dateDecreaseButton" destination="qV3-yq-a9g" id="vA4-Ry-6DF"/>
                         <outlet property="dateIncreaseButton" destination="4jO-ll-Hkq" id="urM-o0-5ao"/>
+                        <outlet property="dateTypeControl" destination="Rmq-An-5KH" id="d4V-t4-3aw"/>
                         <outlet property="datesCollectionView" destination="261-B7-T7J" id="UJa-3n-xAA"/>
                     </connections>
                 </viewController>

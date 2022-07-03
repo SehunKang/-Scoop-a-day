@@ -19,7 +19,6 @@ enum DataPresentType {
     case week
 }
 
-
 typealias ChartDateSection = SectionModel<Void, ChartDateCellReactor>
 
 class DataViewReactor: Reactor {
@@ -27,15 +26,17 @@ class DataViewReactor: Reactor {
     enum Action {
         case refresh
         case dateSelected(Int)
-        //        case datePickerSelected(DataPresentType)
+        case dataPresentTypeSelected(DataPresentType)
         //        case dateIncrease
         //        case dateDecrease
         //        case catSelected(Int)
     }
     
     enum Mutation {
-        case setCat(String, [ChartDateSection])
-        case dateSelected([DataModel])
+        case setCat(String)
+        case setSection([ChartDateSection])
+        case setData([DataModel])
+        case dataPresentTypeSelected(DataPresentType)
 //        case setDatesForChartHeader([ChartDateSection])
 //        case setDataForChart([DataModel])
         //        case datePickerSelected
@@ -84,13 +85,11 @@ class DataViewReactor: Reactor {
                     return (name, [section])
                 }
                 .flatMap { (name, section) -> Observable<Mutation> in
-                    Observable.just(.setCat(name, section))
+                    Observable.concat([
+                        Observable.just(.setCat(name)),
+                        Observable.just(.setSection(section))
+                    ])
                 }
-            
-            //        case .datePickerSelected(let datePickerType):
-            //            <#code#>
-            //        case .catSelected(let int):
-            //            <#code#>
         case let .dateSelected(index):
             return self.realmService.taskOn()
                 .map { result -> CatData in
@@ -99,9 +98,26 @@ class DataViewReactor: Reactor {
                 .withUnretained(self)
                 .flatMap { owner, catData -> Observable<Mutation> in
                     let date = state.sections.first!.items[index].initialState.date
-                    let data = owner.setDataByDataPresentType(dataPresentType: .year, cat: catData, dateBase: date)
-                    return Observable.just(.dateSelected(data))
+                    let data = owner.setDataByDataPresentType(dataPresentType: state.dataPresentType, cat: catData, dateBase: date)
+                    return Observable.just(.setData(data))
                 }
+        case let .dataPresentTypeSelected(type):
+            return self.realmService.taskOn()
+                .withUnretained(self)
+                .map { owner, result -> [ChartDateSection] in
+                    let catData = result.toArray()[state.currentIndexOfCat]
+                    let dates = owner.getDatesForPresentation(data: catData.dailyDataList.toArray() , dataPresentType: type)
+                    let sectionItem = dates.map { ChartDateCellReactor(task: ChartDateCellModel(date: $0, presentType: type)) }
+                    let section = ChartDateSection(model: Void(), items: sectionItem)
+                    return [section]
+                }
+                .flatMap { section -> Observable<Mutation> in
+                        .concat([
+                            Observable.just(.setSection(section)),
+                            Observable.just(.dataPresentTypeSelected(type))
+                        ])
+                }
+
         }
         
     }
@@ -109,20 +125,26 @@ class DataViewReactor: Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
         switch mutation {
-        case let .setCat(catName, section):
+        case let .setCat(catName):
             state.currentCat = catName
+        case let .setSection(section):
             state.sections = section
-            return state
-        case let .dateSelected(data):
+        case let .setData(data):
             state.dataModel = data
-            return state
+        case let .dataPresentTypeSelected(type):
+            state.dataPresentType = type
 //        case .setDatesForChartHeader(let array):
 //            <#code#>
 //        case .setDataForChart(let array):
 //            <#code#>
         }
+        return state
     }
     
+}
+
+//날짜에 따른 데이터 정제를 위한 메서드들
+extension DataViewReactor {
     
     private func setDataByDataPresentType(dataPresentType: DataPresentType, cat: CatData, dateBase: Date) -> [DataModel] {
         switch dataPresentType {
@@ -235,6 +257,5 @@ class DataViewReactor: Reactor {
         return allDates
 
     }
-    
-    
+
 }
