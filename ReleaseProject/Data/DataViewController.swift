@@ -84,14 +84,16 @@ class DataViewController: UIViewController, StoryboardView {
             .disposed(by: disposeBag)
         
         datesCollectionView.rx.didScroll
-            .map {[weak self] Void -> Reactor.Action in
-                guard let self = self else {return .dateSelected(0)}
+            .map {[weak self] Void -> Int in
+                guard let self = self else {return 0}
                 let offSet = self.datesCollectionView.contentOffset.x
                 let width = self.datesCollectionView.frame.width
                 let horizontalCenter = width / 2
                 let count = Int(offSet + horizontalCenter) / Int(width)
-                return .dateSelected(count)
+                return count
             }
+            .distinctUntilChanged()
+            .map { .dateSelected($0)}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         

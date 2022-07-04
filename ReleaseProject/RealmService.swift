@@ -83,7 +83,15 @@ struct RealmService: RealmServiceTypeForHomeView, RealmServiceTypeForDataView {
                 return Single.error(RealmServiceError.catNameDuplication)
             } else {
                 let catData = CatData(catName: catName)
-                catData.dailyDataList.append(DailyData())
+                if catName == "test" {
+                    for i in stride(from: 730, through: 0, by: -1) {
+                        let date = Calendar.current.date(byAdding: .day, value: -i, to: Date())!
+                        let data = DailyData(date: date.removeTime(), poopCount: Int.random(in: 0...3), urineCount: Int.random(in: 2...6))
+                        catData.dailyDataList.append(data)
+                    }
+                } else {
+                    catData.dailyDataList.append(DailyData())
+                }
                 try realm.write {
                     realm.add(catData)
                 }

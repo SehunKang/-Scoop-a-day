@@ -53,6 +53,7 @@ class ChartDateCollectionViewCell: UICollectionViewCell, View {
         let text: String
         switch presentType {
         case .week:
+            print(date)
             text = getWeekOfMonth(date: date)
         case .month:
             formatter.dateFormat = "MMMM yyyy"
@@ -75,6 +76,9 @@ class ChartDateCollectionViewCell: UICollectionViewCell, View {
                 calendar.dateComponents([.weekOfMonth], from: calendar.date(byAdding: .day, value: 3, to: date.startDayOfWeek())!).weekOfMonth! {
                 week = end.weekOfMonth!
                 date = date.endDayOfWeek()
+            } else if end.weekOfMonth! != calendar.dateComponents([.weekOfMonth], from: calendar.date(byAdding: .day, value: -3, to: date.endDayOfWeek())!).weekOfMonth! {
+                week = start.weekOfMonth!
+                date = date.startDayOfWeek()
             } else {
                 week = start.weekOfMonth!
             }
@@ -89,6 +93,7 @@ class ChartDateCollectionViewCell: UICollectionViewCell, View {
         }
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM"
+        print("date before format = \(date)")
         return "\(formatter.string(from: date)) Week \(week)"
         
     }

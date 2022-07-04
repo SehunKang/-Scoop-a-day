@@ -37,6 +37,13 @@ class DailyData: Object {
 	@Persisted var poopCount: Int = 0
 	@Persisted var urineCount: Int = 0
 	@Persisted var records: List<String>
+    
+    convenience init(date: Date, poopCount: Int, urineCount: Int) {
+        self.init()
+        self.date = date
+        self.poopCount = poopCount
+        self.urineCount = urineCount
+    }
 }
 
 enum CountItem {

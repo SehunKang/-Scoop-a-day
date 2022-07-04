@@ -37,8 +37,8 @@ class DataViewReactor: Reactor {
         case setSection([ChartDateSection])
         case setData([DataModel])
         case dataPresentTypeSelected(DataPresentType)
-//        case setDatesForChartHeader([ChartDateSection])
-//        case setDataForChart([DataModel])
+        //        case setDatesForChartHeader([ChartDateSection])
+        //        case setDataForChart([DataModel])
         //        case datePickerSelected
         //        case dateIncrease
         //        case dateDecrease
@@ -117,7 +117,7 @@ class DataViewReactor: Reactor {
                             Observable.just(.dataPresentTypeSelected(type))
                         ])
                 }
-
+            
         }
         
     }
@@ -133,10 +133,10 @@ class DataViewReactor: Reactor {
             state.dataModel = data
         case let .dataPresentTypeSelected(type):
             state.dataPresentType = type
-//        case .setDatesForChartHeader(let array):
-//            <#code#>
-//        case .setDataForChart(let array):
-//            <#code#>
+            //        case .setDatesForChartHeader(let array):
+            //            <#code#>
+            //        case .setDataForChart(let array):
+            //            <#code#>
         }
         return state
     }
@@ -255,7 +255,7 @@ extension DataViewReactor {
             }
         }
         return allDates
-
+        
     }
-
+    
 }
