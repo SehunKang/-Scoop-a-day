@@ -95,7 +95,7 @@ final class HomeViewController: UIViewController {
             .subscribe(onNext: { [weak self] bool in
                 self?.collectionView.backgroundView?.isHidden = !bool
                 self?.navigationController?.setNavigationBarHidden(bool, animated: true)
-//                self?.tabBarController?.tabBar.isUserInteractionEnabled = !bool
+                self?.tabBarController?.tabBar.items?[1].isEnabled = !bool
             })
             .disposed(by: bag)
         
