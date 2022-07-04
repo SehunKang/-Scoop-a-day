@@ -75,6 +75,7 @@ class DataViewReactor: Reactor {
         switch action {
         case .refresh:
             return self.realmService.taskOn()
+                .filter {!$0.isEmpty}
                 .withUnretained(self)
                 .map {owner, result -> (String, [ChartDateSection]) in
                     let catData = result.toArray()[state.currentIndexOfCat]
@@ -92,6 +93,7 @@ class DataViewReactor: Reactor {
                 }
         case let .dateSelected(index):
             return self.realmService.taskOn()
+                .filter {!$0.isEmpty}
                 .map { result -> CatData in
                     result.toArray()[state.currentIndexOfCat]
                 }
@@ -99,10 +101,12 @@ class DataViewReactor: Reactor {
                 .flatMap { owner, catData -> Observable<Mutation> in
                     let date = state.sections.first!.items[index].initialState.date
                     let data = owner.setDataByDataPresentType(dataPresentType: state.dataPresentType, cat: catData, dateBase: date)
+                    print(data)
                     return Observable.just(.setData(data))
                 }
         case let .dataPresentTypeSelected(type):
             return self.realmService.taskOn()
+                .filter {!$0.isEmpty}
                 .withUnretained(self)
                 .map { owner, result -> [ChartDateSection] in
                     let catData = result.toArray()[state.currentIndexOfCat]

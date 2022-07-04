@@ -93,7 +93,6 @@ class ChartDateCollectionViewCell: UICollectionViewCell, View {
         }
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM"
-        print("date before format = \(date)")
         return "\(formatter.string(from: date)) Week \(week)"
         
     }
