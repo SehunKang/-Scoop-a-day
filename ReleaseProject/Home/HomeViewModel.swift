@@ -61,15 +61,17 @@ protocol HomeViewModelType {
 
 final class HomeViewModel: HomeViewModelType {
     
-    private let realmService: RealmServiceTypeForHomeView
+    private let realmService: RealmServiceType
+    private let catProvideService: CatProvideServiceType
     
     var isModifying = BehaviorRelay<Bool>(value: false)
     
     var currentIndexOfCat: BehaviorRelay<Int>
     
-    init(index: Int, realmService: RealmServiceTypeForHomeView) {
+    init(index: Int, provider: ServiceProviderType) {
         self.currentIndexOfCat = BehaviorRelay<Int>(value: index)
-        self.realmService = realmService
+        self.realmService = provider.realmService
+        self.catProvideService = provider.catProvideService
     }
 
     //RxDataSource에 binding

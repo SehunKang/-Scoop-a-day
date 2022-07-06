@@ -17,11 +17,9 @@ class DataViewController: UIViewController, StoryboardView {
     @IBOutlet weak var datesCollectionView: UICollectionView!
     @IBOutlet weak var dateDecreaseButton: UIButton!
     @IBOutlet weak var dateIncreaseButton: UIButton!
-    //	@IBOutlet weak var chartView: BarChartView!
     @IBOutlet weak var dateTypeControl: UISegmentedControl!
+    @IBOutlet weak var ChartView: CombinedChartView!
     
-//	@IBOutlet weak var monthPickerView: UIPickerView!
-//	@IBOutlet weak var navigationBar: UINavigationBar!
     var disposeBag: DisposeBag = DisposeBag()
     
     var dataSource = RxCollectionViewSectionedReloadDataSource<ChartDateSection> { dataSource, collectionView, indexPath, reactor in
@@ -33,12 +31,12 @@ class DataViewController: UIViewController, StoryboardView {
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        reactor = DataViewReactor(realmService: RealmService())
+        reactor = DataViewReactor(provider: ServiceProvider())
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        reactor = DataViewReactor(realmService: RealmService())
+        reactor = DataViewReactor(provider: ServiceProvider())
     }
     
 	
@@ -50,10 +48,11 @@ class DataViewController: UIViewController, StoryboardView {
     }
     
     private func configure() {
-        datesCollectionView.register(ChartDateCollectionViewCell.self, forCellWithReuseIdentifier: ChartDateCollectionViewCell.identifier)
-        
         datesCollectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
+
+        datesCollectionView.register(ChartDateCollectionViewCell.self, forCellWithReuseIdentifier: ChartDateCollectionViewCell.identifier)
+        
         
         dataSource = RxCollectionViewSectionedReloadDataSource<ChartDateSection> { dataSource, collectionView, indexPath, reactor in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChartDateCollectionViewCell.identifier, for: indexPath) as! ChartDateCollectionViewCell
@@ -66,11 +65,12 @@ class DataViewController: UIViewController, StoryboardView {
         dateTypeControl.setTitle("month", forSegmentAt: 1)
         dateTypeControl.setTitle("year", forSegmentAt: 2)
         
-        dateTypeControl.rx.selectedSegmentIndex
-            .subscribe {[weak self] _ in
-                self?.reload()
-            }
-            .disposed(by: disposeBag)
+//        dateTypeControl.rx.selectedSegmentIndex
+//            .subscribe {[weak self] _ in
+//                self?.reload()
+//            }
+//            .disposed(by: disposeBag)
+        
     }
     
     func bind(reactor: DataViewReactor) {
@@ -83,22 +83,24 @@ class DataViewController: UIViewController, StoryboardView {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        datesCollectionView.rx.didScroll
-            .map {[weak self] Void -> Int in
-                guard let self = self else {return 0}
-                let offSet = self.datesCollectionView.contentOffset.x
-                let width = self.datesCollectionView.frame.width
-                let horizontalCenter = width / 2
-                let count = Int(offSet + horizontalCenter) / Int(width)
-                return count
-            }
-            .distinctUntilChanged()
-            .map { .dateSelected($0)}
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+//        datesCollectionView.rx.didScroll
+//            .map {[weak self] Void -> Int in
+//                guard let self = self else {return 0}
+//                let offSet = self.datesCollectionView.contentOffset.x
+//                let width = self.datesCollectionView.frame.width
+//                let horizontalCenter = width / 2
+//                let count = Int(offSet + horizontalCenter) / Int(width)
+//                return count
+//            }
+//            .distinctUntilChanged()
+//            .map { .dateSelected($0)}
+//            .bind(to: reactor.action)
+//            .disposed(by: disposeBag)
         
+        //동작이 아닌 상태를 emit함(시작하면 refresh 없어도 emit)
         dateTypeControl.rx.selectedSegmentIndex
             .map { index -> Reactor.Action in
+                print("segement***********************")
                 let type: DataPresentType
                 if index == 0 {
                     type = .week
@@ -111,12 +113,27 @@ class DataViewController: UIViewController, StoryboardView {
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-
+        
+        
+        
+        
+//        dateIncreaseButton.rx.tap
+//            .throttle(.milliseconds(500), latest: false, scheduler: MainScheduler.instance)
+//            .map {Reactor.Action.dateIncrease}
+//            .bind(to: reactor.action)
+//            .disposed(by: disposeBag)
+//
+//        dateDecreaseButton.rx.tap
+//            .throttle(.milliseconds(500), latest: false, scheduler: MainScheduler.instance)
+//            .map {Reactor.Action.dateDecrease}
+//            .bind(to: reactor.action)
+//            .disposed(by: disposeBag)
+        
         reactor.state.asObservable().map { $0.sections }
             .bind(to: datesCollectionView.rx.items(dataSource: self.dataSource))
             .disposed(by: disposeBag)
         
-        reactor.state.asObservable().map { $0.currentCat }
+        reactor.state.asObservable().map { $0.catName }
             .bind(to: self.navigationItem.rx.title)
             .disposed(by: disposeBag)
                 
@@ -133,7 +150,7 @@ class DataViewController: UIViewController, StoryboardView {
     
     private func reload() {
         datesCollectionView.layoutIfNeeded()
-        datesCollectionView.scrollToItem(at: IndexPath(item: datesCollectionView.numberOfItems(inSection: 0) - 1, section: 0), at: .centeredHorizontally, animated: false)
+//        datesCollectionView.scrollToItem(at: IndexPath(item: datesCollectionView.numberOfItems(inSection: 0) - 1, section: 0), at: .centeredHorizontally, animated: false)
 
     }
     

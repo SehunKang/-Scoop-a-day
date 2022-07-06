@@ -34,7 +34,7 @@ final class HomeViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        viewModel = HomeViewModel(index: 0, realmService: RealmService() as RealmServiceTypeForHomeView)
+        viewModel = HomeViewModel(index: 0, provider: ServiceProvider())
         super.init(coder: coder)
     }
     

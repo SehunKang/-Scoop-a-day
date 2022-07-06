@@ -14,7 +14,7 @@ import RxSwift
 
 
 
-protocol RealmServiceTypeForHomeView {
+protocol RealmServiceType {
     //C
     func createNewCat(catName: String) -> Single<Void>
     //R
@@ -27,10 +27,6 @@ protocol RealmServiceTypeForHomeView {
     //D
     func deleteCatByIndex(index: Int)
     
-}
-
-protocol RealmServiceTypeForDataView {
-    func taskOn() -> Observable<Results<CatData>>
 }
 
 enum PooOrPee {
@@ -46,7 +42,7 @@ enum RealmServiceError: Error {
     case catNameDuplication
 }
 
-struct RealmService: RealmServiceTypeForHomeView, RealmServiceTypeForDataView {
+final class RealmService: Service, RealmServiceType {
     
     private func withRealm<T>(_ operation: String, action: (Realm) throws -> T) -> T? {
         do {
@@ -56,6 +52,15 @@ struct RealmService: RealmServiceTypeForHomeView, RealmServiceTypeForDataView {
             print("Failed \(operation) function in RealmService with error: \(err)")
             return nil
         }
+    }
+    
+    func taskOn() -> Observable<Results<CatData>> {
+        let result = withRealm(#function) { realm -> Observable<Results<CatData>> in
+            let task = realm.objects(CatData.self)
+                .sorted(byKeyPath: "createDate", ascending: true)
+            return Observable.collection(from: task)
+        }
+        return result ?? .empty()
     }
     
     func appendNewDailyData(of cat: CatData) {
@@ -140,17 +145,6 @@ struct RealmService: RealmServiceTypeForHomeView, RealmServiceTypeForDataView {
             }
         }
     }
-    
-    
-    func taskOn() -> Observable<Results<CatData>> {
-        let result = withRealm(#function) { realm -> Observable<Results<CatData>> in
-            let task = realm.objects(CatData.self)
-                .sorted(byKeyPath: "createDate", ascending: true)
-            return Observable.collection(from: task)
-        }
-        return result ?? .empty()
-    }
-
     
 }
 

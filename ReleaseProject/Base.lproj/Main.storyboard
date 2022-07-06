@@ -125,7 +125,7 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="chevron.left" catalog="system"/>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUS-Xb-GAq">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUS-Xb-GAq" customClass="CombinedChartView" customModule="Charts">
                                 <rect key="frame" x="8" y="132" width="398" height="448"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
@@ -160,6 +160,7 @@
                     <navigationItem key="navigationItem" id="miL-o3-34e"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="ChartView" destination="qUS-Xb-GAq" id="caO-lI-UDI"/>
                         <outlet property="dateDecreaseButton" destination="qV3-yq-a9g" id="vA4-Ry-6DF"/>
                         <outlet property="dateIncreaseButton" destination="4jO-ll-Hkq" id="urM-o0-5ao"/>
                         <outlet property="dateTypeControl" destination="Rmq-An-5KH" id="d4V-t4-3aw"/>

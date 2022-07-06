@@ -15,6 +15,11 @@
 		2E39C440280ACE7500905D20 /* ReleaseProjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E39C43F280ACE7500905D20 /* ReleaseProjectTests.swift */; };
 		2E42A64427FC634E00C78137 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E42A64327FC634E00C78137 /* HomeViewModel.swift */; };
 		2E4FDD1D28715C19007A6947 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4FDD1C28715C19007A6947 /* DataModel.swift */; };
+		2E4FDD1F2872CFF1007A6947 /* CatProvideService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4FDD1E2872CFF1007A6947 /* CatProvideService.swift */; };
+		2E4FDD2328740098007A6947 /* DataTaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4FDD2228740098007A6947 /* DataTaskService.swift */; };
+		2E4FDD25287400D8007A6947 /* SerivceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4FDD24287400D8007A6947 /* SerivceProvider.swift */; };
+		2E4FDD27287402C6007A6947 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4FDD26287402C6007A6947 /* Service.swift */; };
+		2E4FDD2B28740FD7007A6947 /* Extension+UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4FDD2A28740FD7007A6947 /* Extension+UICollectionView.swift */; };
 		2E616D4C2816BD2B001F86F3 /* LocalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E616D4B2816BD2B001F86F3 /* LocalizationService.swift */; };
 		2E669207282A9AC600FCEA3A /* CustomRxCollectionViewSectionedAnimatedDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E669206282A9AC600FCEA3A /* CustomRxCollectionViewSectionedAnimatedDataSource.swift */; };
 		2E94FE0D2768D1D300A6BAA1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E94FE0C2768D1D300A6BAA1 /* GoogleService-Info.plist */; };
@@ -69,6 +74,11 @@
 		2E39C43F280ACE7500905D20 /* ReleaseProjectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseProjectTests.swift; sourceTree = "<group>"; };
 		2E42A64327FC634E00C78137 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		2E4FDD1C28715C19007A6947 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		2E4FDD1E2872CFF1007A6947 /* CatProvideService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatProvideService.swift; sourceTree = "<group>"; };
+		2E4FDD2228740098007A6947 /* DataTaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskService.swift; sourceTree = "<group>"; };
+		2E4FDD24287400D8007A6947 /* SerivceProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerivceProvider.swift; sourceTree = "<group>"; };
+		2E4FDD26287402C6007A6947 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		2E4FDD2A28740FD7007A6947 /* Extension+UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UICollectionView.swift"; sourceTree = "<group>"; };
 		2E616D4B2816BD2B001F86F3 /* LocalizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationService.swift; sourceTree = "<group>"; };
 		2E669206282A9AC600FCEA3A /* CustomRxCollectionViewSectionedAnimatedDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRxCollectionViewSectionedAnimatedDataSource.swift; sourceTree = "<group>"; };
 		2E94FE0C2768D1D300A6BAA1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -136,6 +146,29 @@
 			path = ReleaseProjectTests;
 			sourceTree = "<group>";
 		};
+		2E4FDD2828740364007A6947 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				2EDED2A0274A7EAF006C38DF /* RealmModel.swift */,
+				2E4FDD24287400D8007A6947 /* SerivceProvider.swift */,
+				2E4FDD26287402C6007A6947 /* Service.swift */,
+				2EDED2A7274B6E3A006C38DF /* RealmService.swift */,
+				2E4FDD1E2872CFF1007A6947 /* CatProvideService.swift */,
+				2E4FDD2228740098007A6947 /* DataTaskService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		2E4FDD29287403D5007A6947 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2EDED2A9274BCAA9006C38DF /* Extension+Date.swift */,
+				2EDED2B3274CF5A7006C38DF /* Extension+String.swift */,
+				2E4FDD2A28740FD7007A6947 /* Extension+UICollectionView.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		2EDED25327476FD7006C38DF = {
 			isa = PBXGroup;
 			children = (
@@ -161,14 +194,12 @@
 			children = (
 				2EDED25F27476FD8006C38DF /* AppDelegate.swift */,
 				2EDED26127476FD8006C38DF /* SceneDelegate.swift */,
-				2EDED2A0274A7EAF006C38DF /* RealmModel.swift */,
-				2EDED2A7274B6E3A006C38DF /* RealmService.swift */,
-				2EDED2A9274BCAA9006C38DF /* Extension+Date.swift */,
-				2EDED2B3274CF5A7006C38DF /* Extension+String.swift */,
-				2EDED28A274A528D006C38DF /* Localization */,
+				2E4FDD2828740364007A6947 /* Services */,
 				2EDED27327478032006C38DF /* Home */,
 				2EDED27427478048006C38DF /* Calendar */,
 				2EDED27527478054006C38DF /* Data */,
+				2E4FDD29287403D5007A6947 /* Extensions */,
+				2EDED28A274A528D006C38DF /* Localization */,
 				2EDED26827476FDA006C38DF /* Assets.xcassets */,
 				2EDED26527476FD8006C38DF /* Main.storyboard */,
 				2EDED26A27476FDA006C38DF /* LaunchScreen.storyboard */,
@@ -472,20 +503,25 @@
 			files = (
 				2EDED281274A51F8006C38DF /* CalendarViewController.swift in Sources */,
 				2EDED2A1274A7EB0006C38DF /* RealmModel.swift in Sources */,
+				2E4FDD27287402C6007A6947 /* Service.swift in Sources */,
 				2E398D9728372DCF003CEFAA /* CreateNewCatView.swift in Sources */,
+				2E4FDD2B28740FD7007A6947 /* Extension+UICollectionView.swift in Sources */,
 				2E36F864276F496F002C986B /* InfoTableVIewController.swift in Sources */,
 				2EAA6FC9286ED94500CF50C5 /* ChartDateCellModel.swift in Sources */,
 				2EAA6FC7286ED86A00CF50C5 /* ChartDateCellReactor.swift in Sources */,
 				2EDED2A8274B6E3A006C38DF /* RealmService.swift in Sources */,
 				2EAA6FBE286D777400CF50C5 /* DataViewReactor.swift in Sources */,
 				2E36F86B27704B97002C986B /* OpensourceList.swift in Sources */,
+				2E4FDD25287400D8007A6947 /* SerivceProvider.swift in Sources */,
 				2EDED26027476FD8006C38DF /* AppDelegate.swift in Sources */,
 				2EAA6FC5286ECE8D00CF50C5 /* ChartDateCollectionViewCell.swift in Sources */,
 				2EDED26227476FD8006C38DF /* SceneDelegate.swift in Sources */,
 				2EDED2AA274BCAA9006C38DF /* Extension+Date.swift in Sources */,
+				2E4FDD2328740098007A6947 /* DataTaskService.swift in Sources */,
 				2E42A64427FC634E00C78137 /* HomeViewModel.swift in Sources */,
 				2E4FDD1D28715C19007A6947 /* DataModel.swift in Sources */,
 				2EAA6FBF286D777700CF50C5 /* DataViewController.swift in Sources */,
+				2E4FDD1F2872CFF1007A6947 /* CatProvideService.swift in Sources */,
 				2E669207282A9AC600FCEA3A /* CustomRxCollectionViewSectionedAnimatedDataSource.swift in Sources */,
 				2EDED2B4274CF5A7006C38DF /* Extension+String.swift in Sources */,
 				2E616D4C2816BD2B001F86F3 /* LocalizationService.swift in Sources */,
