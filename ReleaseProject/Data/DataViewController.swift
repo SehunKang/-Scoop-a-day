@@ -11,6 +11,7 @@ import Charts
 import RealmSwift
 import ReactorKit
 import RxDataSources
+import RxCocoa
 
 class DataViewController: UIViewController, StoryboardView {
 
@@ -42,15 +43,13 @@ class DataViewController: UIViewController, StoryboardView {
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-        
         configure()
-        reload()
+        
     }
     
     private func configure() {
-        datesCollectionView.rx.setDelegate(self)
-            .disposed(by: disposeBag)
-
+        datesCollectionView.delegate = self
+        
         datesCollectionView.register(ChartDateCollectionViewCell.self, forCellWithReuseIdentifier: ChartDateCollectionViewCell.identifier)
         
         
@@ -65,11 +64,9 @@ class DataViewController: UIViewController, StoryboardView {
         dateTypeControl.setTitle("month", forSegmentAt: 1)
         dateTypeControl.setTitle("year", forSegmentAt: 2)
         
-//        dateTypeControl.rx.selectedSegmentIndex
-//            .subscribe {[weak self] _ in
-//                self?.reload()
-//            }
-//            .disposed(by: disposeBag)
+        //처음 진입할때 최근 데이터부터 보여주기 위해
+        datesCollectionView.layoutIfNeeded()
+        reactor?.action.onNext(.scrollToEnd)
         
     }
     
@@ -78,7 +75,7 @@ class DataViewController: UIViewController, StoryboardView {
         //StoryboardView일때 view가 load 된 후 bind가 call 되기 때문에
         Observable.just(Void())
             .map { _ in
-                Reactor.Action.refresh
+                return Reactor.Action.refresh
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -100,7 +97,6 @@ class DataViewController: UIViewController, StoryboardView {
         //동작이 아닌 상태를 emit함(시작하면 refresh 없어도 emit)
         dateTypeControl.rx.selectedSegmentIndex
             .map { index -> Reactor.Action in
-                print("segement***********************")
                 let type: DataPresentType
                 if index == 0 {
                     type = .week
@@ -136,6 +132,36 @@ class DataViewController: UIViewController, StoryboardView {
         reactor.state.asObservable().map { $0.catName }
             .bind(to: self.navigationItem.rx.title)
             .disposed(by: disposeBag)
+        
+        reactor.pulse(\.$scroll)
+            .compactMap {$0}
+            .subscribe {[weak self] _ in
+                self?.datesCollectionView.scrollToEnd(animated: false)
+            }
+            .disposed(by: disposeBag)
+
+        
+//        reactor.state.asObservable().map { $0.currentDateIndex}
+//            .distinctUntilChanged()
+//            .subscribe(onNext: {[weak self] index in
+//                let index = IndexPath(item: index - 1, section: 0)
+//                self?.datesCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
+//            })
+//            .disposed(by: disposeBag)
+        
+//        reactor.state.asObservable().map { state -> Bool in
+//            return state.totalDateCountInSections != state.currentDateIndex
+//        }
+//        .distinctUntilChanged()
+//        .bind(to: dateIncreaseButton.rx.isEnabled)
+//        .disposed(by: disposeBag)
+        
+//        reactor.state.asObservable().map { state -> Bool in
+//            return state.currentDateIndex != 1
+//        }
+//        .distinctUntilChanged()
+//        .bind(to: dateDecreaseButton.rx.isEnabled)
+//        .disposed(by: disposeBag)
                 
 //        reactor.state.asObservable().map { $0.dataModel }
 //            .distinctUntilChanged()
@@ -146,12 +172,6 @@ class DataViewController: UIViewController, StoryboardView {
         
 
         
-    }
-    
-    private func reload() {
-        datesCollectionView.layoutIfNeeded()
-//        datesCollectionView.scrollToItem(at: IndexPath(item: datesCollectionView.numberOfItems(inSection: 0) - 1, section: 0), at: .centeredHorizontally, animated: false)
-
     }
     
 }

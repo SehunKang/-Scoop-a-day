@@ -26,6 +26,7 @@ class DataViewReactor: Reactor {
     enum Action {
         case refresh
         case dataPresentTypeSelected(DataPresentType)
+        case scrollToEnd
 //        case dateIncrease
 //        case dateDecrease
 //        case catChanged(
@@ -35,6 +36,7 @@ class DataViewReactor: Reactor {
         case setCatName(String)
         case setSection([ChartDateSection])
         case setData([DataModel])
+        case scrollToEnd
     }
     
     struct State {
@@ -42,6 +44,7 @@ class DataViewReactor: Reactor {
         var dataPresentType: DataPresentType
         var dataModel: [DataModel]
         var sections: [ChartDateSection]
+        @Pulse var scroll: Int?
         
     }
     
@@ -67,6 +70,8 @@ class DataViewReactor: Reactor {
         case let .dataPresentTypeSelected(dataPresentType):
             return provider.dataTaskService.updateChartDateSection(dataPresentType: dataPresentType)
                 .flatMap { _ in Observable<Mutation>.empty()}
+        case .scrollToEnd:
+            return .just(.scrollToEnd)
 //        case .dateIncrease:
 //        case .dateDecrease:
 //            <#code#>
@@ -86,7 +91,10 @@ class DataViewReactor: Reactor {
         case let .updateCatName(name):
             return .just(.setCatName(name))
         case let .updateChartDateSection(section):
-            return .just(.setSection(section))
+            return Observable.concat([
+                .just(.setSection(section)),
+                .just(.scrollToEnd)
+            ])
         case let .updateData(data):
             return .just(.setData(data))
         }
@@ -101,6 +109,8 @@ class DataViewReactor: Reactor {
             state.sections = section
         case let .setData(data):
             state.dataModel = data
+        case .scrollToEnd:
+            state.scroll = 1
         }
         return state
     }
