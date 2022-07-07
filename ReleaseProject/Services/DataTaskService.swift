@@ -9,7 +9,7 @@ import RxSwift
 
 enum DataTask {
     case updateCatName(String)
-    case updateChartDateSection([ChartDateSection])
+    case updateChartDateSection([ChartDateSection], DataPresentType)
     case updateData([DataModel])
     
 }
@@ -50,7 +50,7 @@ final class DataTaskService: Service, DataTaskServiceType {
                 guard let date = dates.last else {return .empty()}
                 let data = owner.setDataByDataPresentType(dataPresentType: dataPresentType, cat: cat, dateBase: date)
                 return Observable.concat([
-                    .just(.updateChartDateSection([section])),
+                    .just(.updateChartDateSection([section], dataPresentType)),
                     .just(.updateData(data))])
             }
             .do { task in
@@ -109,7 +109,7 @@ extension DataTaskService {
                     poopAverage[i - 1] = poop
                     urineAverage[i - 1] = urine
                 }
-                result.append(DataModel(poopCount: poopAverage[i - 1], urineCount: urineAverage[i - 1], date: Calendar.current.date(byAdding: .month, value: i - 1, to: Date().startDayOfYear())! ))
+                result.append(DataModel(poopCount: poopAverage[i - 1], urineCount: urineAverage[i - 1], date: Calendar.current.date(byAdding: .month, value: i - 1, to: dateBase.startDayOfYear())! ))
             }
             return result
             

@@ -110,7 +110,23 @@ class DataViewController: UIViewController, StoryboardView {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        dateIncreaseButton.rx.tap
+            .withUnretained(self)
+            .map { owner, _ in
+                let index = owner.datesCollectionView.inscreasingScroll()
+                return Reactor.Action.dateChanged(index)
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
+        dateDecreaseButton.rx.tap
+            .withUnretained(self)
+            .map { owner, _ in
+                let index = owner.datesCollectionView.decreasingScroll()
+                return Reactor.Action.dateChanged(index)
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         
 //        dateIncreaseButton.rx.tap

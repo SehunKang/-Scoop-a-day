@@ -27,14 +27,13 @@ class DataViewReactor: Reactor {
         case refresh
         case dataPresentTypeSelected(DataPresentType)
         case scrollToEnd
-//        case dateIncrease
-//        case dateDecrease
+        case dateChanged(Int)
 //        case catChanged(
     }
     
     enum Mutation {
         case setCatName(String)
-        case setSection([ChartDateSection])
+        case setSection([ChartDateSection], DataPresentType)
         case setData([DataModel])
         case scrollToEnd
     }
@@ -62,7 +61,7 @@ class DataViewReactor: Reactor {
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
-//        let state = currentState
+        let state = currentState
         switch action {
         case .refresh:
             return provider.dataTaskService.catChanged()
@@ -72,9 +71,11 @@ class DataViewReactor: Reactor {
                 .flatMap { _ in Observable<Mutation>.empty()}
         case .scrollToEnd:
             return .just(.scrollToEnd)
-//        case .dateIncrease:
-//        case .dateDecrease:
-//            <#code#>
+        case let .dateChanged(index):
+            guard let date = state.sections.first?.items[index].initialState.date else {return .empty()
+            }
+            return provider.dataTaskService.updateData(date: date, dataPresentType: state.dataPresentType)
+                .flatMap { _ in Observable<Mutation>.empty()}
         }
     }
     
@@ -90,9 +91,9 @@ class DataViewReactor: Reactor {
         switch task {
         case let .updateCatName(name):
             return .just(.setCatName(name))
-        case let .updateChartDateSection(section):
+        case let .updateChartDateSection(section, dataPresentType):
             return Observable.concat([
-                .just(.setSection(section)),
+                .just(.setSection(section, dataPresentType)),
                 .just(.scrollToEnd)
             ])
         case let .updateData(data):
@@ -105,9 +106,11 @@ class DataViewReactor: Reactor {
         switch mutation {
         case let .setCatName(name):
             state.catName = name
-        case let .setSection(section):
+        case let .setSection(section, dataPresentType):
+            state.dataPresentType = dataPresentType
             state.sections = section
         case let .setData(data):
+            print("data changed!!!!!!!!!!: \(data)")
             state.dataModel = data
         case .scrollToEnd:
             state.scroll = 1

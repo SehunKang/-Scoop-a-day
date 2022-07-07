@@ -33,11 +33,13 @@ extension UICollectionView {
         self.scrollToItem(at: IndexPath(item: max, section: 0), at: .centeredHorizontally, animated: animated)
     }
     
-    func inscreasingScroll() {
+    func inscreasingScroll() -> Int{
         self.scrollPage(by: 1, animated: true)
+        return currentIndex + 1
     }
     
-    func decreasingScroll() {
+    func decreasingScroll() -> Int {
         self.scrollPage(by: -1, animated: true)
+        return currentIndex - 1
     }
 }
