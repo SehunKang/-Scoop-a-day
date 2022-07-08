@@ -53,7 +53,6 @@ class ChartDateCollectionViewCell: UICollectionViewCell, View {
         let text: String
         switch presentType {
         case .week:
-            print(date)
             text = getWeekOfMonth(date: date)
         case .month:
             formatter.dateFormat = "MMMM yyyy"

@@ -48,7 +48,9 @@ class DataViewController: UIViewController, StoryboardView {
     }
     
     private func configure() {
-        datesCollectionView.delegate = self
+//        datesCollectionView.delegate = self
+        datesCollectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
         
         datesCollectionView.register(ChartDateCollectionViewCell.self, forCellWithReuseIdentifier: ChartDateCollectionViewCell.identifier)
         
@@ -80,20 +82,6 @@ class DataViewController: UIViewController, StoryboardView {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-//        datesCollectionView.rx.didScroll
-//            .map {[weak self] Void -> Int in
-//                guard let self = self else {return 0}
-//                let offSet = self.datesCollectionView.contentOffset.x
-//                let width = self.datesCollectionView.frame.width
-//                let horizontalCenter = width / 2
-//                let count = Int(offSet + horizontalCenter) / Int(width)
-//                return count
-//            }
-//            .distinctUntilChanged()
-//            .map { .dateSelected($0)}
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
-        
         //동작이 아닌 상태를 emit함(시작하면 refresh 없어도 emit)
         dateTypeControl.rx.selectedSegmentIndex
             .map { index -> Reactor.Action in
@@ -111,35 +99,25 @@ class DataViewController: UIViewController, StoryboardView {
             .disposed(by: disposeBag)
         
         dateIncreaseButton.rx.tap
+            .throttle(.milliseconds(500), latest: false, scheduler: MainScheduler.instance)
             .withUnretained(self)
             .map { owner, _ in
-                let index = owner.datesCollectionView.inscreasingScroll()
+                let index = owner.datesCollectionView.increaseScroll()
                 return Reactor.Action.dateChanged(index)
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         dateDecreaseButton.rx.tap
+            .throttle(.milliseconds(500), latest: false, scheduler: MainScheduler.instance)
             .withUnretained(self)
             .map { owner, _ in
-                let index = owner.datesCollectionView.decreasingScroll()
+                let index = owner.datesCollectionView.decreaseScroll()
                 return Reactor.Action.dateChanged(index)
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        
-//        dateIncreaseButton.rx.tap
-//            .throttle(.milliseconds(500), latest: false, scheduler: MainScheduler.instance)
-//            .map {Reactor.Action.dateIncrease}
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
-//
-//        dateDecreaseButton.rx.tap
-//            .throttle(.milliseconds(500), latest: false, scheduler: MainScheduler.instance)
-//            .map {Reactor.Action.dateDecrease}
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
         
         reactor.state.asObservable().map { $0.sections }
             .bind(to: datesCollectionView.rx.items(dataSource: self.dataSource))
@@ -157,36 +135,30 @@ class DataViewController: UIViewController, StoryboardView {
             .disposed(by: disposeBag)
 
         
-//        reactor.state.asObservable().map { $0.currentDateIndex}
-//            .distinctUntilChanged()
-//            .subscribe(onNext: {[weak self] index in
-//                let index = IndexPath(item: index - 1, section: 0)
-//                self?.datesCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
-//            })
-//            .disposed(by: disposeBag)
+        let buttonDisabler = datesCollectionView.rx.didScroll
+            .withUnretained(self)
+            .map { owner, _ in
+                owner.datesCollectionView.currentIndex
+            }
+            .distinctUntilChanged()
+            .share()
         
-//        reactor.state.asObservable().map { state -> Bool in
-//            return state.totalDateCountInSections != state.currentDateIndex
-//        }
-//        .distinctUntilChanged()
-//        .bind(to: dateIncreaseButton.rx.isEnabled)
-//        .disposed(by: disposeBag)
+        buttonDisabler
+            .withUnretained(self)
+            .map { owner, count -> Bool in
+                let max = owner.datesCollectionView.numberOfItems(inSection: 0) - 1
+                return max != count
+            }
+            .bind(to: dateIncreaseButton.rx.isEnabled)
+            .disposed(by: disposeBag)
         
-//        reactor.state.asObservable().map { state -> Bool in
-//            return state.currentDateIndex != 1
-//        }
-//        .distinctUntilChanged()
-//        .bind(to: dateDecreaseButton.rx.isEnabled)
-//        .disposed(by: disposeBag)
-                
-//        reactor.state.asObservable().map { $0.dataModel }
-//            .distinctUntilChanged()
-//            .subscribe { dataModel in
-//                print(dataModel)
-//            }
-//            .disposed(by: disposeBag)
-        
-
+        buttonDisabler
+            .withUnretained(self)
+            .map { owner, count -> Bool in
+                return count != 0
+            }
+            .bind(to: dateDecreaseButton.rx.isEnabled)
+            .disposed(by: disposeBag)
         
     }
     

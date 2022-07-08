@@ -62,19 +62,20 @@ class DataViewReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         let state = currentState
+        let service = provider.dataTaskService
+        
         switch action {
         case .refresh:
-            return provider.dataTaskService.catChanged()
+            return service.catChanged()
                 .flatMap { _ in Observable<Mutation>.empty()}
         case let .dataPresentTypeSelected(dataPresentType):
-            return provider.dataTaskService.updateChartDateSection(dataPresentType: dataPresentType)
+            return service.updateChartDateSection(dataPresentType: dataPresentType)
                 .flatMap { _ in Observable<Mutation>.empty()}
         case .scrollToEnd:
             return .just(.scrollToEnd)
         case let .dateChanged(index):
-            guard let date = state.sections.first?.items[index].initialState.date else {return .empty()
-            }
-            return provider.dataTaskService.updateData(date: date, dataPresentType: state.dataPresentType)
+            guard let date = state.sections.first?.items[index].initialState.date else { return .empty() }
+            return service.updateData(date: date, dataPresentType: state.dataPresentType)
                 .flatMap { _ in Observable<Mutation>.empty()}
         }
     }
@@ -102,20 +103,19 @@ class DataViewReactor: Reactor {
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
-        var state = state
+        var newState = state
         switch mutation {
         case let .setCatName(name):
-            state.catName = name
+            newState.catName = name
         case let .setSection(section, dataPresentType):
-            state.dataPresentType = dataPresentType
-            state.sections = section
+            newState.dataPresentType = dataPresentType
+            newState.sections = section
         case let .setData(data):
-            print("data changed!!!!!!!!!!: \(data)")
-            state.dataModel = data
+            newState.dataModel = data
         case .scrollToEnd:
-            state.scroll = 1
+            newState.scroll = 1
         }
-        return state
+        return newState
     }
     
 }

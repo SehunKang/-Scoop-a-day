@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 
 extension UICollectionView {
@@ -33,12 +34,12 @@ extension UICollectionView {
         self.scrollToItem(at: IndexPath(item: max, section: 0), at: .centeredHorizontally, animated: animated)
     }
     
-    func inscreasingScroll() -> Int{
+    func increaseScroll() -> Int {
         self.scrollPage(by: 1, animated: true)
         return currentIndex + 1
     }
     
-    func decreasingScroll() -> Int {
+    func decreaseScroll() -> Int {
         self.scrollPage(by: -1, animated: true)
         return currentIndex - 1
     }
