@@ -48,10 +48,13 @@ final class DataTaskService: Service, DataTaskServiceType {
                 let sectionItem = dates.map {ChartDateCellReactor(task: ChartDateCellModel(date: $0, presentType: dataPresentType))}
                 let section = ChartDateSection(model: Void(), items: sectionItem)
                 guard let date = dates.last else {return .empty()}
-                let data = owner.setDataByDataPresentType(dataPresentType: dataPresentType, cat: cat, dateBase: date)
+                let updateData = self.updateData(date: date, dataPresentType: dataPresentType).flatMap { _ in
+                    Observable<DataTask>.empty()
+                }
                 return Observable.concat([
                     .just(.updateChartDateSection([section], dataPresentType)),
-                    .just(.updateData(data))])
+                    updateData
+                ])
             }
             .do { task in
                 self.event.onNext(task)
@@ -60,9 +63,10 @@ final class DataTaskService: Service, DataTaskServiceType {
     }
     
     func updateData(date: Date, dataPresentType: DataPresentType) -> Observable<DataTask> {
-        return provider.catProvideService.fetchCat()
+        return provider.catProvideService.fetchCatWhenChanged()
             .withUnretained(self)
             .flatMap { owner, cat -> Observable<DataTask> in
+                print("updateData!!!!!!!!!!!!!!")
                 let data = owner.setDataByDataPresentType(dataPresentType: dataPresentType, cat: cat, dateBase: date)
                 return .just(.updateData(data))
             }

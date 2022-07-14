@@ -47,6 +47,14 @@ class DataViewController: UIViewController, StoryboardView {
         chartConfigure()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if datesCollectionView.currentIndex == datesCollectionView.numberOfItems(inSection: 0) - 1{
+            
+        }
+    }
+    
     private func configure() {
         datesCollectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
@@ -128,7 +136,6 @@ class DataViewController: UIViewController, StoryboardView {
         reactor.state.asObservable().map { $0.dataModel }
             .withUnretained(self)
             .subscribe { owner, model in
-                print(model)
                 owner.setChart(dataPresentType: reactor.currentState.dataPresentType, data: model)
             }
             .disposed(by: disposeBag)

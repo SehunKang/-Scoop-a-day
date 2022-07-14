@@ -17,6 +17,8 @@ protocol CatProvideServiceType {
     var currentCatIndex: BehaviorRelay<Int> { get }
     
     func fetchCat() -> Observable<CatData>
+    func fetchCatWhenChanged() -> Observable<CatData>
+
 }
 
 final class CatProvideService: Service, CatProvideServiceType {
@@ -35,6 +37,16 @@ final class CatProvideService: Service, CatProvideServiceType {
             .flatMap { results, index in
                 Observable.just(results.toArray()[index])
             }
+    }
+    
+    func fetchCatWhenChanged() -> Observable<CatData> {
+        let task = provider.realmService.taskOn()
+        
+        return Observable.combineLatest(task, currentCatIndex)
+            .flatMap { result, index in
+                Observable.just(result.toArray()[index])
+            }
+            
     }
     
 }
