@@ -160,7 +160,7 @@
                     <navigationItem key="navigationItem" id="miL-o3-34e"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="ChartView" destination="qUS-Xb-GAq" id="caO-lI-UDI"/>
+                        <outlet property="chartView" destination="qUS-Xb-GAq" id="caO-lI-UDI"/>
                         <outlet property="dateDecreaseButton" destination="qV3-yq-a9g" id="vA4-Ry-6DF"/>
                         <outlet property="dateIncreaseButton" destination="4jO-ll-Hkq" id="urM-o0-5ao"/>
                         <outlet property="dateTypeControl" destination="Rmq-An-5KH" id="d4V-t4-3aw"/>
