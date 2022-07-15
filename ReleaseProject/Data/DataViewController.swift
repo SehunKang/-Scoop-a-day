@@ -30,14 +30,19 @@ class DataViewController: UIViewController, StoryboardView {
         return cell
     }
     
-    init() {
+    init(provider: ServiceProviderType) {
         super.init(nibName: nil, bundle: nil)
-        reactor = DataViewReactor(provider: ServiceProvider())
+        reactor = DataViewReactor(provider: provider)
     }
     
-    required init?(coder: NSCoder) {
+    init?(coder: NSCoder, provider: ServiceProviderType) {
         super.init(coder: coder)
-        reactor = DataViewReactor(provider: ServiceProvider())
+        reactor = DataViewReactor(provider: provider)
+    }
+    
+    @available(*, unavailable, renamed: "init(coder:provider:)")
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     

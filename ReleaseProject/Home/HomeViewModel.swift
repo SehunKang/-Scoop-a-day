@@ -57,6 +57,7 @@ protocol HomeViewModelType {
     //Action을 다이어트 한 결과 이 함수 하나 남았음, 바꿀것인지 고민 필요
     func buttonClicked(cat: CatData) -> Action<ButtonType, Void>
     
+    func catChange(index: Int)
 }
 
 final class HomeViewModel: HomeViewModelType {
@@ -91,6 +92,11 @@ final class HomeViewModel: HomeViewModelType {
                 results.toArray()
             }
             .distinctUntilChanged()
+    }
+    
+    func catChange(index: Int) {
+        catProvideService.currentCatIndex.accept(index)
+        print(catProvideService.currentCatIndex.value)
     }
     
     func getDailyData(item: CatData) -> Observable<DailyData> {

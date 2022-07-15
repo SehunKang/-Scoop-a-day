@@ -28,14 +28,19 @@ final class HomeViewController: UIViewController {
     
     var dataSource: CustomRxCollectionViewSectionedAnimatedDataSource<TaskSection>!
     
-    init(viewModel: HomeViewModelType) {
-        self.viewModel = viewModel
+    init(provider: ServiceProviderType) {
+        self.viewModel = HomeViewModel(index: 0, provider: provider)
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder: NSCoder) {
-        viewModel = HomeViewModel(index: 0, provider: ServiceProvider())
+    init?(coder: NSCoder, provider: ServiceProviderType) {
+        viewModel = HomeViewModel(index: 0, provider: provider)
         super.init(coder: coder)
+    }
+    
+    @available(*, unavailable, renamed: "init(coder:provider:)")
+    required init?(coder: NSCoder) {
+        fatalError()
     }
     
     override func viewDidLoad() {
@@ -77,6 +82,7 @@ final class HomeViewController: UIViewController {
                 let width = self.collectionView.frame.width
                 let horizontalCenter = width / 2
                 let count = Int(offSet + horizontalCenter) / Int(width)
+                self.viewModel.catChange(index: count)
                 return count
             }
             .bind(to: viewModel.currentIndexOfCat)
