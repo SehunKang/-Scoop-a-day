@@ -75,18 +75,27 @@ final class HomeViewController: UIViewController {
             .disposed(by: bag)
         
         //페이지컨트롤러와 스크롤을 동기화
-        collectionView.rx.didScroll
+        let ho = collectionView.rx.didScroll
             .map {[weak self] Void -> Int in
                 guard let self = self else {return 0}
                 let offSet = self.collectionView.contentOffset.x
                 let width = self.collectionView.frame.width
                 let horizontalCenter = width / 2
                 let count = Int(offSet + horizontalCenter) / Int(width)
-                self.viewModel.catChange(index: count)
                 return count
             }
-            .bind(to: viewModel.currentIndexOfCat)
+            .distinctUntilChanged()
+            .share()
+        
+        ho.bind(to: viewModel.currentIndexOfCat)
             .disposed(by: bag)
+        
+        ho.subscribe(onNext: {[weak self] count in
+            print(count)
+            self?.viewModel.catChange(index: count)
+        })
+        .disposed(by: bag)
+
 
         //고양이 수와 페이지컨트롤러 동기화
         viewModel.numberOfCats

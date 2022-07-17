@@ -95,8 +95,7 @@ final class HomeViewModel: HomeViewModelType {
     }
     
     func catChange(index: Int) {
-        catProvideService.currentCatIndex.accept(index)
-        print(catProvideService.currentCatIndex.value)
+        catProvideService.currentCatIndex.onNext(index)
     }
     
     func getDailyData(item: CatData) -> Observable<DailyData> {

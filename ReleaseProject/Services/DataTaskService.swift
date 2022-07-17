@@ -120,16 +120,18 @@ extension DataTaskService {
             
         case .month:
             let dates = getDatesBetween(from: dateBase.startDayOfMonth(), to: dateBase.endDayOfMonth())
+            let dailyDataList = cat.dailyDataList.toArray()
             return dates.map { date -> DataModel in
-                guard let data = cat.dailyDataList.filter({ $0.date == date }).first else {
+                guard let data = dailyDataList.filter({ $0.date == date }).first else {
                     return DataModel(poopCount: 0, urineCount: 0, date: date)
                 }
                 return DataModel(poopCount: data.poopCount, urineCount: data.urineCount, date: date)
             }
         case .week:
             let dates = getDatesBetween(from: dateBase.startDayOfWeek(), to: dateBase.endDayOfWeek())
+            let dailyDataList = cat.dailyDataList.toArray()
             return dates.map { date in
-                guard let data = cat.dailyDataList.filter({ $0.date == date }).first else {
+                guard let data = dailyDataList.filter({ $0.date == date}).first else {
                     return DataModel(poopCount: 0, urineCount: 0, date: date)
                 }
                 return DataModel(poopCount: data.poopCount, urineCount: data.urineCount, date: date)

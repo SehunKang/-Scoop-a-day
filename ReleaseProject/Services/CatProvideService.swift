@@ -14,7 +14,7 @@ import RxRelay
 //추후 이녀석만 RealmService를 의존하는 식으로 변경
 protocol CatProvideServiceType {
     
-    var currentCatIndex: BehaviorRelay<Int> { get }
+    var currentCatIndex: BehaviorSubject<Int> { get }
     
     func fetchCat() -> Observable<CatData>
     func fetchCatWhenChanged() -> Observable<CatData>
@@ -24,7 +24,7 @@ protocol CatProvideServiceType {
 final class CatProvideService: Service, CatProvideServiceType {
     
     
-    var currentCatIndex = BehaviorRelay<Int>(value: 0)
+    var currentCatIndex = BehaviorSubject<Int>(value: 0)
     
     func fetchCat() -> Observable<CatData> {
         let task = provider.realmService.taskOn().distinctUntilChanged { one, two in
@@ -42,9 +42,10 @@ final class CatProvideService: Service, CatProvideServiceType {
     func fetchCatWhenChanged() -> Observable<CatData> {
         let task = provider.realmService.taskOn()
         
-        return Observable.combineLatest(task, currentCatIndex)
-            .flatMap { result, index in
-                Observable.just(result.toArray()[index])
+        return Observable.zip(task, currentCatIndex.distinctUntilChanged())
+            .flatMap { result, index -> Observable<CatData> in
+                print("zipzipzip")
+                return Observable.just(result.toArray()[index])
             }
             
     }
