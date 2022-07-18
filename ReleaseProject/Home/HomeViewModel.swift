@@ -95,6 +95,7 @@ final class HomeViewModel: HomeViewModelType {
     }
     
     func catChange(index: Int) {
+        print("catChange!!!!!!!!!!!!")
         catProvideService.currentCatIndex.onNext(index)
     }
     

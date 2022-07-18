@@ -38,7 +38,6 @@ final class HomeViewController: UIViewController {
         super.init(coder: coder)
     }
     
-    @available(*, unavailable, renamed: "init(coder:provider:)")
     required init?(coder: NSCoder) {
         fatalError()
     }

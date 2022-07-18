@@ -40,7 +40,6 @@ class DataViewController: UIViewController, StoryboardView {
         reactor = DataViewReactor(provider: provider)
     }
     
-    @available(*, unavailable, renamed: "init(coder:provider:)")
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

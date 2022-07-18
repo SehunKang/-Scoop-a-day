@@ -28,7 +28,6 @@ class DataViewReactor: Reactor {
         case dataPresentTypeSelected(DataPresentType)
         case scrollToEnd
         case dateChanged(Int)
-//        case catChanged(
     }
     
     enum Mutation {
