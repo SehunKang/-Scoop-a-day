@@ -65,17 +65,20 @@ class DataViewReactor: Reactor {
         
         switch action {
         case .refresh:
-            return service.catChanged()
-                .flatMap { _ in Observable<Mutation>.empty()}
+            return Observable.merge([
+                service.catChanged().flatMap {_ in Observable<Mutation>.empty()},
+                service.updateChartDateSection().flatMap {_ in Observable<Mutation>.empty()},
+                service.updateData().flatMap {_ in Observable<Mutation>.empty()}
+            ])
         case let .dataPresentTypeSelected(dataPresentType):
-            return service.updateChartDateSection(dataPresentType: dataPresentType)
-                .flatMap { _ in Observable<Mutation>.empty()}
+            service.currentDataPresentType.onNext(dataPresentType)
+            return .empty()
         case .scrollToEnd:
             return .just(.scrollToEnd)
         case let .dateChanged(index):
             guard let date = state.sections.first?.items[index].initialState.date else { return .empty() }
-            return service.updateData(date: date, dataPresentType: state.dataPresentType)
-                .flatMap { _ in Observable<Mutation>.empty()}
+            service.currentDate.onNext(date)
+            return .empty()
         }
     }
     

@@ -19,6 +19,7 @@ protocol RealmServiceType {
     func createNewCat(catName: String) -> Single<Void>
     //R
     func taskOn() -> Observable<Results<CatData>>
+    func fetch() -> Results<CatData>
     func getDailyData(of cat: CatData) -> Observable<DailyData>
     //U
     func changeCount(cat: CatData, date: Date, type: PooOrPee, value: Int) -> Observable<CatData>
@@ -52,6 +53,13 @@ final class RealmService: Service, RealmServiceType {
             print("Failed \(operation) function in RealmService with error: \(err)")
             return nil
         }
+    }
+    
+    func fetch() -> Results<CatData> {
+        let cats = withRealm(#function) { realm in
+            return realm.objects(CatData.self)
+        }
+        return cats!
     }
     
     func taskOn() -> Observable<Results<CatData>> {

@@ -16,16 +16,21 @@ enum DataTask {
 
 protocol DataTaskServiceType {
     var event: PublishSubject<DataTask> { get }
+    
+    var currentDataPresentType: BehaviorSubject<DataPresentType> { get}
+    var currentDate: BehaviorSubject<Date> { get}
 
     func catChanged() -> Observable<DataTask>
-    func updateChartDateSection(dataPresentType: DataPresentType) -> Observable<DataTask>
-    func updateData(date: Date, dataPresentType: DataPresentType) -> Observable<DataTask>
+    func updateChartDateSection() -> Observable<DataTask>
+    func updateData() -> Observable<DataTask>
 }
 
 final class DataTaskService: Service, DataTaskServiceType {
     
     let event = PublishSubject<DataTask>()
     
+    let currentDataPresentType = BehaviorSubject<DataPresentType>(value: .week)
+    let currentDate = BehaviorSubject<Date>(value: Date())
     
     func catChanged() -> Observable<DataTask> {
         return provider.catProvideService.fetchCat()
@@ -40,19 +45,19 @@ final class DataTaskService: Service, DataTaskServiceType {
     }
 
     
-    func updateChartDateSection(dataPresentType: DataPresentType) -> Observable<DataTask> {
-        return provider.catProvideService.fetchCat()
+    func updateChartDateSection() -> Observable<DataTask> {
+        let fetch = provider.catProvideService.fetchCat()
+        let type = currentDataPresentType.asObservable()
+        
+        return Observable.combineLatest(fetch, type)
             .withUnretained(self)
-            .flatMap { owner, cat -> Observable<DataTask> in
-                let dates = owner.getDatesForPresentation(data: cat.dailyDataList.toArray(), dataPresentType: dataPresentType)
-                let sectionItem = dates.map {ChartDateCellReactor(task: ChartDateCellModel(date: $0, presentType: dataPresentType))}
+            .flatMap { owner, datas -> Observable<DataTask> in
+                print(#function)
+                print(datas.0.catName)
+                let dates = owner.getDatesForPresentation(data: datas.0.dailyDataList.toArray(), dataPresentType: datas.1)
+                let sectionItem = dates.map {ChartDateCellReactor(task: ChartDateCellModel(date: $0, presentType: datas.1))}
                 let section = ChartDateSection(model: Void(), items: sectionItem)
-                guard let date = dates.last else {return .empty()}
-                let data = owner.setDataByDataPresentType(dataPresentType: dataPresentType, cat: cat, dateBase: date)
-                return Observable.concat([
-                    .just(.updateChartDateSection([section], dataPresentType)),
-                    .just(.updateData(data))
-                ])
+                return .just(.updateChartDateSection([section], datas.1))
             }
             .do { task in
                 self.event.onNext(task)
@@ -60,17 +65,23 @@ final class DataTaskService: Service, DataTaskServiceType {
 
     }
     
-    func updateData(date: Date, dataPresentType: DataPresentType) -> Observable<DataTask> {
-        return provider.catProvideService.fetchCatWhenChanged()
+    func updateData() -> Observable<DataTask> {
+        let fetch = provider.catProvideService.fetchCatWhenChanged()
+        let date = currentDate.asObservable()
+        let type = currentDataPresentType.asObservable()
+        
+        return Observable.combineLatest(fetch, date, type)
             .withUnretained(self)
-            .flatMap { owner, cat -> Observable<DataTask> in
-                print("updateData!!!!!!!!!!!!!!!!!!!!")
-                let data = owner.setDataByDataPresentType(dataPresentType: dataPresentType, cat: cat, dateBase: date)
+            .flatMap { owner, datas -> Observable<DataTask> in
+                print(#function)
+                print(datas.0.catName)
+                let data = owner.setDataByDataPresentType(dataPresentType: datas.2, cat: datas.0, dateBase: datas.1)
                 return .just(.updateData(data))
             }
             .do { task in
                 self.event.onNext(task)
             }
+        
     }
 
     

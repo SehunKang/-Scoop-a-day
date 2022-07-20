@@ -90,7 +90,6 @@ final class HomeViewController: UIViewController {
             .disposed(by: bag)
         
         ho.subscribe(onNext: {[weak self] count in
-            print(count)
             self?.viewModel.catChange(index: count)
         })
         .disposed(by: bag)
