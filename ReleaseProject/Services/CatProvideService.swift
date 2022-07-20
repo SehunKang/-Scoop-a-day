@@ -42,8 +42,13 @@ final class CatProvideService: Service, CatProvideServiceType {
         
         let task = provider.realmService.taskOn()
         return Observable.combineLatest(task, currentCatIndex)
-            .flatMap { results, index in
-                Observable.just(results.toArray()[index])
+            .filter({ results, index in
+                !results.isEmpty
+            })
+            .flatMap { results, index -> Observable<CatData> in
+                let index = index < results.count ? index : index - 1
+            
+                return Observable.just(results.toArray()[index])
             }
                     
     }

@@ -62,9 +62,12 @@ final class HomeViewController: UIViewController {
         let background = CreateNewCatView()
         background.newCatButton.rx.tap
             .subscribe {[weak self] _ in
-                self?.addCatAlert()
+                self?.addCatAlertFromZero()
             }
-            .disposed(by: background.bag)
+            .disposed(by: bag)
+
+        
+        
         collectionView.backgroundView = background
     }
     
@@ -164,7 +167,8 @@ final class HomeViewController: UIViewController {
         collectionView.reloadData()
         collectionView.layoutIfNeeded()
         if collectionView.numberOfItems(inSection: 0) > 0 {
-            collectionView.scrollToItem(at: IndexPath(item: viewModel.currentIndexOfCat.value, section: 0), at: .centeredHorizontally, animated: false)
+            let index = try! viewModel.currentIndexOfCat.value()
+            collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .centeredHorizontally, animated: false)
         }
     }
     
@@ -231,16 +235,36 @@ extension HomeViewController {
         present(alert, animated: true)
     }
     
+    private func addCatAlertFromZero() {
+        let alert = UIAlertController(title: "추가", message: "추가하시겠습니까?", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "ok", style: .default) {[weak self] _ in
+            guard let name = alert.textFields?.first?.text, let self = self else {return}
+            self.viewModel.createCatFromZero(name: name)
+                .subscribe(onFailure: { _ in
+                    self.duplicateCatNameAlert()
+                })
+                .disposed(by: self.bag)
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        alert.addTextField()
+        
+        present(alert, animated: true)
+
+    }
+    
     private func deleteCatAlert() {
         let alert = UIAlertController(title: "정말 삭제하시겠습니까?", message: nil, preferredStyle: .alert)
         let ok = UIAlertAction(title: "네", style: .default) {[weak self] _ in
             guard let self = self else {return}
-            let index = self.viewModel.currentIndexOfCat.value
+            let index = try! self.viewModel.currentIndexOfCat.value()
             self.viewModel.deleteCat()
             if self.collectionView.numberOfItems(inSection: 0) - 1 == index && index != 0 {
-                self.viewModel.currentIndexOfCat.accept(index - 1)
+                self.viewModel.currentIndexOfCat.onNext(index - 1)
             } else {
-                self.viewModel.currentIndexOfCat.accept(index)
+                self.viewModel.currentIndexOfCat.onNext(index)
             }
         }
         let no = UIAlertAction(title: "아니오", style: .cancel, handler: nil)

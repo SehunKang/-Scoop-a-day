@@ -46,12 +46,13 @@ protocol HomeViewModelType {
     var numberOfCats: Observable<Int> { get }
     var currentTitle: Observable<String> { get }
     
-    var currentIndexOfCat: BehaviorRelay<Int> { get }
+    var currentIndexOfCat: BehaviorSubject<Int> { get }
     var isModifying: BehaviorRelay<Bool> { get }
     
     func getDailyData(item: CatData) -> Observable<DailyData>
     
     func createCat(name: String) -> Single<Void>
+    func createCatFromZero(name: String) -> Single<Void>
     func deleteCat()
     
     //Action을 다이어트 한 결과 이 함수 하나 남았음, 바꿀것인지 고민 필요
@@ -67,10 +68,10 @@ final class HomeViewModel: HomeViewModelType {
     
     var isModifying = BehaviorRelay<Bool>(value: false)
     
-    var currentIndexOfCat: BehaviorRelay<Int>
+    var currentIndexOfCat: BehaviorSubject<Int>
     
     init(index: Int, provider: ServiceProviderType) {
-        self.currentIndexOfCat = BehaviorRelay<Int>(value: index)
+        self.currentIndexOfCat = provider.catProvideService.currentCatIndex
         self.realmService = provider.realmService
         self.catProvideService = provider.catProvideService
     }
@@ -95,7 +96,6 @@ final class HomeViewModel: HomeViewModelType {
     }
     
     func catChange(index: Int) {
-        print("catChange!!!!!!!!!!!!")
         catProvideService.currentCatIndex.onNext(index)
     }
     
@@ -121,13 +121,21 @@ final class HomeViewModel: HomeViewModelType {
     }
         
     func createCat(name: String) -> Single<Void> {
-        self.realmService.createNewCat(catName: name)
-        
+        return self.realmService.createNewCat(catName: name)
     }
+    
+    func createCatFromZero(name: String) -> Single<Void> {
+        return self.realmService.createNewCat(catName: name)
+            .do { [weak self] _ in
+                self?.currentIndexOfCat.onNext(0)
+            }
+    }
+        
     
     //고양이 삭제, 현재 인덱스로 처리
     func deleteCat() {
-        self.realmService.deleteCatByIndex(index: currentIndexOfCat.value)
+        let index = try! currentIndexOfCat.value()
+        self.realmService.deleteCatByIndex(index: index)
     }
     
     //컬렉션뷰 셀 안의 감자, 맛동산, 혹은 수정 버튼들에 대한 액션

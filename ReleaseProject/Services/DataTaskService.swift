@@ -53,10 +53,11 @@ final class DataTaskService: Service, DataTaskServiceType {
         let type = currentDataPresentType.asObservable()
         
         return Observable.combineLatest(fetch, type)
+            .filter({ datas in
+                !datas.0.isInvalidated
+            })
             .withUnretained(self)
             .flatMap { owner, datas -> Observable<DataTask> in
-                print(#function)
-                print(datas.0.catName)
                 let dates = owner.getDatesForPresentation(data: datas.0.dailyDataList.toArray(), dataPresentType: datas.1)
                 let sectionItem = dates.map {ChartDateCellReactor(task: ChartDateCellModel(date: $0, presentType: datas.1))}
                 let section = ChartDateSection(model: Void(), items: sectionItem)
@@ -65,6 +66,10 @@ final class DataTaskService: Service, DataTaskServiceType {
             .do { task in
                 self.event.onNext(task)
             }
+            .do { _ in
+                self.currentDate.onNext(Date())
+            }
+
 
     }
     
@@ -74,11 +79,11 @@ final class DataTaskService: Service, DataTaskServiceType {
         let type = currentDataPresentType.asObservable()
         
         return Observable.combineLatest(fetch, date, type)
+            .filter({ datas in
+                !datas.0.isInvalidated
+            })
             .withUnretained(self)
             .flatMap { owner, datas -> Observable<DataTask> in
-                print(#function)
-                print(datas.0.catName)
-                print(datas.1)
                 let data = owner.setDataByDataPresentType(dataPresentType: datas.2, cat: datas.0, dateBase: datas.1)
                 return .just(.updateData(data))
             }
