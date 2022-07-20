@@ -41,6 +41,9 @@ final class DataTaskService: Service, DataTaskServiceType {
             .do { task in
                 self.event.onNext(task)
             }
+            .do { _ in
+                self.currentDate.onNext(Date())
+            }
         
     }
 
@@ -75,6 +78,7 @@ final class DataTaskService: Service, DataTaskServiceType {
             .flatMap { owner, datas -> Observable<DataTask> in
                 print(#function)
                 print(datas.0.catName)
+                print(datas.1)
                 let data = owner.setDataByDataPresentType(dataPresentType: datas.2, cat: datas.0, dateBase: datas.1)
                 return .just(.updateData(data))
             }
