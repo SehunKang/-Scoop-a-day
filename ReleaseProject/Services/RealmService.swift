@@ -149,6 +149,7 @@ final class RealmService: Service, RealmServiceType {
             let cat = task.toArray()
             if cat.count <= index || cat.count == 0 { return }
             try realm.write {
+                realm.delete(cat[index].dailyDataList)
                 realm.delete(cat[index])
             }
         }
