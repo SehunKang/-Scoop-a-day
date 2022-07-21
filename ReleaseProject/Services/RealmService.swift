@@ -82,7 +82,11 @@ final class RealmService: Service, RealmServiceType {
     func getDailyData(of cat: CatData) -> Observable<DailyData> {
         let result = withRealm(#function) { realm -> Observable<DailyData> in
             guard let dailyData = cat.dailyDataList.filter("date == %@", Date().removeTime()).first else {
-                return .empty()
+                let data = DailyData()
+                try realm.write {
+                    cat.dailyDataList.append(data)
+                }
+                return .just(data)
             }
             return .just(dailyData)
         }
