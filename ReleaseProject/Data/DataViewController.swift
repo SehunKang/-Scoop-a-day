@@ -229,8 +229,10 @@ extension DataViewController {
             }
             chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: dateValues)
             chartView.xAxis.granularity = 1
-            chartView.xAxis.setLabelCount(data.count, force: true)
+//            chartView.xAxis.setLabelCount(data.count, force: true)
             chartView.leftAxis.granularity = 1
+            chartView.xAxis.centerAxisLabelsEnabled = true
+            chartView.xAxis.axisMaximum = 12
             
             let poopChart = BarChartDataSet(entries: poopChartEntry, label: "poop")
             poopChart.colors = [NSUIColor.systemBrown]
@@ -270,6 +272,8 @@ extension DataViewController {
                     format.string(from: data[i].date)
                 )
             }
+            chartView.xAxis.resetCustomAxisMax()
+            chartView.xAxis.centerAxisLabelsEnabled = false
             chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: dateValues)
             chartView.xAxis.setLabelCount(15, force: false)
             
@@ -311,9 +315,11 @@ extension DataViewController {
                 )
             }
             chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: dateValues)
-            chartView.xAxis.granularity = 1
-            chartView.xAxis.setLabelCount(data.count, force: true)
+//            chartView.xAxis.granularity = 1
+//            chartView.xAxis.setLabelCount(7, force: true)
             chartView.leftAxis.granularity = 1
+            chartView.xAxis.centerAxisLabelsEnabled = true
+            chartView.xAxis.axisMaximum = 7
             
             let poopChart = BarChartDataSet(entries: poopChartEntry, label: "poop")
             poopChart.colors = [NSUIColor.systemBrown]

@@ -65,8 +65,6 @@ final class HomeViewController: UIViewController {
                 self?.addCatAlertFromZero()
             }
             .disposed(by: bag)
-
-        
         
         collectionView.backgroundView = background
     }
