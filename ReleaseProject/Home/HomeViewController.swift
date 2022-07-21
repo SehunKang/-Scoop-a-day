@@ -174,18 +174,18 @@ final class HomeViewController: UIViewController {
     @IBAction func rightBarItemAction(_ sender: Any) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let addAction = UIAlertAction(title: "추가", style: .default) {[weak self] _ in
+        let addAction = UIAlertAction(title: Strings.local.addCatAction, style: .default) {[weak self] _ in
             self?.addCatAlert()
         }
-        let adjustAction = UIAlertAction(title: "수정", style: .default) {[weak self] _ in
+        let adjustAction = UIAlertAction(title: Strings.local.adjustCountAction, style: .default) {[weak self] _ in
             if let self = self {
                 self.viewModel.isModifying.accept(!self.viewModel.isModifying.value)
             }
         }
-        let delete = UIAlertAction(title: "삭제", style: .destructive) {[weak self] _ in
+        let delete = UIAlertAction(title: Strings.local.deleteCatAction, style: .destructive) {[weak self] _ in
             self?.deleteCatAlert()
         }
-        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let cancel = UIAlertAction(title: Strings.local.cancel, style: .cancel, handler: nil)
         
         [addAction, adjustAction, delete ,cancel].forEach {
             alert.addAction($0)
@@ -215,8 +215,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 extension HomeViewController {
     
     private func addCatAlert() {
-        let alert = UIAlertController(title: "추가", message: "추가하시겠습니까?", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "ok", style: .default) {[weak self] _ in
+        let alert = UIAlertController(title: Strings.local.addCatAction, message: Strings.local.addCatMessage, preferredStyle: .alert)
+        let ok = UIAlertAction(title: Strings.local.yes, style: .default) {[weak self] _ in
             guard let name = alert.textFields?.first?.text, let self = self else {return}
             self.viewModel.createCat(name: name)
                 .subscribe(onFailure: { _ in
@@ -224,7 +224,7 @@ extension HomeViewController {
                 })
                 .disposed(by: self.bag)
         }
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        let cancel = UIAlertAction(title: Strings.local.cancel, style: .cancel)
         
         alert.addAction(ok)
         alert.addAction(cancel)
@@ -234,8 +234,8 @@ extension HomeViewController {
     }
     
     private func addCatAlertFromZero() {
-        let alert = UIAlertController(title: "추가", message: "추가하시겠습니까?", preferredStyle: .alert)
-        let ok = UIAlertAction(title: "ok", style: .default) {[weak self] _ in
+        let alert = UIAlertController(title: Strings.local.addCatAction, message: Strings.local.addCatMessage, preferredStyle: .alert)
+        let ok = UIAlertAction(title: Strings.local.yes, style: .default) {[weak self] _ in
             guard let name = alert.textFields?.first?.text, let self = self else {return}
             self.viewModel.createCatFromZero(name: name)
                 .subscribe(onFailure: { _ in
@@ -243,7 +243,7 @@ extension HomeViewController {
                 })
                 .disposed(by: self.bag)
         }
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        let cancel = UIAlertAction(title: Strings.local.cancel, style: .cancel)
         
         alert.addAction(ok)
         alert.addAction(cancel)
@@ -254,8 +254,8 @@ extension HomeViewController {
     }
     
     private func deleteCatAlert() {
-        let alert = UIAlertController(title: "정말 삭제하시겠습니까?", message: nil, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "네", style: .default) {[weak self] _ in
+        let alert = UIAlertController(title: Strings.local.deleteConfirm, message: nil, preferredStyle: .alert)
+        let ok = UIAlertAction(title: Strings.local.yes, style: .default) {[weak self] _ in
             guard let self = self else {return}
             let index = try! self.viewModel.currentIndexOfCat.value()
             self.viewModel.deleteCat()
@@ -265,7 +265,7 @@ extension HomeViewController {
                 self.viewModel.currentIndexOfCat.onNext(index)
             }
         }
-        let no = UIAlertAction(title: "아니오", style: .cancel, handler: nil)
+        let no = UIAlertAction(title: Strings.local.no, style: .cancel, handler: nil)
         
         alert.addAction(no)
         alert.addAction(ok)
@@ -275,12 +275,20 @@ extension HomeViewController {
     }
     
     private func duplicateCatNameAlert() {
-        let alert = UIAlertController(title: "이미 존재하는 이름입니다.", message: nil, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "네", style: .default) { [weak self] _ in
+        let alert = UIAlertController(title: Strings.local.catAlreadyExist, message: nil, preferredStyle: .alert)
+        let ok = UIAlertAction(title: Strings.local.confirm, style: .default) { [weak self] _ in
             self?.addCatAlert()
         }
         alert.addAction(ok)
         present(alert, animated: true)
     }
 
+}
+
+extension HomeViewController: Localized {
+    
+    struct Strings {
+        static let local = Localization.HomeView.self
+    }
+    
 }

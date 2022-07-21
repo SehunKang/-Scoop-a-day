@@ -34,7 +34,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         
         
-        doneButton.setTitle(Strings.done, for: .normal)
+        doneButton.setTitle(Strings.local.done, for: .normal)
         
     }
     
@@ -93,6 +93,6 @@ class MainCollectionViewCell: UICollectionViewCell {
 
 extension MainCollectionViewCell: Localized {
     struct Strings {
-        static let done = Localization.HomeView.done
+        static let local = Localization.HomeView.self
     }
 }

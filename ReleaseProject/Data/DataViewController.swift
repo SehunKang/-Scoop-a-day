@@ -234,11 +234,11 @@ extension DataViewController {
             chartView.xAxis.centerAxisLabelsEnabled = true
             chartView.xAxis.axisMaximum = 12
             
-            let poopChart = BarChartDataSet(entries: poopChartEntry, label: "poop")
+            let poopChart = BarChartDataSet(entries: poopChartEntry, label: Strings.local.poop)
             poopChart.colors = [NSUIColor.systemBrown]
             poopChart.drawValuesEnabled = false
             
-            let urineChart = BarChartDataSet(entries: urineChartEntry, label: "urine")
+            let urineChart = BarChartDataSet(entries: urineChartEntry, label: Strings.local.pee)
             urineChart.colors = [NSUIColor.systemYellow]
             urineChart.drawValuesEnabled = false
             
@@ -277,14 +277,14 @@ extension DataViewController {
             chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: dateValues)
             chartView.xAxis.setLabelCount(15, force: false)
             
-            let poopChart = LineChartDataSet(entries: poopChartEntry, label: "poop")
+            let poopChart = LineChartDataSet(entries: poopChartEntry, label: Strings.local.poop)
             poopChart.colors = [NSUIColor.systemBrown]
             poopChart.drawCirclesEnabled = false
             poopChart.mode = .horizontalBezier
             poopChart.lineWidth = 4.0
             poopChart.drawValuesEnabled = false
             
-            let urineChart = LineChartDataSet(entries: urineChartEntry, label: "urine")
+            let urineChart = LineChartDataSet(entries: urineChartEntry, label: Strings.local.pee)
             urineChart.colors = [NSUIColor.systemYellow]
             urineChart.drawCirclesEnabled = false
             urineChart.mode = .horizontalBezier
@@ -321,11 +321,11 @@ extension DataViewController {
             chartView.xAxis.centerAxisLabelsEnabled = true
             chartView.xAxis.axisMaximum = 7
             
-            let poopChart = BarChartDataSet(entries: poopChartEntry, label: "poop")
+            let poopChart = BarChartDataSet(entries: poopChartEntry, label: Strings.local.poop)
             poopChart.colors = [NSUIColor.systemBrown]
             poopChart.drawValuesEnabled = false
             
-            let urineChart = BarChartDataSet(entries: urineChartEntry, label: "urine")
+            let urineChart = BarChartDataSet(entries: urineChartEntry, label: Strings.local.pee)
             urineChart.colors = [NSUIColor.systemYellow]
             urineChart.drawValuesEnabled = false
             
@@ -349,3 +349,8 @@ extension DataViewController {
     }
 }
 
+extension DataViewController: Localized {
+    struct Strings {
+        static let local = Localization.DataView.self
+    }
+}
