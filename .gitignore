@@ -155,4 +155,6 @@ xcuserdata
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 
+*.p8
+
 # End of https://www.toptal.com/developers/gitignore/api/xcode,firebase,swift,cocoapods,swiftpackagemanager,macos
