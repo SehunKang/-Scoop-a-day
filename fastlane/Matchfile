@@ -4,8 +4,8 @@ storage_mode("git")
 
 type("appstore") # The default type, can be: appstore, adhoc, enterprise or development
 
-app_identifier(["com.sehun.Scoop"])
-username("sehun.meiyan@gmail.com") # Your Apple Developer Portal username
+app_identifier(ENV["DEVELOPER_APP_IDENTIFIER"])
+username(ENV["FASTLANE_APPLE_ID"]) # Your Apple Developer Portal username
 
 # For all available options run `fastlane match --help`
 # Remove the # in the beginning of the line to enable the other options
