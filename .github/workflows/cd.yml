@@ -1,26 +1,29 @@
 name: CD
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  issue_comment:                                     
+    types: [created, edited, deleted]
 
-  # Allows you to run this workflow manually from the Actions a tab
   workflow_dispatch:
 
 jobs:
   deploy:
-    name: Deploying to Testflight
+    if: ${{ contains(github.event.comment.body, '@release') || contains(github.event.comment.body, '@testflight')}}
+    name: Deploying to AppStore
     runs-on: macOS-latest
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2.4.2
+        uses: actions/checkout@v2
 
-      - name: Deploy iOS Beta to TestFlight via Fastlane
-        uses: maierj/fastlane-action@v2.2.1
+      - name: Deploy iOS App to Appstore via Fastlane
+        uses: maierj/fastlane-action@v2
         with:
-          lane: closed_beta
+          if: ${{ github.event.comment.body == '@testflight' }}
+          lane: deploy bump:test
+          if: ${{ github.event.comment.body == '@release major'}}
+          lane: deploy bump:major
+          if: ${{ github.event.comment.body == '@release minor'}}
+          lane: deploy bump:minor
         env:
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
           DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
@@ -36,4 +39,5 @@ jobs:
           APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
           APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
           APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
+          SLACK_URL: '${{ secrets.SLACK_URL }}'
 
