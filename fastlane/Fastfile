@@ -39,6 +39,12 @@ platform :ios do
 	end
 
 	type = lane[:bump]
+	
+	if !(type == "test" || type == "major" || type == "minor")
+	  raise "bump type error! choose one of 'test, major, minor'"
+	end 
+
+    puts "*********************type = #{type}"
 
     keychain_name = TEMP_KEYCHAIN_USER
     keychain_password = TEMP_KEYCHAIN_PASSWORD
@@ -86,7 +92,7 @@ platform :ios do
       }
     )
 
-	if type == test
+	if type == "test"
       pilot(
         apple_id: "#{DEVELOPER_APP_ID}",
         app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
