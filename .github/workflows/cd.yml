@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.2
 
       - name: Deploy iOS App to Appstore via Fastlane
-        uses: maierj/fastlane-action@v2
+        uses: maierj/fastlane-action@v2.2.1
         with:
           lane: deploy bump:test
         env:
@@ -43,10 +43,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.2
 
       - name: Deploy iOS App to Appstore via Fastlane
-        uses: maierj/fastlane-action@v2
+        uses: maierj/fastlane-action@v2.2.1
         with:
           lane: deploy bump:major
         env:
@@ -73,10 +73,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.4.2
 
       - name: Deploy iOS App to Appstore via Fastlane
-        uses: maierj/fastlane-action@v2
+        uses: maierj/fastlane-action@v2.2.1
         with:
           lane: deploy bump:minor
         env:
