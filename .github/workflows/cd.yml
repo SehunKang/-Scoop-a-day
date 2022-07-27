@@ -6,21 +6,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
-    if: ${{ contains(github.event.comment.body, '@release') || contains(github.event.comment.body, '@testflight')}}
-    name: Deploying to AppStore
+  testflight:
+    if: ${{ github.event.comment.body == '@testflight' }}
+    name: Deploying to Testflight
     runs-on: macOS-latest
 
-    if: ${{ github.event.comment.body == '@testflight' }}
-    env:
-      Option: test
-    if: ${{ github.event.comment.body == '@release major'}}
-    env:
-      Option: major
-    if: ${{ github.event.comment.body == '@release minor'}}
-    env:
-      Option: minor
-    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -28,7 +18,7 @@ jobs:
       - name: Deploy iOS App to Appstore via Fastlane
         uses: maierj/fastlane-action@v2
         with:
-          lane: deploy bump:$Option
+          lane: deploy bump:test
         env:
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
           DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
@@ -46,3 +36,64 @@ jobs:
           APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
           SLACK_URL: '${{ secrets.SLACK_URL }}'
 
+  deploy_major:
+    if: ${{ github.event.comment.body == '@release major'}}
+    name: Deploying to AppStore
+    runs-on: macOS-latest
+
+    if: ${{ github.event.comment.body == '@release minor'}}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Deploy iOS App to Appstore via Fastlane
+        uses: maierj/fastlane-action@v2
+        with:
+          lane: deploy bump:major
+        env:
+          APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
+          DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+          DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
+          DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
+          FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
+          MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+          GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+          PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
+          TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+          TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+          APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
+          APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
+          APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
+          SLACK_URL: '${{ secrets.SLACK_URL }}'
+
+  deploy_minor:
+    if: ${{ github.event.comment.body == '@release minor'}}
+    name: Deploying to AppStore with minor version
+    runs-on: macOS-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Deploy iOS App to Appstore via Fastlane
+        uses: maierj/fastlane-action@v2
+        with:
+          lane: deploy bump:minor
+        env:
+          APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
+          DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+          DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
+          DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
+          FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
+          MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+          GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+          PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
+          TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+          TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+          APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
+          APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
+          APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
+          SLACK_URL: '${{ secrets.SLACK_URL }}'
