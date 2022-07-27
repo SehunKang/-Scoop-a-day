@@ -132,7 +132,7 @@ after_all do |lane|
 	)
 
     slack(
-      message: App successfully released!",
+      message: "App successfully released!",
         slack_url: SLACK_URL,
         default_payloads: [:lane, :test_result, :git_branch, :git_author],
         payload: {
