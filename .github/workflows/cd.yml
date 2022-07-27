@@ -20,9 +20,9 @@ jobs:
         with:
           if: ${{ github.event.comment.body == '@testflight' }}
           lane: deploy bump:test
-          if: ${{ github.event.comment.body == '@release major'}}
+          elif: ${{ github.event.comment.body == '@release major'}}
           lane: deploy bump:major
-          if: ${{ github.event.comment.body == '@release minor'}}
+          elif: ${{ github.event.comment.body == '@release minor'}}
           lane: deploy bump:minor
         env:
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'

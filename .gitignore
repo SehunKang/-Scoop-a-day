@@ -144,6 +144,8 @@ xcuserdata
 
 
 
+*.xcuserdata
+*.DS_Store
 
 ## Gcc Patch
 /*.gcno
