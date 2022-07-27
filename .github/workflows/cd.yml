@@ -41,8 +41,6 @@ jobs:
     name: Deploying to AppStore
     runs-on: macOS-latest
 
-    if: ${{ github.event.comment.body == '@release minor'}}
-    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
