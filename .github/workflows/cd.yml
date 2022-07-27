@@ -18,8 +18,7 @@ jobs:
       - name: Deploy iOS App to Appstore via Fastlane
         uses: maierj/fastlane-action@v2.2.1
         with:
-          lane: 'deploy'
-          options: '{"bump": "test"}'
+          lane: 'deploy bump: test'
         env:
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
           DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
@@ -49,8 +48,7 @@ jobs:
       - name: Deploy iOS App to Appstore via Fastlane
         uses: maierj/fastlane-action@v2.2.1
         with:
-          lane: 'deploy'
-          options: '{"bump": "major"}'
+          lane: 'deploy bump: major'
         env:
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
           DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
@@ -80,8 +78,7 @@ jobs:
       - name: Deploy iOS App to Appstore via Fastlane
         uses: maierj/fastlane-action@v2.2.1
         with:
-          lane: deploy
-          options: '{"bump:": "minor"}'
+          lane: 'deploy bump: minor'
         env:
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
           DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
