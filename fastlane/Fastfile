@@ -102,7 +102,7 @@ platform :ios do
         force: true,
         skip_screenshots: true,
         automatic_release: true,
-        ipa: "./ReleaseProject.ipa"
+        ipa: "./ReleaseProject.ipa",
         release_notes: {
           "en-US" => File.read("../ReleaseProject/ReleaseNote/en-US.txt"),
 		  "ko" => File.read("../ReleaseProject/ReleaseNote/ko.txt"),
