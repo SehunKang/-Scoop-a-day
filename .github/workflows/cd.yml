@@ -18,12 +18,13 @@ jobs:
       - name: Deploy iOS App to Appstore via Fastlane
         uses: maierj/fastlane-action@v2
         with:
-          if: ${{ github.event.comment.body == '@testflight' }}
-          lane: deploy bump:test
-          elif: ${{ github.event.comment.body == '@release major'}}
-          lane: deploy bump:major
-          elif: ${{ github.event.comment.body == '@release minor'}}
-          lane: deploy bump:minor
+          lane: deploy
+            - ${{ if github.event.comment.body == '@testflight' }}
+              - options: '{"bump": "test"}'
+            - ${{ elif  github.event.comment.body == '@release major'}}
+              - options: '{"bump": "major"}'
+            - ${{ else github.event.comment.body == '@release minor'}}
+              - options: '{"bump": "minor"}'
         env:
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
           DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
