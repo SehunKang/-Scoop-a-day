@@ -108,6 +108,7 @@ platform :ios do
         force: true,
         skip_screenshots: true,
         automatic_release: true,
+		precheck_include_in_app_purchases: false,
         ipa: "./ReleaseProject.ipa",
         release_notes: {
           "en-US" => File.read("../ReleaseProject/ReleaseNote/en-US.txt"),
