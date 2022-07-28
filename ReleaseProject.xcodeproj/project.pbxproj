@@ -22,6 +22,9 @@
 		2E4FDD2B28740FD7007A6947 /* Extension+UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4FDD2A28740FD7007A6947 /* Extension+UICollectionView.swift */; };
 		2E616D4C2816BD2B001F86F3 /* LocalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E616D4B2816BD2B001F86F3 /* LocalizationService.swift */; };
 		2E669207282A9AC600FCEA3A /* CustomRxCollectionViewSectionedAnimatedDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E669206282A9AC600FCEA3A /* CustomRxCollectionViewSectionedAnimatedDataSource.swift */; };
+		2E80346428924C9D00086424 /* en-US.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2E80346128924C9D00086424 /* en-US.txt */; };
+		2E80346528924C9D00086424 /* ko.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2E80346228924C9D00086424 /* ko.txt */; };
+		2E80346628924C9D00086424 /* zh-Hans.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2E80346328924C9D00086424 /* zh-Hans.txt */; };
 		2E94FE0D2768D1D300A6BAA1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E94FE0C2768D1D300A6BAA1 /* GoogleService-Info.plist */; };
 		2EAA6FBE286D777400CF50C5 /* DataViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EAA6FB62862E5E300CF50C5 /* DataViewReactor.swift */; };
 		2EAA6FBF286D777700CF50C5 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED284274A5241006C38DF /* DataViewController.swift */; };
@@ -81,6 +84,9 @@
 		2E4FDD2A28740FD7007A6947 /* Extension+UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UICollectionView.swift"; sourceTree = "<group>"; };
 		2E616D4B2816BD2B001F86F3 /* LocalizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationService.swift; sourceTree = "<group>"; };
 		2E669206282A9AC600FCEA3A /* CustomRxCollectionViewSectionedAnimatedDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRxCollectionViewSectionedAnimatedDataSource.swift; sourceTree = "<group>"; };
+		2E80346128924C9D00086424 /* en-US.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "en-US.txt"; sourceTree = "<group>"; };
+		2E80346228924C9D00086424 /* ko.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ko.txt; sourceTree = "<group>"; };
+		2E80346328924C9D00086424 /* zh-Hans.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "zh-Hans.txt"; sourceTree = "<group>"; };
 		2E94FE0C2768D1D300A6BAA1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2EAA6FB62862E5E300CF50C5 /* DataViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewReactor.swift; sourceTree = "<group>"; };
 		2EAA6FC4286ECE8D00CF50C5 /* ChartDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDateCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -169,6 +175,17 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		2E80346028924C9D00086424 /* ReleaseNote */ = {
+			isa = PBXGroup;
+			children = (
+				2E80346128924C9D00086424 /* en-US.txt */,
+				2E80346228924C9D00086424 /* ko.txt */,
+				2E80346328924C9D00086424 /* zh-Hans.txt */,
+			);
+			name = ReleaseNote;
+			path = ReleaseProject/ReleaseNote;
+			sourceTree = SOURCE_ROOT;
+		};
 		2EDED25327476FD7006C38DF = {
 			isa = PBXGroup;
 			children = (
@@ -200,6 +217,7 @@
 				2EDED27527478054006C38DF /* Data */,
 				2E4FDD29287403D5007A6947 /* Extensions */,
 				2EDED28A274A528D006C38DF /* Localization */,
+				2E80346028924C9D00086424 /* ReleaseNote */,
 				2EDED26827476FDA006C38DF /* Assets.xcassets */,
 				2EDED26527476FD8006C38DF /* Main.storyboard */,
 				2EDED26A27476FDA006C38DF /* LaunchScreen.storyboard */,
@@ -374,12 +392,15 @@
 			files = (
 				2EDED2B2274CCC3B006C38DF /* MainCollectionViewCell.xib in Resources */,
 				2EDED26C27476FDA006C38DF /* LaunchScreen.storyboard in Resources */,
+				2E80346528924C9D00086424 /* ko.txt in Resources */,
 				2EDED26927476FDA006C38DF /* Assets.xcassets in Resources */,
 				2EDED28D274A52AF006C38DF /* Localizable.strings in Resources */,
 				2EDED26727476FD8006C38DF /* Main.storyboard in Resources */,
+				2E80346428924C9D00086424 /* en-US.txt in Resources */,
 				2E94FE0D2768D1D300A6BAA1 /* GoogleService-Info.plist in Resources */,
 				2E398D9528372D44003CEFAA /* CreateNewCatView.xib in Resources */,
 				2EDED2792747855F006C38DF /* Calendar.storyboard in Resources */,
+				2E80346628924C9D00086424 /* zh-Hans.txt in Resources */,
 				2E353AD227589F2700F4F8A2 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
