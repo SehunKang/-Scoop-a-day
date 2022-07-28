@@ -112,7 +112,7 @@ platform :ios do
         release_notes: {
           "en-US" => File.read("../ReleaseProject/ReleaseNote/en-US.txt"),
 		  "ko" => File.read("../ReleaseProject/ReleaseNote/ko.txt"),
-		  "zh=Hans" => File.read("../ReleaseProject/ReleaseNote/zh-Hans.txt")
+		  "zh-Hans" => File.read("../ReleaseProject/ReleaseNote/zh-Hans.txt")
           }
         )
 	end
