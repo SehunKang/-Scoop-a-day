@@ -116,7 +116,7 @@ platform :ios do
          add_id_info_serves_ads: false,
          add_id_info_tracks_action: true,
          add_id_info_tracks_install: true,
-         add_id_info_uses_idfa: true
+         add_id_info_uses_idfa: false
         },
         release_notes: {
           "en-US" => File.read("../ReleaseProject/ReleaseNote/en-US.txt"),
@@ -127,32 +127,28 @@ platform :ios do
 	end
 
     delete_temp_keychain(keychain_name)
-  end
-end
 
-after_all do |lane|
-  if lane != test
-    version = get_version_number(
-      xcodeproj: "ReleaseProject.xcodeproj",
-      target: "ReleaseProject"
-    )
-    build = get_build_number(xcodeproj: "ReleaseProject.xcodeproj")
-
-    github_release = set_github_release(
-      repository_name: "SehunKang/-Scoop-a-day",
-      api_token: GIT_AUTHORIZATION,
-	  name: "#{lane.capitalize} version v#{version}",
-	  tag_name: "v#{version}",
-	  description: File.read("./ReleaseProject/ReleaseNote/ko.txt")
-	)
-
-    slack(
-      message: "App successfully released!",
-        slack_url: SLACK_URL,
-        default_payloads: [:lane, :test_result, :git_branch, :git_author],
-        payload: {
-	      "Version": version + " (" + build + ")"
-        }
+    if lane != test
+      version = get_version_number(
+        xcodeproj: "ReleaseProject.xcodeproj",
+        target: "ReleaseProject"
       )
+      build = get_build_number(xcodeproj: "ReleaseProject.xcodeproj")
+      github_release = set_github_release(
+        repository_name: "SehunKang/-Scoop-a-day",
+        api_token: GIT_AUTHORIZATION,
+	    name: "#{lane.capitalize} version v#{version}",
+	    tag_name: "v#{version}",
+	    description: File.read("./ReleaseProject/ReleaseNote/ko.txt")
+  	  )
+      slack(
+        message: "App successfully released!",
+          slack_url: SLACK_URL,
+          default_payloads: [:lane, :test_result, :git_branch, :git_author],
+          payload: {
+	        "Version": version + " (" + build + ")"
+          }
+        )
+	  end
   end
 end
