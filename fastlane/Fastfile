@@ -128,7 +128,7 @@ platform :ios do
 
     delete_temp_keychain(keychain_name)
 
-    if lane != test
+    if type != "test"
       version = get_version_number(
         xcodeproj: "ReleaseProject.xcodeproj",
         target: "ReleaseProject"
