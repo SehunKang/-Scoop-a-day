@@ -137,7 +137,7 @@ platform :ios do
       github_release = set_github_release(
         repository_name: "SehunKang/-Scoop-a-day",
         api_token: GIT_AUTHORIZATION,
-	    name: "#{lane.capitalize} version v#{version}",
+	    name: "#{type.capitalize} version v#{version}",
 	    tag_name: "v#{version}",
 	    description: File.read("./ReleaseProject/ReleaseNote/ko.txt")
   	  )
