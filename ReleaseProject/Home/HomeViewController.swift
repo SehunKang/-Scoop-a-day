@@ -94,6 +94,7 @@ final class HomeViewController: UIViewController {
             self?.viewModel.catChange(index: count)
         })
         .disposed(by: bag)
+        
 
 
         //고양이 수와 페이지컨트롤러 동기화

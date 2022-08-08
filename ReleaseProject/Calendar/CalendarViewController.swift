@@ -7,23 +7,69 @@
 
 import UIKit
 
-class CalendarViewController: UIViewController {
+import FSCalendar
+import ReactorKit
+import RxCocoa
 
+class CalendarViewController: UIViewController, StoryboardView {
+    
+    
+    @IBOutlet weak var calendar: FSCalendar!
+    @IBOutlet weak var poopLabel: UILabel!
+    @IBOutlet weak var urineLabel: UILabel!
+    
+    var disposeBag: DisposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+    }
+    
+    init(provider: ServiceProviderType) {
+        super.init(nibName: nil, bundle: nil)
+        reactor = CalendarViewReactor(provider: provider)
+    }
+    
+    init?(coder: NSCoder, provider: ServiceProviderType) {
+        super.init(coder: coder)
+        reactor = CalendarViewReactor(provider: provider)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
-        // Do any additional setup after loading the view.
+    func bind(reactor: CalendarViewReactor) {
+        
+        Observable.just(Void())
+            .map { _ in
+                return Reactor.Action.dateSelected(Date())
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state.asObservable().map { $0.catName }
+            .bind(to: navigationItem.rx.title)
+            .disposed(by: disposeBag)
+        
+        reactor.state.asObservable().map { String($0.poopCount) }
+            .bind(to: poopLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state.asObservable().map { String($0.urineCount) }
+            .bind(to: urineLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        calendar.rx.customDidSelect
+            .map { date in
+                Reactor.Action.dateSelected(date)
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
+
