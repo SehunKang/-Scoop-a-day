@@ -139,7 +139,7 @@ platform :ios do
         api_token: GIT_AUTHORIZATION,
 	    name: "#{type.capitalize} version v#{version}",
 	    tag_name: "v#{version}",
-	    description: File.read("./ReleaseProject/ReleaseNote/ko.txt")
+	    description: File.read("../ReleaseProject/ReleaseNote/ko.txt")
   	  )
       slack(
         message: "App successfully released!",
