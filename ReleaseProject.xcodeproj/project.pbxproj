@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E14F52428995874009A2BC7 /* CalendarViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E14F52328995874009A2BC7 /* CalendarViewReactor.swift */; };
+		2E14F52628A0E8BB009A2BC7 /* FSCalendar+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E14F52528A0E8BB009A2BC7 /* FSCalendar+Rx.swift */; };
+		2E1F3FE828A376470058EF2B /* CalendarTaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F3FE728A376470058EF2B /* CalendarTaskService.swift */; };
 		2E353AD227589F2700F4F8A2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E353AD427589F2700F4F8A2 /* InfoPlist.strings */; };
 		2E36F864276F496F002C986B /* InfoTableVIewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E36F863276F496F002C986B /* InfoTableVIewController.swift */; };
 		2E36F86B27704B97002C986B /* OpensourceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E36F86A27704B97002C986B /* OpensourceList.swift */; };
@@ -38,7 +41,6 @@
 		2EDED26727476FD8006C38DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EDED26527476FD8006C38DF /* Main.storyboard */; };
 		2EDED26927476FDA006C38DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EDED26827476FDA006C38DF /* Assets.xcassets */; };
 		2EDED26C27476FDA006C38DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EDED26A27476FDA006C38DF /* LaunchScreen.storyboard */; };
-		2EDED2792747855F006C38DF /* Calendar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EDED2782747855F006C38DF /* Calendar.storyboard */; };
 		2EDED27D2747858B006C38DF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED27C2747858B006C38DF /* HomeViewController.swift */; };
 		2EDED281274A51F8006C38DF /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDED280274A51F7006C38DF /* CalendarViewController.swift */; };
 		2EDED28D274A52AF006C38DF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2EDED28F274A52AF006C38DF /* Localizable.strings */; };
@@ -63,6 +65,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2E14F52328995874009A2BC7 /* CalendarViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewReactor.swift; sourceTree = "<group>"; };
+		2E14F52528A0E8BB009A2BC7 /* FSCalendar+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FSCalendar+Rx.swift"; sourceTree = "<group>"; };
+		2E1F3FE728A376470058EF2B /* CalendarTaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTaskService.swift; sourceTree = "<group>"; };
 		2E353ACD27589EAF00F4F8A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		2E353ACE27589EB200F4F8A2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		2E353ACF27589EB400F4F8A2 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
@@ -101,7 +106,6 @@
 		2EDED26827476FDA006C38DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2EDED26B27476FDA006C38DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2EDED26D27476FDA006C38DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2EDED2782747855F006C38DF /* Calendar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Calendar.storyboard; sourceTree = "<group>"; };
 		2EDED27C2747858B006C38DF /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		2EDED280274A51F7006C38DF /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		2EDED284274A5241006C38DF /* DataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 				2EDED2A7274B6E3A006C38DF /* RealmService.swift */,
 				2E4FDD1E2872CFF1007A6947 /* CatProvideService.swift */,
 				2E4FDD2228740098007A6947 /* DataTaskService.swift */,
+				2E1F3FE728A376470058EF2B /* CalendarTaskService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -171,6 +176,7 @@
 				2EDED2A9274BCAA9006C38DF /* Extension+Date.swift */,
 				2EDED2B3274CF5A7006C38DF /* Extension+String.swift */,
 				2E4FDD2A28740FD7007A6947 /* Extension+UICollectionView.swift */,
+				2E14F52528A0E8BB009A2BC7 /* FSCalendar+Rx.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -247,8 +253,8 @@
 		2EDED27427478048006C38DF /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
-				2EDED2782747855F006C38DF /* Calendar.storyboard */,
 				2EDED280274A51F7006C38DF /* CalendarViewController.swift */,
+				2E14F52328995874009A2BC7 /* CalendarViewReactor.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -399,7 +405,6 @@
 				2E80346428924C9D00086424 /* en-US.txt in Resources */,
 				2E94FE0D2768D1D300A6BAA1 /* GoogleService-Info.plist in Resources */,
 				2E398D9528372D44003CEFAA /* CreateNewCatView.xib in Resources */,
-				2EDED2792747855F006C38DF /* Calendar.storyboard in Resources */,
 				2E80346628924C9D00086424 /* zh-Hans.txt in Resources */,
 				2E353AD227589F2700F4F8A2 /* InfoPlist.strings in Resources */,
 			);
@@ -528,6 +533,7 @@
 				2E398D9728372DCF003CEFAA /* CreateNewCatView.swift in Sources */,
 				2E4FDD2B28740FD7007A6947 /* Extension+UICollectionView.swift in Sources */,
 				2E36F864276F496F002C986B /* InfoTableVIewController.swift in Sources */,
+				2E14F52628A0E8BB009A2BC7 /* FSCalendar+Rx.swift in Sources */,
 				2EAA6FC9286ED94500CF50C5 /* ChartDateCellModel.swift in Sources */,
 				2EAA6FC7286ED86A00CF50C5 /* ChartDateCellReactor.swift in Sources */,
 				2EDED2A8274B6E3A006C38DF /* RealmService.swift in Sources */,
@@ -541,6 +547,8 @@
 				2E4FDD2328740098007A6947 /* DataTaskService.swift in Sources */,
 				2E42A64427FC634E00C78137 /* HomeViewModel.swift in Sources */,
 				2E4FDD1D28715C19007A6947 /* DataModel.swift in Sources */,
+				2E14F52428995874009A2BC7 /* CalendarViewReactor.swift in Sources */,
+				2E1F3FE828A376470058EF2B /* CalendarTaskService.swift in Sources */,
 				2EAA6FBF286D777700CF50C5 /* DataViewController.swift in Sources */,
 				2E4FDD1F2872CFF1007A6947 /* CatProvideService.swift in Sources */,
 				2E669207282A9AC600FCEA3A /* CustomRxCollectionViewSectionedAnimatedDataSource.swift in Sources */,
@@ -789,7 +797,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sehun.Scoop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.sehun.Scoop";
@@ -824,7 +832,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sehun.Scoop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.sehun.Scoop";

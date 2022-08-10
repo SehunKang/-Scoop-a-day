@@ -26,17 +26,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return .init(coder: coder, provider: provider) ?? HomeViewController(provider: provider)
         }
         
+        let calendarVC = storyboard.instantiateViewController(identifier: "CalendarViewController") { coder -> CalendarViewController in
+            return .init(coder: coder, provider: provider) ?? CalendarViewController(provider: provider)
+        }
+        
         let dataVC = storyboard.instantiateViewController(identifier: "DataViewController") { coder -> DataViewController in
             return .init(coder: coder, provider: provider) ?? DataViewController(provider: provider)
         }
         
         let homeNavVC = UINavigationController(rootViewController: homeVC)
+        let calendarNavVC = UINavigationController(rootViewController: calendarVC)
         let dataNavVC = UINavigationController(rootViewController: dataVC)
         
         let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [homeNavVC, dataNavVC]
+        tabBarController.viewControllers = [homeNavVC, calendarNavVC, dataNavVC]
         tabBarController.tabBar.items![0].image = UIImage(systemName: "house")
-        tabBarController.tabBar.items![1].image = UIImage(systemName: "chart.bar")
+        tabBarController.tabBar.items![1].image = UIImage(systemName: "calendar")
+        tabBarController.tabBar.items![2].image = UIImage(systemName: "chart.bar")
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     

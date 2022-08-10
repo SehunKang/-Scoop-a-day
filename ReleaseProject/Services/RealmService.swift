@@ -25,6 +25,7 @@ protocol RealmServiceType {
     func changeCount(cat: CatData, date: Date, type: PooOrPee, value: Int) -> Observable<CatData>
     func changeName(cat: CatData, newName: String) -> Observable<CatData>
     func appendNewDailyData(of cat: CatData)
+    func changeDailyData(cat: String, date: Date, pooOrPee: PooOrPee, changedValue: Int)
     //D
     func deleteCatByIndex(index: Int)
     
@@ -159,5 +160,32 @@ final class RealmService: Service, RealmServiceType {
         }
     }
     
+    func changeDailyData(cat: String, date: Date, pooOrPee: PooOrPee, changedValue: Int) {
+        
+        withRealm(#function) { realm in
+            let task = realm.objects(CatData.self)
+            let cat = task.filter("catName == %@", cat).first!
+            if cat.dailyDataList.filter("date == %@", date).first == nil {
+                try realm.write {
+                    switch pooOrPee {
+                    case .poo:
+                        cat.dailyDataList.append(DailyData(date: date, poopCount: changedValue, urineCount: 0))
+                    case .pee:
+                        cat.dailyDataList.append(DailyData(date: date, poopCount: 0, urineCount: changedValue))
+                    }
+                }
+            } else {
+                try realm.write {
+                    switch pooOrPee {
+                    case .poo:
+                        cat.dailyDataList.filter("date == %@", date).first?.poopCount = changedValue
+                    case .pee:
+                        cat.dailyDataList.filter("date == %@", date).first?.urineCount = changedValue
+                    }
+                }
+            }
+        }
+    }
+        
 }
 

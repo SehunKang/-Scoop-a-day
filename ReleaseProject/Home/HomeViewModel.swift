@@ -36,6 +36,23 @@ enum ButtonType {
             return .pee
         }
     }
+    
+    var changingValue: Int {
+        switch self {
+        case .poop:
+            return 0
+        case .urine:
+            return 0
+        case .poopPlus:
+            return 1
+        case .poopMinus:
+            return -1
+        case .urinePlus:
+            return 1
+        case .urineMinus:
+            return -1
+        }
+    }
 }
 
 typealias TaskSection = AnimatableSectionModel<String, CatData>
