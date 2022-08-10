@@ -27,7 +27,6 @@ final class CatProvideService: Service, CatProvideServiceType {
     
     //고양이가 바뀔때에만 emit
     func fetchCat() -> Observable<CatData> {
-        print(#function)
         let task = provider.realmService.taskOn().distinctUntilChanged { one, two in
             one.count == two.count
         }
@@ -42,7 +41,6 @@ final class CatProvideService: Service, CatProvideServiceType {
     
     //CatData의 데이터가 바뀔때에도 emit됨 예: 맛동산, 감자카운트가 늘 때에도
     func fetchCatWhenChanged() -> Observable<CatData> {
-        print(#function)
         
         let task = provider.realmService.taskOn()
         return Observable.combineLatest(task, currentCatIndex)

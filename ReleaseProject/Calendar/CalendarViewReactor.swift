@@ -15,18 +15,18 @@ class CalendarViewReactor: Reactor {
     enum Action {
         case refresh
         case dateSelected(Date)
+        case countChangeButtonClicked(ButtonType)
     }
     
     enum Mutation {
         case setCatName(String)
-        case count(Int, Int)
+        case dateChanged(Int, Int)
     }
     
     struct State {
         var catName: String
         var poopCount: Int
         var urineCount: Int
-    
     }
     
     let initialState: State
@@ -42,37 +42,51 @@ class CalendarViewReactor: Reactor {
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
+        let service = provider.calendarTaskService
+        
         switch action {
         case .refresh:
-            return provider.catProvideService.fetchCat()
-                .map { catData -> Mutation in
-                    let name = catData.catName
-                    return .setCatName(name)
-                }
-        case let .dateSelected(date):
-            return provider.catProvideService.fetchCatWhenChanged()
-                .map { catData -> Mutation in
-                    let dataArray = catData.dailyDataList.toArray()
-                    guard let data = dataArray.filter({ $0.date == date.removeTime() }).first else {
-                        return .count(0, 0)
-                    }
-                    return .count(data.poopCount, data.urineCount)
-                }
+            return Observable.merge([
+                service.catChanged().flatMap { _ in Observable<Mutation>.empty() },
+                service.countByDate().flatMap { _ in Observable<Mutation>.empty() }
+            ])
+        case .dateSelected(let date):
+            service.currentDate.onNext(date)
+            return .empty()
+        case .countChangeButtonClicked(let buttonType):
+            service.changeDailyData(catName: currentState.catName, poopCount: currentState.poopCount, urineCount: currentState.urineCount, buttonType: buttonType)
+            return .empty()
         }
     }
     
     func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
-        return Observable.merge(mutation, provider.catProvideService.fetchCat()
-            .map({Mutation.setCatName($0.catName)}))
+        
+        let taskMutation = provider.calendarTaskService.event
+            .flatMap { [weak self] task -> Observable<Mutation> in
+                self?.mutate(task: task) ?? .empty()
+            }
+        
+        return Observable.merge(mutation, taskMutation)
+    }
+    
+    private func mutate(task: CalendarTask) -> Observable<Mutation> {
+        switch task {
+        case let .updateCatName(name):
+            return .just(.setCatName(name))
+        case let .updateCount(poopCount, urineCount):
+            return .just(.dateChanged(poopCount, urineCount))
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
-       var newState = state
+        print(state)
+        print(mutation)
+        var newState = state
         
         switch mutation {
         case let .setCatName(name):
             newState.catName = name
-        case let .count(poopCount, urineCount):
+        case let .dateChanged(poopCount, urineCount):
             newState.poopCount = poopCount
             newState.urineCount = urineCount
         }

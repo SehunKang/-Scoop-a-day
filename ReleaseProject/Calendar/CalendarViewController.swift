@@ -18,11 +18,14 @@ class CalendarViewController: UIViewController, StoryboardView {
     @IBOutlet weak var poopLabel: UILabel!
     @IBOutlet weak var urineLabel: UILabel!
     
+    @IBOutlet weak var poopPlusButton: UIButton!
+    
     var disposeBag: DisposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
     }
     
     init(provider: ServiceProviderType) {
@@ -43,7 +46,14 @@ class CalendarViewController: UIViewController, StoryboardView {
         
         Observable.just(Void())
             .map { _ in
-                return Reactor.Action.dateSelected(Date())
+                return Reactor.Action.refresh
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        poopPlusButton.rx.tap
+            .map { _ in
+                Reactor.Action.countChangeButtonClicked(.poopPlus)
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

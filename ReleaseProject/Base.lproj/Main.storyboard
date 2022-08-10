@@ -89,7 +89,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="firstWeekday">
-                                        <integer key="value" value="0"/>
+                                        <integer key="value" value="1"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
@@ -107,6 +107,12 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sj4-dU-McP">
+                                <rect key="frame" x="174" y="433" width="67" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="MtD-4x-Et4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -122,12 +128,13 @@
                     <connections>
                         <outlet property="calendar" destination="yzK-Ec-M5Q" id="4eG-qd-cTY"/>
                         <outlet property="poopLabel" destination="aIF-2o-SbV" id="7Z6-M3-WYQ"/>
+                        <outlet property="poopPlusButton" destination="Sj4-dU-McP" id="4aM-jG-jVd"/>
                         <outlet property="urineLabel" destination="IFU-1y-gJb" id="xMO-wA-GYI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dD4-ob-mCZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5727.536231884058" y="-171.42857142857142"/>
+            <point key="canvasLocation" x="5726.0869565217399" y="-171.42857142857142"/>
         </scene>
         <!--Data View Controller-->
         <scene sceneID="uyv-e2-2SF">
