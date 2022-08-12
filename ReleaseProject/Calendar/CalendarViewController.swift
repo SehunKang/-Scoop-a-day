@@ -137,9 +137,15 @@ class CalendarViewController: UIViewController, StoryboardView {
             if bool == true {
                 self?.editButton.setTitle(Localization.HomeView.done, for: .normal)
                 self?.editButton.setImage(nil, for: .normal)
+                self?.tabBarController?.tabBar.items?[0].isEnabled = !bool
+                self?.tabBarController?.tabBar.items?[2].isEnabled = !bool
+                self?.calendar.isUserInteractionEnabled = !bool
             } else {
                 self?.editButton.setTitle("", for: .normal)
                 self?.editButton.setImage(UIImage(systemName: "pencil.circle"), for: .normal)
+                self?.tabBarController?.tabBar.items?[0].isEnabled = !bool
+                self?.tabBarController?.tabBar.items?[2].isEnabled = !bool
+                self?.calendar.isUserInteractionEnabled = !bool
             }
         }
         .disposed(by: disposeBag)
