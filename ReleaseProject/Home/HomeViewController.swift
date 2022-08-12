@@ -111,6 +111,7 @@ final class HomeViewController: UIViewController {
                 self?.collectionView.backgroundView?.isHidden = !bool
                 self?.navigationController?.setNavigationBarHidden(bool, animated: true)
                 self?.tabBarController?.tabBar.items?[1].isEnabled = !bool
+                self?.tabBarController?.tabBar.items?[2].isEnabled = !bool
             })
             .disposed(by: bag)
         
