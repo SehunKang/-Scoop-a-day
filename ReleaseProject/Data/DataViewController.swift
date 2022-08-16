@@ -30,14 +30,14 @@ class DataViewController: UIViewController, StoryboardView {
         return cell
     }
     
-    init(provider: ServiceProviderType) {
+    init(reactor: DataViewReactor) {
         super.init(nibName: nil, bundle: nil)
-        reactor = DataViewReactor(provider: provider)
+        self.reactor = reactor
     }
     
-    init?(coder: NSCoder, provider: ServiceProviderType) {
+    init?(coder: NSCoder, reactor: DataViewReactor) {
         super.init(coder: coder)
-        reactor = DataViewReactor(provider: provider)
+        self.reactor = reactor
     }
     
     required init?(coder: NSCoder) {

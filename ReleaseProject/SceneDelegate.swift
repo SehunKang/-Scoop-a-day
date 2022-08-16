@@ -27,11 +27,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         let calendarVC = storyboard.instantiateViewController(identifier: "CalendarViewController") { coder -> CalendarViewController in
-            return .init(coder: coder, provider: provider) ?? CalendarViewController(provider: provider)
+            return .init(coder: coder, reactor: CalendarViewReactor(provider: provider)) ?? CalendarViewController(reactor: CalendarViewReactor(provider: provider))
         }
         
         let dataVC = storyboard.instantiateViewController(identifier: "DataViewController") { coder -> DataViewController in
-            return .init(coder: coder, provider: provider) ?? DataViewController(provider: provider)
+            return .init(coder: coder, reactor: DataViewReactor(provider: provider)) ?? DataViewController(reactor: DataViewReactor(provider: provider))
         }
         
         let homeNavVC = UINavigationController(rootViewController: homeVC)

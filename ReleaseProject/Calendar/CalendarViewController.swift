@@ -36,14 +36,14 @@ class CalendarViewController: UIViewController, StoryboardView {
     
     }
     
-    init(provider: ServiceProviderType) {
+    init(reactor: CalendarViewReactor) {
         super.init(nibName: nil, bundle: nil)
-        reactor = CalendarViewReactor(provider: provider)
+        self.reactor = reactor
     }
     
-    init?(coder: NSCoder, provider: ServiceProviderType) {
+    init?(coder: NSCoder, reactor: CalendarViewReactor) {
         super.init(coder: coder)
-        reactor = CalendarViewReactor(provider: provider)
+        self.reactor = reactor
     }
     
     required init?(coder: NSCoder) {
