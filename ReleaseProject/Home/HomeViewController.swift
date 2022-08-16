@@ -21,20 +21,19 @@ final class HomeViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var pageController: UIPageControl!
     
-    //이게 맞는 방법일까?
     let viewModel: HomeViewModelType
     
     let bag = DisposeBag()
     
     var dataSource: CustomRxCollectionViewSectionedAnimatedDataSource<TaskSection>!
     
-    init(provider: ServiceProviderType) {
-        self.viewModel = HomeViewModel(index: 0, provider: provider)
+    init(viewModel: HomeViewModelType) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
-    init?(coder: NSCoder, provider: ServiceProviderType) {
-        viewModel = HomeViewModel(index: 0, provider: provider)
+    init?(coder: NSCoder, viewModel: HomeViewModelType) {
+        self.viewModel = viewModel
         super.init(coder: coder)
     }
     

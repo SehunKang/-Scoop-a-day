@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let provider = ServiceProvider()
 
         let homeVC = storyboard.instantiateViewController(identifier: "HomeViewController") { coder -> HomeViewController in
-            return .init(coder: coder, provider: provider) ?? HomeViewController(provider: provider)
+            return .init(coder: coder, viewModel: HomeViewModel(index: 0, provider: provider)) ?? HomeViewController(viewModel: HomeViewModel(index: 0, provider: provider))
         }
         
         let calendarVC = storyboard.instantiateViewController(identifier: "CalendarViewController") { coder -> CalendarViewController in
