@@ -36,10 +36,6 @@ class CalendarViewController: UIViewController, StoryboardView {
     
     }
     
-    init(reactor: CalendarViewReactor) {
-        super.init(nibName: nil, bundle: nil)
-        self.reactor = reactor
-    }
     
     init?(coder: NSCoder, reactor: CalendarViewReactor) {
         super.init(coder: coder)

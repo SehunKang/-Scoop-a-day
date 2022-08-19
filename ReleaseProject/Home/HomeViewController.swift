@@ -27,10 +27,6 @@ final class HomeViewController: UIViewController {
     
     var dataSource: CustomRxCollectionViewSectionedAnimatedDataSource<TaskSection>!
     
-    init(viewModel: HomeViewModelType) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
     
     init?(coder: NSCoder, viewModel: HomeViewModelType) {
         self.viewModel = viewModel
@@ -38,7 +34,7 @@ final class HomeViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError()
+        fatalError("HomeViewController init failed")
     }
     
     override func viewDidLoad() {

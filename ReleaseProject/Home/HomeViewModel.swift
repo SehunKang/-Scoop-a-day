@@ -87,7 +87,7 @@ final class HomeViewModel: HomeViewModelType {
     
     var currentIndexOfCat: BehaviorSubject<Int>
     
-    init(index: Int, provider: ServiceProviderType) {
+    init(provider: ServiceProviderType) {
         self.currentIndexOfCat = provider.catProvideService.currentCatIndex
         self.realmService = provider.realmService
         self.catProvideService = provider.catProvideService
@@ -199,4 +199,4 @@ final class HomeViewModel: HomeViewModelType {
     }
     
 }
-
+                                                       

@@ -30,10 +30,6 @@ class DataViewController: UIViewController, StoryboardView {
         return cell
     }
     
-    init(reactor: DataViewReactor) {
-        super.init(nibName: nil, bundle: nil)
-        self.reactor = reactor
-    }
     
     init?(coder: NSCoder, reactor: DataViewReactor) {
         super.init(coder: coder)

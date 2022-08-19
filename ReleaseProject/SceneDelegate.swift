@@ -22,16 +22,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let provider = ServiceProvider()
 
-        let homeVC = storyboard.instantiateViewController(identifier: "HomeViewController") { coder -> HomeViewController in
-            return .init(coder: coder, viewModel: HomeViewModel(index: 0, provider: provider)) ?? HomeViewController(viewModel: HomeViewModel(index: 0, provider: provider))
+        let homeVC = storyboard.instantiateViewController(identifier: "HomeViewController") { coder -> HomeViewController?  in
+                .init(coder: coder, viewModel: HomeViewModel(provider: provider))
         }
         
-        let calendarVC = storyboard.instantiateViewController(identifier: "CalendarViewController") { coder -> CalendarViewController in
-            return .init(coder: coder, reactor: CalendarViewReactor(provider: provider)) ?? CalendarViewController(reactor: CalendarViewReactor(provider: provider))
+        let calendarVC = storyboard.instantiateViewController(identifier: "CalendarViewController") { coder -> CalendarViewController? in
+            .init(coder: coder, reactor: CalendarViewReactor(provider: provider))
         }
         
-        let dataVC = storyboard.instantiateViewController(identifier: "DataViewController") { coder -> DataViewController in
-            return .init(coder: coder, reactor: DataViewReactor(provider: provider)) ?? DataViewController(reactor: DataViewReactor(provider: provider))
+        let dataVC = storyboard.instantiateViewController(identifier: "DataViewController") { coder -> DataViewController? in
+            .init(coder: coder, reactor: DataViewReactor(provider: provider))
         }
         
         let homeNavVC = UINavigationController(rootViewController: homeVC)
