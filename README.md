@@ -13,4 +13,6 @@ Reactive programming을 활용하여 DB, UI의 원활한 상호작용에 중점�
 
 고양이 이름을 test로 생성하면 약 2년치의 랜덤데이터가 생성되어 확인할 수 있습니다.
 
+## Issues
+[스토리보드를 사용하며 뷰컨트롤러의 초기화 단계에서 의존성 주입하기](https://42sehkang.tistory.com/9)
 
